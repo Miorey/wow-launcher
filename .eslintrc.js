@@ -34,5 +34,6 @@ module.exports = {
             `backtick`
         ],
         "no-console": `off`,
+        "semi": [`error`, `never`]
     }
-};
+}

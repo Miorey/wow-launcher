@@ -9,11 +9,16 @@
 </template>
 
 <script>
+
+const { config } = require(`../config`)
 export default {
     name: `HelloWorld`,
 
     data: () => ({
     }),
+    mounted() {
+        config.setTest(`fgfdgdfg`)
+    }
 }
 </script>
 <style>

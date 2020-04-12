@@ -37,14 +37,14 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import HelloWorld from './components/HelloWorld'
 const { shell } = require(`electron`)
-const request = require(`request`)
 const fs = require(`fs`)
-const ftp = require(`ftp`);
+const ftp = require(`ftp`)
 const crypto = require(`crypto`)
+const { config } = require(`./config`)
 
-const hash = crypto.createHash(`md5`);
+const hash = crypto.createHash(`md5`)
 export default {
     name: `App`,
 
@@ -58,70 +58,36 @@ export default {
 
     methods: {
         shellOpenExternal(url) {
-            shell.openExternal(url);
+            shell.openExternal(url)
         },
         downloadFtp(fileUrl, targetPath) {
-            const c = new ftp();
+            const c = new ftp()
             c.on(`ready`, function() {
                 c.size(fileUrl, (err, bytes) => { console.log(bytes)})
                 c.get(fileUrl, function(err, stream) {
-                    if (err) throw err;
+                    if (err) throw err
                     stream.once(`close`, () => {
-                        const input = fs.createReadStream(targetPath);
+                        console.log(config.getTest())
+                        const input = fs.createReadStream(targetPath)
                         input.on(`readable`, () => {
                             // Only one element is going to be produced by the
                             // hash stream.
-                            const data = input.read();
+                            const data = input.read()
                             if (data)
-                                hash.update(data);
+                                hash.update(data)
                             else {
-                                console.log(`${hash.digest(`hex`)} ${targetPath}`);
+                                console.log(`${hash.digest(`hex`)} ${targetPath}`)
                             }
-                        });
-                        c.end();
-                    });
-                    stream.pipe(fs.createWriteStream(targetPath));
-                });
-            });
-            c.connect({host: `ftp.murlocvillage.com`});
-        },
-        download(fileUrl, targetPath) {
-            // Save variable to know progress
-            let receivedBytes = 0
-            let totalBytes = 0
-            const _this = this
-
-            const req = request({
-                method: `GET`,
-                uri: fileUrl
-            });
-
-            const out = fs.createWriteStream(targetPath);
-            req.pipe(out);
-
-            req.on(`response`, function ( data ) {
-                // Change the total bytes value to get progress later.
-                totalBytes = parseInt(data.headers[`content-length` ]);
-            });
-
-            req.on(`data`, function(chunk) {
-                // Update the received bytes
-                receivedBytes += chunk.length;
-
-                _this.showProgress(receivedBytes, totalBytes);
-            });
-
-            req.on(`end`, function() {
-                alert(`File succesfully downloaded`);
-            });
-        },
-        showProgress(received,total){
-            const percentage = (received * 100) / total
-            console.log(percentage + `% | ` + received + ` bytes out of ` + total + ` bytes.`);
+                        })
+                        c.end()
+                    })
+                    stream.pipe(fs.createWriteStream(targetPath))
+                })
+            })
+            c.connect({host: config.conf.host})
         }
-
     }
-};
+}
 </script>
 <style>
   @font-face {
