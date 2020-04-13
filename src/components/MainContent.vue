@@ -2,7 +2,7 @@
   <v-container id="main">
     <v-row class="text-center">
       <v-col cols="12">
-        Hello World
+        <v-checkbox v-model="selectedPatch" label="John" value="John"></v-checkbox>
       </v-col>
     </v-row>
   </v-container>
@@ -10,14 +10,17 @@
 
 <script>
 
-const { config } = require(`../config`)
-export default {
-    name: `HelloWorld`,
 
+// eslint-disable-next-line no-unused-vars
+const { config } = require(`../config`)
+const { patchManager } = require(`../patchManager`)
+export default {
+    name: `MainContent`,
     data: () => ({
+        selectedPatch: []
     }),
     mounted() {
-        config.setTest(`fgfdgdfg`)
+        patchManager.patchList = `test`
     }
 }
 </script>

@@ -1,0 +1,54 @@
+{
+  "mandatory": {
+      "Wow.exe": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "common.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      }
+  },
+  "optional": [{
+    "name": "World of Warcraft",
+    "files": {
+      "common.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "common-2.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "expansion.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "lichking.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "patch.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "patch-2.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      },
+      "patch-3.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      }
+    }
+  }]
+}
