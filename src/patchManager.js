@@ -26,17 +26,4 @@ class PatchManager {
 
 }
 
-const storage = require(`electron-json-storage`)
-
-const dataPath = storage.getDataPath()
-console.log(dataPath)
-storage.set(`foobar`, { foo: `bar` }, function(error) {
-    if (error) throw error
-})
-
-storage.get(`foobar2`, function(error, data) {
-    if (error) throw error
-
-    console.log(data)
-})
 export const patchManager  = new PatchManager()

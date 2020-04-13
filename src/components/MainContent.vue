@@ -2,8 +2,9 @@
   <v-container id="main">
     <v-row class="text-center">
       <v-col cols="12">
-        {{ selectedPatch }}
-        <v-checkbox v-for="item in getPatchList()" v-model="selectedPatch" :key="item.name" :label="item.name" :value="item.name"></v-checkbox>
+        <div v-if="selectedPatch">
+          <v-checkbox v-for="item in getPatchList()" v-model="selectedPatch" :key="item.name" :label="item.name" :value="item.name"></v-checkbox>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -19,7 +20,7 @@ const storage = require(`electron-json-storage`)
 export default {
     name: `MainContent`,
     data: () => ({
-        selectedPatch: []
+        selectedPatch: null
     }),
     watch: {
         'selectedPatch'(val) {
@@ -32,12 +33,15 @@ export default {
         const _this = this
         storage.get(`selectedPatch`, (error, data) => {
             if (error) { throw error }
-            if(!data.updated) { _this.selectedPatch = patchManager.allPatches() }
+            if(!data.updated) {
+                _this.selectedPatch = patchManager.allPatches()
+            } else {
+                _this.selectedPatch = data.patches
+            }
         })
     },
     methods: {
         getPatchList() {
-            console.log(patchManager.patchList)
             return patchManager.patchList[`optional`]
         }
     }
