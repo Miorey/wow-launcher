@@ -2,7 +2,7 @@
   <v-container id="main">
     <v-row class="text-center">
       <v-col cols="12">
-        <v-checkbox v-model="selectedPatch" label="John" value="John"></v-checkbox>
+        <v-checkbox v-for="item in getPatchList()" v-model="selectedPatch" :key="item.name" :label="item.name" :value="item.name"></v-checkbox>
       </v-col>
     </v-row>
   </v-container>
@@ -19,8 +19,11 @@ export default {
     data: () => ({
         selectedPatch: []
     }),
-    mounted() {
-        patchManager.patchList = `test`
+    methods: {
+        getPatchList() {
+            console.log(patchManager.patchList)
+            return patchManager.patchList[`optional`]
+        }
     }
 }
 </script>

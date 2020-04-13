@@ -22,7 +22,7 @@ export default {
     name: `FooterAction`,
     methods: {
         shellOpenExternal(url) {
-            console.log(patchManager)
+            console.log(patchManager.patchList)
             shell.openExternal(url)
         },
         downloadFtp(fileUrl, targetPath) {
@@ -32,7 +32,6 @@ export default {
                 c.get(fileUrl, function(err, stream) {
                     if (err) throw err
                     stream.once(`close`, () => {
-                        console.log(config.getTest())
                         const input = fs.createReadStream(targetPath)
                         input.on(`readable`, () => {
                             // Only one element is going to be produced by the

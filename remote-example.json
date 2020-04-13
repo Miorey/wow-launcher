@@ -12,7 +12,7 @@
       }
   },
   "optional": [{
-    "name": "World of Warcraft",
+    "name": "World of Warcraft HD",
     "files": {
       "common.MPQ": {
         "md5": "",
@@ -45,6 +45,15 @@
         "targetPath": ""
       },
       "patch-3.MPQ": {
+        "md5": "",
+        "sourcePath": "",
+        "targetPath": ""
+      }
+    }
+  },{
+    "name": "Cataclysme Water",
+    "files": {
+      "patch-10.MPQ": {
         "md5": "",
         "sourcePath": "",
         "targetPath": ""
