@@ -20,8 +20,9 @@ const ftp = require(`ftp`)
 const crypto = require(`crypto`)
 const { config } = require(`../config`)
 const { patchManager } = require(`../patchManager`)
-const { ConnectionPromise, StreamPromise, FsPromise } = require(`../DownloadPromise`)
+const { ConnectionPromise, StreamPromise } = require(`../DownloadPromise`)
 const { EventBus } = require(`../event-bus.js`)
+const md5 = require(`md5`)
 export default {
     name: `FooterAction`,
     data: () => ({
@@ -52,20 +53,14 @@ export default {
                 stream.pipe(fs.createWriteStream(targetPath))
                 await streamPromise.once(`close`)
                 clearInterval(nIntervId)
-                const input = fs.createReadStream(targetPath)
-                const fsPromise = new FsPromise(input)
-                await fsPromise.on(`readable`)
-                const data = input.read()
-                const hash = crypto.createHash(`md5`)
-                if (data) {
-                    hash.update(data)
-                    console.log(`MD5`)
-                    const checkSumm = hash.digest(`hex`)
-                    console.log(checkSumm)
-                    console.log(toDownload[key].md5)
-                    console.log(checkSumm === toDownload[key].md5)
-                    console.log(`/MD5`)
-                }
+
+                const checkSum = await new Promise((resolve) => {
+                    fs.readFile(targetPath, function(err, buf) {
+                        resolve(md5(buf))
+                    })
+                })
+                console.log(toDownload[key].md5)
+                console.log(checkSum === toDownload[key].md5)
             }
             c.end()
         },

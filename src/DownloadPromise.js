@@ -55,23 +55,3 @@ export class StreamPromise {
         return this._stream
     }
 }
-
-
-export class FsPromise {
-    constructor(input) {
-        this._input = input
-    }
-
-    on(type) {
-        const _this =  this
-        return new Promise(function(resolve) {
-            _this.input.on(type, () => {
-                resolve()
-            })
-        })
-    }
-
-    get input() {
-        return this._input
-    }
-}
