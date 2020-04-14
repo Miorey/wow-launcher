@@ -71,8 +71,7 @@ export default {
                     resolve(md5(buf))
                 })
             })
-            console.log(item.md5)
-            console.log(checkSum === item.md5)
+            return (checkSum === item.md5)
         },
 
         downloadFtp(fileUrl, targetPath) {

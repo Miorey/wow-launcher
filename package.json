@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "7z-extract": "0.0.3",
     "core-js": "^3.6.4",
     "electron-json-storage": "^4.1.8",
     "ftp": "^0.3.10",
