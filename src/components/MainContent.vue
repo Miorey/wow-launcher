@@ -27,6 +27,10 @@ export default {
             storage.set(`selectedPatch`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
+
+            patchManager.selectedPatches = val
+            console.log(val)
+            console.log(patchManager.generateDownloadFiles())
         }
     },
     mounted() {
@@ -38,6 +42,7 @@ export default {
             } else {
                 _this.selectedPatch = data.patches
             }
+            patchManager.selectedPatches = _this.selectedPatch
         })
     },
     methods: {
