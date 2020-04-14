@@ -43,26 +43,36 @@ export default {
             await connPromise.connReady()
             const toDownload = patchManager.generateDownloadFiles()
             for(const key in toDownload) {
-                const targetPath = toDownload[key].targetPath
-                const fileUrl = toDownload[key].sourcePath
-                EventBus.$emit(`event_file_path`,  targetPath)
-                const size = await connPromise.connSize(fileUrl)
-                const stream = await connPromise.connGet(fileUrl)
-                const streamPromise  = new StreamPromise(stream)
-                const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100) }, 100)
-                stream.pipe(fs.createWriteStream(targetPath))
-                await streamPromise.once(`close`)
-                clearInterval(nIntervId)
-
-                const checkSum = await new Promise((resolve) => {
-                    fs.readFile(targetPath, function(err, buf) {
-                        resolve(md5(buf))
-                    })
-                })
-                console.log(toDownload[key].md5)
-                console.log(checkSum === toDownload[key].md5)
+                await this.downloadFile(connPromise, toDownload[key])
             }
             c.end()
+        },
+
+        /**
+         *
+         * @param {ConnectionPromise} conn
+         * @param item
+         * @returns {Promise<void>}
+         */
+        async downloadFile(conn, item) {
+            const targetPath = item.targetPath
+            const fileUrl = item.sourcePath
+            EventBus.$emit(`event_file_path`,  targetPath)
+            const size = await conn.connSize(fileUrl)
+            const stream = await conn.connGet(fileUrl)
+            const streamPromise  = new StreamPromise(stream)
+            const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100) }, 100)
+            stream.pipe(fs.createWriteStream(targetPath))
+            await streamPromise.once(`close`)
+            clearInterval(nIntervId)
+
+            const checkSum = await new Promise((resolve) => {
+                fs.readFile(targetPath, function(err, buf) {
+                    resolve(md5(buf))
+                })
+            })
+            console.log(item.md5)
+            console.log(checkSum === item.md5)
         },
 
         downloadFtp(fileUrl, targetPath) {

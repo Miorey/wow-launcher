@@ -29,7 +29,7 @@ export default {
     name: `MainContent`,
     data: () => ({
         selectedPatch: null,
-        percent: 100,
+        percent: undefined,
         filePath: undefined
     }),
     watch: {

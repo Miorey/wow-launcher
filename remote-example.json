@@ -9,11 +9,6 @@
       "md5": "45892bdedd0ad70aed4ccd22d9fb5984",
       "sourcePath": "/WoW3.3.5a-Fr/Wow.exe",
       "targetPath": "./Wow.exe"
-    },
-    "Wow2.exe": {
-      "md5": "ca46c932727784709d70d803c338a031",
-      "sourcePath": "/WoW3.3.5a-Fr/Wow.exe",
-      "targetPath": "./Wow2.exe"
     }
   },
   "optional": [{
@@ -58,8 +53,8 @@
   },{
     "name": "Cataclysme Water",
     "files": {
-      "patch-10.MPQ": {
-        "md5": "",
+      "patch-3.MPQ": {
+        "md5": "35733b76fcf0f95a0d8240d1f36cc5c3",
         "sourcePath": "/WoW3.3.5a-Fr/Data/patch-3.MPQ",
         "targetPath": "./Data/patch-10.MPQ"
       }
