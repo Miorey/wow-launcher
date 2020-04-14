@@ -1,8 +1,8 @@
 class PatchManager {
     constructor () {
         this._patchList = {}
-        this._downloadFiles = {}
-        this._toDelete = {}
+        this._currentFile = undefined
+        this._currentPercent = undefined
         this._selectedPatches = {}
         this.loadPatches()
     }
@@ -43,6 +43,22 @@ class PatchManager {
 
     set selectedPatches(selectedPatches) {
         this._selectedPatches = selectedPatches
+    }
+
+    get currentFile () {
+        return this._currentFile
+    }
+
+    set currentFile(currentFile) {
+        this._currentFile = currentFile
+    }
+
+    get currentPercent () {
+        return this._currentPercent
+    }
+
+    set currentPercent(currentPercent) {
+        this._currentPercent = currentPercent
     }
 
 }

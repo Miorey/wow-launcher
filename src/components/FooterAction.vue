@@ -4,8 +4,11 @@
             Créer un compte
         </v-btn>
         <strong class="subheading">Get connected with us on social networks!</strong>
+        <v-btn @click="downloadFtp(`/WoW3.3.5a-Fr/Wow.exe`, `./Wow.exe`)">
+            Download1
+        </v-btn>
         <v-btn @click="downloadFtp2">
-            Créer un compte
+            Download2
         </v-btn>
     </div>
 </template>
@@ -18,6 +21,7 @@ const crypto = require(`crypto`)
 const { config } = require(`../config`)
 const { patchManager } = require(`../patchManager`)
 const { ConnectionPromise, StreamPromise, FsPromise } = require(`../DownloadPromise`)
+const { EventBus } = require(`../event-bus.js`)
 export default {
     name: `FooterAction`,
     data: () => ({
@@ -31,6 +35,7 @@ export default {
 
         // eslint-disable-next-line no-unused-vars
         async downloadFtp2() {
+            EventBus.$emit(`event_file_percent`,  4)
             const c = new ftp()
             c.connect({host: config.conf.host})
             const connPromise = new ConnectionPromise(c)
@@ -39,13 +44,14 @@ export default {
             for(const key in toDownload) {
                 const targetPath = toDownload[key].targetPath
                 const fileUrl = toDownload[key].sourcePath
+                EventBus.$emit(`event_file_path`,  targetPath)
                 const size = await connPromise.connSize(fileUrl)
                 const stream = await connPromise.connGet(fileUrl)
                 const streamPromise  = new StreamPromise(stream)
-                const nIntervId = setInterval(() => { console.log(`size: `, stream.bytesRead/size*100) }, 100)
+                const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100) }, 100)
+                stream.pipe(fs.createWriteStream(targetPath))
                 await streamPromise.once(`close`)
                 clearInterval(nIntervId)
-                stream.pipe(fs.createWriteStream(targetPath))
                 const input = fs.createReadStream(targetPath)
                 const fsPromise = new FsPromise(input)
                 await fsPromise.on(`readable`)
@@ -53,9 +59,12 @@ export default {
                 const hash = crypto.createHash(`md5`)
                 if (data) {
                     hash.update(data)
-                }
-                else {
-                    console.log(`${hash.digest(`hex`)} ${targetPath}`)
+                    console.log(`MD5`)
+                    const checkSumm = hash.digest(`hex`)
+                    console.log(checkSumm)
+                    console.log(toDownload[key].md5)
+                    console.log(checkSumm === toDownload[key].md5)
+                    console.log(`/MD5`)
                 }
             }
             c.end()
