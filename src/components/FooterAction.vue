@@ -38,6 +38,20 @@ export default {
             c.connect({host: config.conf.host})
             const connPromise = new ConnectionPromise(c)
             await connPromise.connReady()
+            const toDelete = patchManager.generateDeleteFiles()
+
+            EventBus.$emit(`event_file_path`,  `Delete old files`)
+            EventBus.$emit(`event_file_percent`,  0)
+            const partPercent = 100 / Object.keys(toDelete).length
+            let count = 1
+            for(const key in toDelete) {
+                if(fs.existsSync(toDelete[key].targetPath)) {
+                    fs.unlinkSync(toDelete[key].targetPath)
+                }
+                EventBus.$emit(`event_file_percent`,  count*partPercent)
+                count++
+            }
+
             const toDownload = patchManager.generateDownloadFiles()
             for(const key in toDownload) {
                 while (!await this.checkFile(toDownload[key])) {

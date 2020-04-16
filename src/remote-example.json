@@ -56,40 +56,6 @@
       }
     }
   },{
-    "name": "World of Warcraft TEST",
-    "files": {
-      "patch-2.MPQ": {
-        "md5": "06f5f1ca2f427fba59c216521fcdda54",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/patch-2.MPQ",
-        "targetPath": "./Data/patch-2.MPQ"
-      },
-      "common-2.MPQ": {
-        "md5": "9efeeb790565f80e244b435baf00d78c",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/common-2.MPQ",
-        "targetPath": "./Data/common-2.MPQ"
-      },
-      "expansion.MPQ": {
-        "md5": "4e575283adcad3f257ad27829bfc8453",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/expansion.MPQ",
-        "targetPath": "./Data/expansion.MPQ"
-      },
-      "lichking.MPQ": {
-        "md5": "086f5a724c62858632e530c17be130e0",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/lichking.MPQ",
-        "targetPath": "./Data/lichking.MPQ"
-      },
-      "common.MPQ": {
-        "md5": "16970df61277955e3dd201a4dc8f71b9",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/common.MPQ",
-        "targetPath": "./Data/common.MPQ"
-      },
-      "patch.MPQ": {
-        "md5": "5c160e1f4acd38ef0c2dc3d17a551c34",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/patch.MPQ",
-        "targetPath": "./Data/patch.MPQ"
-      }
-    }
-  },{
     "name": "Cataclysme Water",
     "files": {
       "patch-3.MPQ": {

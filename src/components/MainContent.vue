@@ -44,7 +44,7 @@ export default {
         }
     },
   
-    mounted() {
+    async  mounted() {
         const _this = this
         EventBus.$on(`event_file_percent`,  (percent) => {
             _this.percent = percent
@@ -52,21 +52,33 @@ export default {
         EventBus.$on(`event_file_path`,  (filePath) => {
             _this.filePath = filePath
         })
-      
-        storage.get(`selectedPatch`, (error, data) => {
-            if (error) { throw error }
-            if(!data.updated) {
-                _this.selectedPatch = patchManager.allPatches()
-            } else {
-                _this.selectedPatch = data.patches
-            }
-            patchManager.selectedPatches = _this.selectedPatch
-        })
+
+        this.selectedPatch = await this.findSelectedPatches()
+        patchManager.selectedPatches = this.selectedPatch
     },
+
     methods: {
         getPatchList() {
             return patchManager.patchList[`optional`]
+        },
+
+        /**
+         *
+         * @returns {Promise<unknown>}
+         */
+        findSelectedPatches() {
+            return new Promise((resolve, reject) => {
+                storage.get(`selectedPatch`, (error, data) => {
+                    if (error) { reject(error) }
+                    if(!data.updated) {
+                        resolve([])
+                    } else {
+                        resolve(data.patches)
+                    }
+                })
+            })
         }
+        
     }
 }
 </script>

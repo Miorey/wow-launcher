@@ -1,3 +1,4 @@
+
 class PatchManager {
     constructor () {
         this._patchList = {}
@@ -23,6 +24,17 @@ class PatchManager {
         return this.patchList.optional
             .filter(e => this.selectedPatches.includes(e.name) )
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory})
+    }
+
+
+    generateDeleteFiles() {
+        const allFiles = this.patchList.optional
+            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory })
+        const keysToRemove = Object.keys(this.generateDownloadFiles())
+        for(const key of keysToRemove) {
+            delete allFiles[key]
+        }
+        return allFiles
     }
 
     allPatches() {
