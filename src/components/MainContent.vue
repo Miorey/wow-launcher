@@ -7,22 +7,18 @@
         </div>
       </v-col>
     </v-row>
-    Teeeeee
     <div id="progress">
       <v-progress-linear
-              v-model="percent"
+              :value="percent"
               class="progress"
               color="blue accent-4"
               height="30"
-              reactive
       >{{ filePath }}</v-progress-linear>
-      BOOM
       <v-progress-linear
-              v-model="percentTotal"
+              :value="percentTotal"
               class="progress"
               color="blue accent-4"
               height="30"
-              reactive
       >TOTAL</v-progress-linear>
     </div>
   </v-container>
@@ -49,10 +45,7 @@ export default {
             storage.set(`selectedPatch`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
-
             patchManager.selectedPatches = val
-            console.log(val)
-            console.log(patchManager.generateDownloadFiles())
         }
     },
   
@@ -62,7 +55,6 @@ export default {
             _this.percent = percent
         })
         EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            console.log(`event_total_percent`, percentTotal)
             _this.percentTotal = percentTotal
         })
         EventBus.$on(`event_file_path`,  (filePath) => {
@@ -114,5 +106,6 @@ export default {
 }
 .progress {
   border: 1px solid yellow;
+  margin-bottom: 10px;
 }
 </style>

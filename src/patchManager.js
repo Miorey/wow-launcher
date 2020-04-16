@@ -31,7 +31,6 @@ class PatchManager {
         const allFiles = this.patchList.optional
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory })
 
-        console.log(`allFiles`, allFiles)
         const keysToRemove = Object.keys(this.generateDownloadFiles())
         for(const key of keysToRemove) {
             delete allFiles[key]

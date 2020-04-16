@@ -5,10 +5,10 @@
     }
   },
   "mandatory": {
-    "patch-3.MPQ": {
+    "patch-2.MPQ": {
       "md5": "35733b76fcf0f95a0d8240d1f36cc5c3",
-      "sourcePath": "/WoW3.3.5a-Fr/Data/patch-3.MPQ",
-      "targetPath": "./Data/patch-3.MPQ"
+      "sourcePath": "/WoW3.3.5a-Fr/Data/patch-2.MPQ",
+      "targetPath": "./Data/patch-2.MPQ"
     },
     "Wow.exe": {
       "md5": "45892bdedd0ad70aed4ccd22d9fb5984",
@@ -60,8 +60,8 @@
     "files": {
       "patch-3.MPQ": {
         "md5": "35733b76fcf0f95a0d8240d1f36cc5c3",
-        "sourcePath": "/WoW3.3.5a-Fr/Data/patch-2.MPQ",
-        "targetPath": "./Data/patch-2.MPQ"
+        "sourcePath": "/WoW3.3.5a-Fr/Data/patch-3.MPQ",
+        "targetPath": "./Data/patch-3.MPQ"
       }
     }
   }]
