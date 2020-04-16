@@ -3,7 +3,11 @@
     <v-row class="text-center">
       <v-col cols="12">
         <div v-if="selectedPatch">
-          <v-checkbox v-for="item in getPatchList()" v-model="selectedPatch" :key="item.name" :label="item.name" :value="item.name"></v-checkbox>
+          <v-checkbox v-for="item in getPatchList()"
+                      v-model="selectedPatch"
+                      :key="item.name[language]"
+                      :label="item.name[language]"
+                      :value="item.name[language]"></v-checkbox>
         </div>
       </v-col>
     </v-row>
@@ -38,11 +42,12 @@ export default {
         selectedPatch: null,
         percent: undefined,
         filePath: undefined,
-        percentTotal: undefined
+        percentTotal: undefined,
+        language: patchManager.language
     }),
     watch: {
         'selectedPatch'(val) {
-            storage.set(`selectedPatch`, { updated: (new Date()), patches: val }, function(error) {
+            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
             patchManager.selectedPatches = val

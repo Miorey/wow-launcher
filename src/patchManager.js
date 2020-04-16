@@ -1,3 +1,5 @@
+const fs = require(`fs`)
+const { config } = require(`./config`)
 
 class PatchManager {
     constructor () {
@@ -6,6 +8,9 @@ class PatchManager {
         this._currentPercent = undefined
         this._selectedPatches = {}
         this.loadPatches()
+        this._language = fs
+            .readdirSync(`./Data`)
+            .find(e => config.conf.available_language.includes(e))
     }
 
     loadPatches () {
@@ -72,6 +77,10 @@ class PatchManager {
 
     set currentPercent(currentPercent) {
         this._currentPercent = currentPercent
+    }
+
+    get language() {
+        return this._language
     }
 
 }

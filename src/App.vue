@@ -12,8 +12,6 @@
               flat
               tile
       >
-        <v-card-text class="teal">
-        </v-card-text>
         <footer-action :patch-object="patchObject" />
         <v-card-text class="py-2 white--text text-center">
           <span id="powered_by">{{ new Date().getFullYear() }} - Murloc Village</span>

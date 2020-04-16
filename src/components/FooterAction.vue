@@ -30,7 +30,6 @@ export default {
             shell.openExternal(url)
         },
 
-        // eslint-disable-next-line no-unused-vars
         async downloadFtp2() {
             const c = new ftp()
             c.connect({host: config.conf.host})
@@ -51,7 +50,6 @@ export default {
             }
 
             const toDownload = patchManager.generateDownloadFiles()
-            // eslint-disable-next-line no-unused-vars
             const totalSize = await this.totalSize(connPromise, toDownload)
             let doneSize = 0
             EventBus.$emit(`event_total_percent`,  0)

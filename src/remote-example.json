@@ -17,7 +17,10 @@
     }
   },
   "optional": [{
-    "name": "World of Warcraft",
+    "name": {
+      "enUS": "NPC / Characters HD",
+      "frFR": "PNJ / Personnages HD"
+    },
     "files": {
       "common.MPQ": {
         "md5": "16970df61277955e3dd201a4dc8f71b9",
@@ -56,7 +59,10 @@
       }
     }
   },{
-    "name": "Cataclysme Water",
+    "name":  {
+      "enUS": "Cataclysm water design",
+      "frFR": "Designe de l'eau Cataclysm"
+    },
     "files": {
       "patch-3.MPQ": {
         "md5": "35733b76fcf0f95a0d8240d1f36cc5c3",
