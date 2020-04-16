@@ -14,7 +14,6 @@ export class ConnectionPromise {
     connSize (fileUrl) {
         const _this =  this
         return new Promise(function(resolve, reject) {
-            console.log(fileUrl)
             _this.conn.size(fileUrl, (err, bytes) => {
                 if(!err) resolve(bytes)
                 else reject(err)

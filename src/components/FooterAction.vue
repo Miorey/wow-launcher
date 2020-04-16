@@ -27,13 +27,11 @@ export default {
     }),
     methods: {
         shellOpenExternal(url) {
-            console.log(patchManager.patchList)
             shell.openExternal(url)
         },
 
         // eslint-disable-next-line no-unused-vars
         async downloadFtp2() {
-            EventBus.$emit(`event_file_percent`,  4)
             const c = new ftp()
             c.connect({host: config.conf.host})
             const connPromise = new ConnectionPromise(c)
@@ -53,29 +51,44 @@ export default {
             }
 
             const toDownload = patchManager.generateDownloadFiles()
+            // eslint-disable-next-line no-unused-vars
+            const totalSize = await this.totalSize(connPromise, toDownload)
+            let doneSize = 0
+            EventBus.$emit(`event_total_percent`,  0)
             for(const key in toDownload) {
                 while (!await this.checkFile(toDownload[key])) {
-                    console.log(`download`)
                     await this.downloadFile(connPromise, toDownload[key])
                 }
-                console.log(`not download`)
+                doneSize += await connPromise.connSize(toDownload[key].sourcePath)
+                EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
             c.end()
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
         },
 
+        /**
+         * @param {ConnectionPromise} conn
+         * @param items
+         * @returns {Promise<number>}
+         */
+        async totalSize(conn, items) {
+            let ret = 0
+            for(const key in items) {
+                const size = await conn.connSize(items[key].sourcePath)
+                ret += size
+            }
+            return ret
+        },
+
         async checkFile(item) {
-            console.log(`checkFile`)
             EventBus.$emit(`event_file_path`,  `Check ${item.targetPath}`)
             EventBus.$emit(`event_file_percent`,  50)
             if (!fs.existsSync(item.targetPath)) {
-                console.log(`fs.existsSync(item.targetPath)`)
                 return false
             }
             const checkSum = md5File.sync(item.targetPath)
             EventBus.$emit(`event_file_percent`,  100)
-            console.log(`/checkFile`, checkSum)
             return (checkSum === item.md5)
         },
 
@@ -86,6 +99,7 @@ export default {
          * @returns {Promise<boolean>}
          */
         async downloadFile(conn, item) {
+
             const targetPath = item.targetPath
             const fileUrl = item.sourcePath
             EventBus.$emit(`event_file_path`,  `Download ${targetPath}`)
@@ -96,7 +110,7 @@ export default {
             stream.pipe(fs.createWriteStream(targetPath))
             await streamPromise.once(`close`)
             clearInterval(nIntervId)
-
+            return size
         },
     }
 }

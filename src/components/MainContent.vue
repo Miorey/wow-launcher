@@ -7,13 +7,24 @@
         </div>
       </v-col>
     </v-row>
-    <v-progress-linear
-        v-model="percent"
-        id="progress"
-        color="blue accent-4"
-        height="30"
-        reactive
-    >{{ filePath }}</v-progress-linear>
+    Teeeeee
+    <div id="progress">
+      <v-progress-linear
+              v-model="percent"
+              class="progress"
+              color="blue accent-4"
+              height="30"
+              reactive
+      >{{ filePath }}</v-progress-linear>
+      BOOM
+      <v-progress-linear
+              v-model="percentTotal"
+              class="progress"
+              color="blue accent-4"
+              height="30"
+              reactive
+      >TOTAL</v-progress-linear>
+    </div>
   </v-container>
 </template>
 
@@ -30,7 +41,8 @@ export default {
     data: () => ({
         selectedPatch: null,
         percent: undefined,
-        filePath: undefined
+        filePath: undefined,
+        percentTotal: undefined
     }),
     watch: {
         'selectedPatch'(val) {
@@ -48,6 +60,10 @@ export default {
         const _this = this
         EventBus.$on(`event_file_percent`,  (percent) => {
             _this.percent = percent
+        })
+        EventBus.$on(`event_total_percent`,  (percentTotal) => {
+            console.log(`event_total_percent`, percentTotal)
+            _this.percentTotal = percentTotal
         })
         EventBus.$on(`event_file_path`,  (filePath) => {
             _this.filePath = filePath
@@ -91,10 +107,12 @@ export default {
 }
 
 #progress {
-  border: 1px solid yellow;
   position: absolute;
   bottom: 30px;
   width: calc(100% - 30px);
   margin: auto;
+}
+.progress {
+  border: 1px solid yellow;
 }
 </style>
