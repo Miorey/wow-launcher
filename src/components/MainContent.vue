@@ -75,13 +75,14 @@ export default {
   background: #211510 url(/images/mv.jpg) no-repeat fixed;
   width: 100%;
   height: 450px;
+  position: relative;
 }
 
 #progress {
   border: 1px solid yellow;
   position: absolute;
   bottom: 30px;
-  width: calc(100% - 20px);
+  width: calc(100% - 30px);
   margin: auto;
 }
 </style>

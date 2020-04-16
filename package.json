@@ -13,14 +13,14 @@
   },
   "main": "background.js",
   "dependencies": {
-    "7z-extract": "0.0.3",
-    "core-js": "^3.6.4",
+    "core-js": "^3.6.5",
     "electron-json-storage": "^4.1.8",
     "ftp": "^0.3.10",
     "md5": "^2.2.1",
+    "md5-file": "^5.0.0",
     "request": "^2.88.2",
     "vue": "^2.6.11",
-    "vuetify": "^2.2.11"
+    "vuetify": "^2.2.22"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
@@ -28,7 +28,7 @@
     "@vue/cli-service": "~4.3.0",
     "babel-eslint": "^10.1.0",
     "deepmerge": "^4.2.2",
-    "electron": "^6.0.0",
+    "electron": "^6.1.10",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "fibers": "^4.0.2",

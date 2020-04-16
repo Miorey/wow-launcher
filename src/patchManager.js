@@ -9,7 +9,7 @@ class PatchManager {
 
     loadPatches () {
         if(process.env.NODE_ENV !== `production`) {
-            this.patchList = require(`../remote-example`)
+            this.patchList = require(`./remote-example`)
         } else {
             console.log(`Production`)
         }
