@@ -68,6 +68,10 @@
     color: #d3b359 !important;
 }
 
+#app .theme--dark.v-btn.v-btn--disabled {
+    color: #d3b359 !important;
+    opacity: 0.7;
+}
 
 .theme--dark.v-label:hover{
     color: #e5cc7a;

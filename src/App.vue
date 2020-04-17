@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <page-loader></page-loader>
     <v-content>
       <main-content :patch-object="patchObject"></main-content>
     </v-content>
@@ -23,10 +24,12 @@
 <script>
 import MainContent from './components/MainContent'
 import FooterAction from "./components/FooterAction"
+import PageLoader from "./components/PageLoader"
 export default {
     name: `App`,
 
     components: {
+        PageLoader,
         MainContent,
         FooterAction,
     },

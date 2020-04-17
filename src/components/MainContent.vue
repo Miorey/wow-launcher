@@ -82,8 +82,9 @@ export default {
          */
         findSelectedPatches() {
             return new Promise((resolve, reject) => {
-                storage.get(`selectedPatch`, (error, data) => {
+                storage.get(`selectedPatch${this.language}`, (error, data) => {
                     if (error) { reject(error) }
+                    console.log(`data`, data)
                     if(!data.updated) {
                         resolve([])
                     } else {

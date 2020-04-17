@@ -26,7 +26,6 @@ class PatchManager {
      * @returns {*}
      */
     generateDownloadFiles() {
-        console.log(`generateDownloadFiles`, this.selectedPatches.length)
         return this.patchList.optional
             .filter(e => this.selectedPatches.includes(e.name[this.language]) )
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory})

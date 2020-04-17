@@ -3,7 +3,7 @@
         <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
             Créer un compte
         </v-btn>
-        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
+        <v-btn :disabled="!downloads" class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
             {{ `play` | trans }}
         </v-btn>
         <v-btn v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
@@ -27,7 +27,8 @@ export default {
     data: () => ({
         patchObject: {},
         patchManager: patchManager,
-        canPlay: false
+        canPlay: false,
+        downloads: false
     }),
     watch:{
         async 'patchManager.selectedPatches' () {
@@ -35,7 +36,7 @@ export default {
         }
     },
     async mounted() {
-        if(patchManager.selectedPatches) {
+        if(Array.isArray(patchManager.selectedPatches)) {
             this.canPlay = await this.isUpToDate()
         }
     },
@@ -45,22 +46,22 @@ export default {
         },
 
         async isUpToDate() {
-            console.log(`isUpToDate`)
+            EventBus.$emit(`event_loader_start`)
             const toDownload = patchManager.generateDownloadFiles()
             let ret = true
             for(const key in toDownload) {
-                console.log(toDownload[key].targetPath)
                 ret = ret && await this.checkFile(toDownload[key])
             }
             const toDelete = patchManager.generateDeleteFiles()
             for(const key in toDelete) {
                 ret = ret &&  !fs.existsSync(toDelete[key].targetPath)
             }
-            console.log(`/isUpToDate`, ret)
+            EventBus.$emit(`event_loader_stop`)
             return ret
         },
 
         async downloadFtp() {
+            this.downloads = true
             const c = new ftp()
             c.connect({host: config.conf.host})
             const connPromise = new ConnectionPromise(c)
@@ -91,8 +92,10 @@ export default {
                 EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
             c.end()
+            this.canPlay = await this.isUpToDate()
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
+            this.downloads = false
         },
 
         /**
