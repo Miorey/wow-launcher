@@ -46,7 +46,6 @@ export default {
         },
 
         async isUpToDate() {
-            EventBus.$emit(`event_loader_start`)
             const toDownload = patchManager.generateDownloadFiles()
             let ret = true
             for(const key in toDownload) {
@@ -56,7 +55,6 @@ export default {
             for(const key in toDelete) {
                 ret = ret &&  !fs.existsSync(toDelete[key].targetPath)
             }
-            EventBus.$emit(`event_loader_stop`)
             return ret
         },
 

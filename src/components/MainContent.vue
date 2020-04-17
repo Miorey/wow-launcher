@@ -2,7 +2,7 @@
   <v-container id="main">
     <v-row class="text-center">
       <v-col cols="12">
-        <div v-if="selectedPatch">
+        <div>
           <v-checkbox v-for="item in getPatchList()"
                       v-model="selectedPatch"
                       color="#d3b359"
