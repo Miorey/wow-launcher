@@ -3,8 +3,8 @@
 "use strict"
 
 module.exports = {
-    test: {
-        frFR: `TEST_EN`,
-        enUS: `TEST_FR`
+    download: {
+        enUS: `Download`,
+        frFR: `Télécharger`
     },
 }

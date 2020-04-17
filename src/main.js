@@ -22,8 +22,6 @@ Vue.filter(`trans`, function (value, params) {
     return Translator.qTranslate(value, params)
 })
 
-console.log(patchManager.language)
-
 new Vue({
     vuetify,
     render: h => h(App)

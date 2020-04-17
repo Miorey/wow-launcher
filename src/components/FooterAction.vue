@@ -1,11 +1,13 @@
 <template>
     <div>
-        <v-btn @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
+        <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
             Créer un compte
         </v-btn>
-        <strong class="subheading">Get connected with us on social networks!</strong>
-        <v-btn @click="downloadFtp2">
-            Download2
+        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
+            {{ `play` | trans }}
+        </v-btn>
+        <v-btn v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
+            {{ `download` | trans }}
         </v-btn>
     </div>
 </template>
@@ -23,14 +25,42 @@ const md5File = require(`md5-file`)
 export default {
     name: `FooterAction`,
     data: () => ({
-        patchObject: {}
+        patchObject: {},
+        patchManager: patchManager,
+        canPlay: false
     }),
+    watch:{
+        async 'patchManager.selectedPatches' () {
+            this.canPlay = await this.isUpToDate()
+        }
+    },
+    async mounted() {
+        if(patchManager.selectedPatches) {
+            this.canPlay = await this.isUpToDate()
+        }
+    },
     methods: {
         shellOpenExternal(url) {
             shell.openExternal(url)
         },
 
-        async downloadFtp2() {
+        async isUpToDate() {
+            console.log(`isUpToDate`)
+            const toDownload = patchManager.generateDownloadFiles()
+            let ret = true
+            for(const key in toDownload) {
+                console.log(toDownload[key].targetPath)
+                ret = ret && await this.checkFile(toDownload[key])
+            }
+            const toDelete = patchManager.generateDeleteFiles()
+            for(const key in toDelete) {
+                ret = ret &&  !fs.existsSync(toDelete[key].targetPath)
+            }
+            console.log(`/isUpToDate`, ret)
+            return ret
+        },
+
+        async downloadFtp() {
             const c = new ftp()
             c.connect({host: config.conf.host})
             const connPromise = new ConnectionPromise(c)
@@ -80,13 +110,10 @@ export default {
         },
 
         async checkFile(item) {
-            EventBus.$emit(`event_file_path`,  `Check ${item.targetPath}`)
-            EventBus.$emit(`event_file_percent`,  50)
             if (!fs.existsSync(item.targetPath)) {
                 return false
             }
             const checkSum = md5File.sync(item.targetPath)
-            EventBus.$emit(`event_file_percent`,  100)
             return (checkSum === item.md5)
         },
 

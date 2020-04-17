@@ -5,6 +5,7 @@
         <div v-if="selectedPatch">
           <v-checkbox v-for="item in getPatchList()"
                       v-model="selectedPatch"
+                      color="#d3b359"
                       :key="item.name[language]"
                       :label="item.name[language]"
                       :value="item.name[language]"></v-checkbox>
@@ -110,7 +111,7 @@ export default {
   margin: auto;
 }
 .progress {
-  border: 1px solid yellow;
+  border: 1px solid #d3b359;
   margin-bottom: 10px;
 }
 </style>

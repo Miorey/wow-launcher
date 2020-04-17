@@ -1,0 +1,157 @@
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+    /* #7d0b0c 60%, #4e0c0b */
+    background: #7d0b0c; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(#7d0b0c 30%, #4e0c0b 60%); /* Safari 5.1-6.0 */
+    background: -o-radial-gradient(#7d0b0c 30%, #4e0c0b 60%); /* For Opera 11.6-12.0 */
+    background: -moz-radial-gradient(#7d0b0c 30%, #4e0c0b 60%); /* For Firefox 3.6-15 */
+    background: radial-gradient(#7d0b0c 30%, #4e0c0b 60%); /* Standard syntax */
+}
+
+.theme--dark.v-btn {
+    color: #d3b359  !important;
+    text-shadow: -2px 0 #000, 0 2px #000, 1px 0 #000, 0 -2px #000;
+    font-weight: bold;
+    border: 2px solid #26160c;
+
+    transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -webkit-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -moz-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -o-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+}
+.theme--dark.v-btn:active {
+    border-color: rgba(78, 12, 11, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(78, 12, 11, 0.8);
+    outline: 0 none;
+    color: #d4bb69;
+    text-shadow: -2px 0 #000, 0 2px #000, 1px 0 #000, 0 -2px #000;
+
+    transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -webkit-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -moz-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+
+    -o-transition: text-shadow 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s,  background 0.5s;
+}
+
+.theme--dark.v-btn:active,
+.warcraft_btn:active:focus{
+
+    background: #4e0c0b !important; /* For browsers that do not support gradients */
+    background: radial-gradient(#4e0c0b 30%, #7d0b0c 60%); /*  */
+    background: -webkit-radial-gradient(#4e0c0b 30%, #7d0b0c 60%); /* Safari 5.1-6.0 */
+    background: -o-radial-gradient(#4e0c0b 30%, #7d0b0c 60%); /* For Opera 11.6-12.0 */
+    background: -moz-radial-gradient(#4e0c0b 30%, #7d0b0c 60%); /* For Firefox 3.6-15 */
+    background: radial-gradient(#4e0c0b 30%, #7d0b0c 60%); /* Standard syntax */
+
+    transition: background 0.5s;
+    -webkit-transition: background 0.5s;
+    -moz-transition: background 0.5s;
+    -o-transition: background 0.5s;
+}
+
+.theme--dark.v-label {
+    color: #d3b359 !important;
+    text-shadow: -2px 0 #000, 0 2px #000, 1px 0 #000, 0 -2px #000;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.theme--dark.v-input input, .theme--dark.v-input textarea {
+    color: #d3b359 !important;
+    caret-color: #d3b359 !important;
+}
+.theme--dark.v-icon {
+    color: #d3b359 !important;
+}
+
+
+.theme--dark.v-label:hover{
+    color: #e5cc7a;
+    text-decoration: none;
+}
+
+
+.alert {
+    color: #eee;
+    text-align: center;
+    font-weight: bold;
+}
+
+.alert_show {
+    animation: fadein 0.5s, shake 1s;
+}
+
+.alert_hide {
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+.alert-danger {
+    border-color: #7d0b0c;
+    background-color: rgba(159,45,46,0.7);
+}
+
+.alert-success {
+    border-color: #112717;
+    background-color: rgba(17,39,23,0.7);
+
+}
+
+.alert-info {
+    border-color: #26596a;
+    background-color: rgba(38,89,106,0.7);
+}
+
+
+.warcraft_form textarea,
+.warcraft_form input[type="number"],
+.warcraft_form input[type="password"],
+.warcraft_form input[type="text"],
+.warcraft_form input[type="email"],
+.warcraft_form input[type="checkbox"] {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #eee;
+}
+
+.warcraft_form .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(124, 10, 11, 0.25);
+}
+
+
+.warcraft_form .form-control {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(124, 10, 11, 0.8);
+}
+
+.warcraft_form textarea:-webkit-autofill,
+.warcraft_form input:-webkit-autofill,
+.warcraft_form textarea:-webkit-autofill:focus,
+.warcraft_form input:-webkit-autofill:focus{
+    -webkit-box-shadow:0 0 0 50px #555 inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: #eee;
+}
+
+
+/* width */
+.warcraft_form .editable_div::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.warcraft_form .editable_div::-webkit-scrollbar-track {
+    background: rgba(124, 10, 11, 0.3);
+}
+
+/* Handle */
+.warcraft_form .editable_div::-webkit-scrollbar-thumb {
+    background: rgba(124, 10, 11, 1);
+}
+
+/* Handle on hover */
+.warcraft_form .editable_div::-webkit-scrollbar-thumb:hover {
+    background: rgba(180, 10, 11, 1);
+}

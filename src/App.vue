@@ -7,16 +7,15 @@
             dark
             padless
     >
-      <v-card
-              class="flex"
-              flat
-              tile
-      >
-        <footer-action :patch-object="patchObject" />
-        <v-card-text class="py-2 white--text text-center">
+
+      <v-row>
+        <v-col cols="12" class="text-right">
+          <footer-action :patch-object="patchObject" />
+        </v-col>
+        <v-col cols="12" class="py-2 text_wow_style text-center">
           <span id="powered_by">{{ new Date().getFullYear() }} - Murloc Village</span>
-        </v-card-text>
-      </v-card>
+        </v-col>
+      </v-row>
     </v-footer>
   </v-app>
 </template>
