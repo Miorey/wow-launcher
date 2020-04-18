@@ -3,7 +3,7 @@
         <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
             Créer un compte
         </v-btn>
-        <v-btn :disabled="!downloads" class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
+        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
             {{ `play` | trans }}
         </v-btn>
         <v-btn v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
@@ -49,7 +49,7 @@ export default {
             const toDownload = patchManager.generateDownloadFiles()
             let ret = true
             for(const key in toDownload) {
-                ret = ret && await this.checkFile(toDownload[key])
+                ret = ret && await fs.existsSync(toDownload[key].targetPath)
             }
             const toDelete = patchManager.generateDeleteFiles()
             for(const key in toDelete) {
@@ -111,10 +111,13 @@ export default {
         },
 
         async checkFile(item) {
+            console.log(`checkFile`)
             if (!fs.existsSync(item.targetPath)) {
                 return false
             }
+            console.log(`checkSum`)
             const checkSum = md5File.sync(item.targetPath)
+            console.log(checkSum, `===`, item.md5)
             return (checkSum === item.md5)
         },
 

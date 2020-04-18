@@ -1,5 +1,6 @@
 const fs = require(`fs`)
 const { config } = require(`./config`)
+const { remoteExample } = require(`./remote-example`)
 
 class PatchManager {
     constructor () {
@@ -14,11 +15,7 @@ class PatchManager {
     }
 
     loadPatches () {
-        if(process.env.NODE_ENV !== `production`) {
-            this.patchList = require(`./remote-example`)
-        } else {
-            console.log(`Production`)
-        }
+        this.patchList = remoteExample
     }
 
     /**

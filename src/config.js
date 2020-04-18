@@ -1,9 +1,9 @@
-
-const configFile = require(`../config`)
+const { configData } = require(`../config.js`)
 
 class Config {
     constructor () {
-        this.conf = configFile
+        console.log(configData)
+        this.conf = configData
     }
 }
 
