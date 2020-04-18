@@ -51,7 +51,7 @@ export default {
             storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
-            patchManager.selectedPatches = val
+            patchManager.selectedPatches =  (val) ? val : []
         }
     },
   
