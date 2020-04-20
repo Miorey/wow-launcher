@@ -1,0 +1,12 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+/* 211510 */
+.text_wow_style {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: -webkit-linear-gradient(top,#efd100 0,#e2a233 38%,#f0c328 60%,#fff1a3 86%,#ffe13e 100%);
+}

@@ -1,60 +1,56 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+  <v-app id="app">
+    <page-loader></page-loader>
     <v-content>
-      <HelloWorld/>
+      <main-content :patch-object="patchObject"></main-content>
     </v-content>
+    <v-footer
+            dark
+            padless
+    >
+
+      <v-row>
+        <v-col cols="12" class="text-right">
+          <footer-action :patch-object="patchObject" />
+        </v-col>
+        <v-col cols="12" class="py-2 text_wow_style text-center">
+          <span id="powered_by">{{ new Date().getFullYear() }} - Murloc Village</span>
+        </v-col>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import MainContent from './components/MainContent'
+import FooterAction from "./components/FooterAction"
+import PageLoader from "./components/PageLoader"
 export default {
-  name: 'App',
+    name: `App`,
 
-  components: {
-    HelloWorld,
-  },
+    components: {
+        PageLoader,
+        MainContent,
+        FooterAction,
+    },
 
-  data: () => ({
-    //
-  }),
-};
+    data: () => ({
+        patchObject: {}
+    }),
+}
 </script>
+<style>
+  @font-face {
+    font-family: "LifeCraft";
+    src: url(/images/LifeCraft_Font.ttf) format("truetype");
+
+  }
+  #app {
+    height: 100%;
+    width: 100%;
+  }
+  #powered_by {
+    font-family: "LifeCraft";
+    font-size: large;
+  }
+</style>
