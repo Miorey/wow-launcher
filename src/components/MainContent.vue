@@ -2,13 +2,9 @@
   <v-container id="main">
     <v-row class="text-center">
       <v-col cols="12">
-        <div>
-          <v-checkbox v-for="item in getPatchList()"
-                      v-model="selectedPatch"
-                      color="#d3b359"
-                      :key="item.name[language]"
-                      :label="item.name[language]"
-                      :value="item.name[language]"></v-checkbox>
+        <div v-for="item in getPatchList()" :key="item.id">
+          <input type="checkbox" id="item.id" name="item.id" style="margin-right: 10px;">
+          <label class="wow_text" :for="item.id">{{ item.name[language] }}</label>
         </div>
       </v-col>
     </v-row>
@@ -92,8 +88,7 @@ export default {
                     }
                 })
             })
-        }
-        
+        },
     }
 }
 </script>
