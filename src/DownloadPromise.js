@@ -3,14 +3,6 @@ export class ConnectionPromise {
         this._conn = conn
     }
 
-    connReady () {
-        const _this =  this
-        return new Promise(function(resolve) {
-            _this.conn.on(`ready`, function() {
-                resolve()
-            })
-        })
-    }
     connSize (fileUrl) {
         const _this =  this
         return new Promise(function(resolve, reject) {

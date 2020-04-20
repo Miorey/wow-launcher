@@ -112,6 +112,7 @@ export const remoteExample = {
         },
     },
     "optional": [{
+        "id": `characters`,
         "name": {
             "enUS": `NPC / Characters HD`,
             "frFR": `PNJ / Personnages HD`
@@ -144,27 +145,29 @@ export const remoteExample = {
             },
         }
     },{
+        "id": `water`,
         "name":  {
             "enUS": `Cataclysm water design`,
             "frFR": `Designe de l'eau Cataclysm`
         },
         "files": {
-            "Patch-W.MPQ": {
+            "Patch-W.mpq": {
                 "md5": `1b0c9c06a65a5c04cc261fde9f8f6fec`,
-                "sourcePath": `/optional/characters/Patch-W.MPQ`,
+                "sourcePath": `/optional/water/Patch-W.MPQ`,
                 "targetPath": `./Data/Patch-W.MPQ`
             },
         }
     },{
+        "id": `night`,
         "name":  {
             "enUS": `Dark Night (beta)`,
             "frFR": `Nuit sombre (beta)`
         },
         "files": {
-            "Patch-9.MPQ": {
+            "patch-9.MPQ": {
                 "md5": `483b2753d68e4f17abc72652368b0242`,
-                "sourcePath": `/optional/characters/Patch-9.MPQ`,
-                "targetPath": `./Data/Patch-9.MPQ`
+                "sourcePath": `/optional/night/patch-9.MPQ`,
+                "targetPath": `./Data/patch-9.MPQ`
             },
         }
     }]

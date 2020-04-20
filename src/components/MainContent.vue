@@ -1,9 +1,9 @@
 <template>
   <v-container id="main">
-    <v-row class="text-center">
-      <v-col cols="12">
+    <v-row class="text-left">
+      <v-col v-if="selectedPatch !== null" cols="12">
         <div v-for="item in getPatchList()" :key="item.id">
-          <input type="checkbox" id="item.id" name="item.id" style="margin-right: 10px;">
+          <input v-model="selectedPatch" type="checkbox" :id="item.id" :value="item.id" style="margin-right: 10px;">
           <label class="wow_text" :for="item.id">{{ item.name[language] }}</label>
         </div>
       </v-col>
@@ -44,6 +44,7 @@ export default {
     }),
     watch: {
         'selectedPatch'(val) {
+            console.log(`val`, val)
             storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
@@ -62,7 +63,6 @@ export default {
         EventBus.$on(`event_file_path`,  (filePath) => {
             _this.filePath = filePath
         })
-
         this.selectedPatch = await this.findSelectedPatches()
         patchManager.selectedPatches = this.selectedPatch
     },
@@ -79,9 +79,13 @@ export default {
         findSelectedPatches() {
             return new Promise((resolve, reject) => {
                 storage.get(`selectedPatch${this.language}`, (error, data) => {
-                    if (error) { reject(error) }
-                    console.log(`data`, data)
+                    if (error) {
+                        reject(error)
+                    } else {
+                        EventBus.$emit(`event_loader_stop`,  `storage`)
+                    }
                     if(!data.updated) {
+
                         resolve([])
                     } else {
                         resolve(data.patches)

@@ -3,7 +3,7 @@
         <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
             Créer un compte
         </v-btn>
-        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="downloadFtp">
+        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
         <v-btn v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
@@ -15,12 +15,13 @@
 <script>
 const { shell } = require(`electron`)
 const fs = require(`fs`)
-const ftp = require(`ftp`)
+const Client = require(`ftp`)
 const { config } = require(`../config`)
 const { patchManager } = require(`../patchManager`)
 const { ConnectionPromise, StreamPromise } = require(`../DownloadPromise`)
 const { EventBus } = require(`../event-bus.js`)
 const md5File = require(`md5-file`)
+const child = require(`child_process`).execFile
 
 export default {
     name: `FooterAction`,
@@ -28,7 +29,8 @@ export default {
         patchObject: {},
         patchManager: patchManager,
         canPlay: false,
-        downloads: false
+        downloads: false,
+        conn: null
     }),
     watch:{
         async 'patchManager.selectedPatches' () {
@@ -36,13 +38,50 @@ export default {
         }
     },
     async mounted() {
+        const _this = this
         if(Array.isArray(patchManager.selectedPatches)) {
             this.canPlay = await this.isUpToDate()
         }
+
+        this.conn = new Client()
+
+        this.conn.on(`ready`, function() {
+            EventBus.$emit(`event_loader_stop`,  `ftp_cli`)
+        })
+        this.conn.on(`error`, function (err) {
+            console.log(err)
+            _this.connStart()
+        })
+        this.conn.on(`close`, function (err) {
+            console.log(err)
+            _this.connStart()
+        })
+        // connect to localhost:21 as anonymous
+        this.connStart()
+    },
+    destroyed() {
+        this.conn.destroy()
     },
     methods: {
         shellOpenExternal(url) {
             shell.openExternal(url)
+        },
+
+        connStart() {
+            const connSettings = {
+                host: config.conf.host
+            }
+            this.conn.connect(connSettings)
+        },
+
+        play() {
+            child(`./Wow.exe`, function(err, data) {
+                if(err){
+                    console.error(err)
+                    return
+                }
+                console.log(data.toString())
+            })
         },
 
         async isUpToDate() {
@@ -60,10 +99,7 @@ export default {
 
         async downloadFtp() {
             this.downloads = true
-            const c = new ftp()
-            c.connect({host: config.conf.host})
-            const connPromise = new ConnectionPromise(c)
-            await connPromise.connReady()
+            const connPromise = new ConnectionPromise(this.conn)
             const toDelete = patchManager.generateDeleteFiles()
 
             EventBus.$emit(`event_file_path`,  `Delete old files`)
@@ -89,7 +125,6 @@ export default {
                 doneSize += await connPromise.connSize(toDownload[key].sourcePath)
                 EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
-            c.end()
             this.canPlay = await this.isUpToDate()
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
