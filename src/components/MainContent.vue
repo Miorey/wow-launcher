@@ -14,12 +14,14 @@
               class="progress"
               color="blue accent-4"
               height="30"
+              background-opacity="0.5"
       >{{ filePath }}</v-progress-linear>
       <v-progress-linear
               :value="percentTotal"
               class="progress"
               color="blue accent-4"
               height="30"
+              background-opacity="0.5"
       >TOTAL</v-progress-linear>
     </div>
   </v-container>
