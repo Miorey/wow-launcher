@@ -1,21 +1,26 @@
 const fs = require(`fs`)
 const { config } = require(`./config`)
-const { remoteExample } = require(`./remote-example`)
+const axios = require(`axios`)
 
 class PatchManager {
     constructor () {
-        this._patchList = {}
+        this._patchList = undefined
         this._currentFile = undefined
-        this._currentPercent = undefined
         this._selectedPatches = {}
-        this.loadPatches()
         this._language = fs
             .readdirSync(`./Data`)
             .find(e => config.conf.available_language.includes(e))
+        this.loadPatches()
     }
 
     loadPatches () {
-        this.patchList = remoteExample
+        const _this = this
+        axios({
+            method: `get`,
+            url: `${config.conf.patchlist_endpoint}/${process.platform}/${_this.language}/`,
+        }).then(function (response) {
+            _this.patchList = response.data
+        })
     }
 
     /**
@@ -66,14 +71,6 @@ class PatchManager {
 
     set currentFile(currentFile) {
         this._currentFile = currentFile
-    }
-
-    get currentPercent () {
-        return this._currentPercent
-    }
-
-    set currentPercent(currentPercent) {
-        this._currentPercent = currentPercent
     }
 
     get language() {

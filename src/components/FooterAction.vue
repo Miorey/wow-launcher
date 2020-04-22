@@ -48,12 +48,10 @@ export default {
         this.conn.on(`ready`, function() {
             EventBus.$emit(`event_loader_stop`,  `ftp_cli`)
         })
-        this.conn.on(`error`, function (err) {
-            console.log(err)
+        this.conn.on(`error`, function () {
             _this.connStart()
         })
-        this.conn.on(`close`, function (err) {
-            console.log(err)
+        this.conn.on(`close`, function () {
             _this.connStart()
         })
         // connect to localhost:21 as anonymous
@@ -75,13 +73,7 @@ export default {
         },
 
         play() {
-            child(`./Wow.exe`, function(err, data) {
-                if(err){
-                    console.error(err)
-                    return
-                }
-                console.log(data.toString())
-            })
+            child(`./Wow.exe`)
         },
 
         async isUpToDate() {
@@ -146,13 +138,10 @@ export default {
         },
 
         async checkFile(item) {
-            console.log(`checkFile`)
             if (!fs.existsSync(item.targetPath)) {
                 return false
             }
-            console.log(`checkSum`)
             const checkSum = md5File.sync(item.targetPath)
-            console.log(checkSum, `===`, item.md5)
             return (checkSum === item.md5)
         },
 

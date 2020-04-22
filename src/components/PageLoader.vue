@@ -1,6 +1,6 @@
 <template>
-    <v-overlay :value="countOverlay !== 0 || !loaded.storage || !loaded.ftp_cli">
-        <v-card v-if="!loaded.storage || !loaded.ftp_cli">
+    <v-overlay :value="countOverlay !== 0 || !loaded.storage || !loaded.ftp_cli || !loaded.patches">
+        <v-card v-if="!loaded.storage || !loaded.ftp_cli || !loaded.patches">
             <v-card-title>
                 {{ `page_loading` | trans }}
             </v-card-title>
@@ -13,10 +13,13 @@
                     <li>
                         {{ `warn_ftp` | trans }} {{ (loaded.ftp_cli)?`ok`:`...` }}
                     </li>
+                    <li>
+                        {{ `patches` | trans }} {{ (loaded.patches)?`ok`:`...` }}
+                    </li>
                 </ul>
             </v-card-text>
         </v-card>
-        <img src="/images/murloc_swim.gif">
+        <img class="swimming_murloc" src="/images/murloc_swim.gif" alt="swimming murloc">
     </v-overlay>
 </template>
 
@@ -27,6 +30,7 @@ export default {
     data: () => ({
         countOverlay: 0,
         loaded: {
+            patches: false,
             storage: false,
             ftp_cli: false
         }
@@ -35,18 +39,15 @@ export default {
         const _this = this
         EventBus.$on(`event_loader_start`,  () => {
             _this.countOverlay++
-            console.log(`event_loader_start`, _this.countOverlay)
         })
         EventBus.$on(`event_loader_stop`,  (val) => {
-            if(val ) { _this.loaded[val] = true }
+            if(val) { _this.loaded[val] = true }
             else _this.countOverlay--
-            console.log(`event_loader_stop`, _this.countOverlay)
         })
     }
 
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>

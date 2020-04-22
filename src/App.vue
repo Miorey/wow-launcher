@@ -2,19 +2,18 @@
   <v-app id="app">
     <page-loader></page-loader>
     <v-content>
-      <main-content :patch-object="patchObject"></main-content>
+      <main-content v-if="patchManager.patchList" />
     </v-content>
     <v-footer
             dark
             padless
     >
-
       <v-row>
         <v-col cols="12" class="text-right">
-          <footer-action :patch-object="patchObject" />
+          <footer-action v-if="patchManager.patchList" />
         </v-col>
         <v-col cols="12" class="py-2 text_wow_style text-center">
-          <span id="powered_by">{{ new Date().getFullYear() }} - Murloc Village</span>
+          <span id="powered_by">Murloc Village</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -25,6 +24,9 @@
 import MainContent from './components/MainContent'
 import FooterAction from "./components/FooterAction"
 import PageLoader from "./components/PageLoader"
+const { patchManager } = require(`./patchManager`)
+const { EventBus } = require(`./event-bus`)
+
 export default {
     name: `App`,
 
@@ -35,8 +37,17 @@ export default {
     },
 
     data: () => ({
-        patchObject: {}
+        patchManager: patchManager
     }),
+  
+    watch: {
+        'patchManager.patchList'(val) {
+            if(val) {
+
+                EventBus.$emit(`event_loader_stop`,  `patches`)
+            }
+        }
+    }
 }
 </script>
 <style>

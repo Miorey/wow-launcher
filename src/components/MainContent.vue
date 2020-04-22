@@ -44,7 +44,6 @@ export default {
     }),
     watch: {
         'selectedPatch'(val) {
-            console.log(`val`, val)
             storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
                 if (error) throw error
             })
