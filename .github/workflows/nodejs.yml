@@ -25,7 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run electron:build --if-present
+    - run: npm run electron:build  --publish=never --if-present
     - run: npm test
       env:
         CI: true
