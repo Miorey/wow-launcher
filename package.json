@@ -18,6 +18,7 @@
     "electron-json-storage": "^4.1.8",
     "ftp": "^0.3.10",
     "md5-file": "^5.0.0",
+    "open": "^7.0.3",
     "vue": "^2.6.11",
     "vuetify": "^2.2.22"
   },

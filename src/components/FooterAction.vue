@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
-            Créer un compte
+            {{ `repair` | trans }}
         </v-btn>
         <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
@@ -22,6 +22,7 @@ const { ConnectionPromise, StreamPromise } = require(`../DownloadPromise`)
 const { EventBus } = require(`../event-bus.js`)
 const md5File = require(`md5-file`)
 const child = require(`child_process`).execFile
+const open = require(`open`)
 
 export default {
     name: `FooterAction`,
@@ -72,25 +73,31 @@ export default {
             this.conn.connect(connSettings)
         },
 
-        play() {
-            child(`./Wow.exe`)
+        async play() {
+            if(process.platform === `darwin`) {
+                await open(`${this.getWowFolder()}Wow.app`)
+            } else {
+                child(`${this.getWowFolder()}Wow.exe`)
+            }
         },
 
         async isUpToDate() {
             const toDownload = patchManager.generateDownloadFiles()
+            const _this = this
             let ret = true
             for(const key in toDownload) {
-                ret = ret && await fs.existsSync(toDownload[key].targetPath)
+                ret = ret && await fs.existsSync(_this.getBaseFolder(toDownload[key].targetPath))
             }
             const toDelete = patchManager.generateDeleteFiles()
             for(const key in toDelete) {
-                ret = ret &&  !fs.existsSync(toDelete[key].targetPath)
+                ret = ret &&  !fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))
             }
             return ret
         },
 
         async downloadFtp() {
             this.downloads = true
+            const _this = this
             const connPromise = new ConnectionPromise(this.conn)
             const toDelete = patchManager.generateDeleteFiles()
 
@@ -99,8 +106,8 @@ export default {
             const partPercent = 100 / Object.keys(toDelete).length
             let count = 1
             for(const key in toDelete) {
-                if(fs.existsSync(toDelete[key].targetPath)) {
-                    fs.unlinkSync(toDelete[key].targetPath)
+                if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
+                    fs.unlinkSync(_this.getBaseFolder(toDelete[key].targetPath))
                 }
                 EventBus.$emit(`event_file_percent`,  count*partPercent)
                 count++
@@ -138,10 +145,10 @@ export default {
         },
 
         async checkFile(item) {
-            if (!fs.existsSync(item.targetPath)) {
+            if (!fs.existsSync(this.getBaseFolder(item.targetPath))) {
                 return false
             }
-            const checkSum = md5File.sync(item.targetPath)
+            const checkSum = md5File.sync(this.getBaseFolder(item.targetPath))
             return (checkSum === item.md5)
         },
 
@@ -153,9 +160,9 @@ export default {
          */
         async downloadFile(conn, item) {
 
-            const targetPath = item.targetPath
+            const targetPath = this.getBaseFolder(item.targetPath)
             const fileUrl = item.sourcePath
-            EventBus.$emit(`event_file_path`,  `Download ${targetPath}`)
+            EventBus.$emit(`event_file_path`,  `Download ${item.targetPath}`)
             const size = await conn.connSize(fileUrl)
             const stream = await conn.connGet(fileUrl)
             const streamPromise  = new StreamPromise(stream)
@@ -165,6 +172,14 @@ export default {
             clearInterval(nIntervId)
             return size
         },
+
+        getBaseFolder(targetPath) {
+            return this.getWowFolder() + targetPath
+        },
+
+        getWowFolder() {
+            return this.patchManager.dirData + ( (process.platform === `win32`) ? `\\..\\` :  `/../`)
+        }
     }
 }
 </script>

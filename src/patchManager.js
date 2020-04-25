@@ -7,8 +7,9 @@ class PatchManager {
         this._patchList = undefined
         this._currentFile = undefined
         this._selectedPatches = {}
+        this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`
         this._language = fs
-            .readdirSync(`./Data`)
+            .readdirSync(this.dirData)
             .find(e => config.conf.available_language.includes(e))
         this.loadPatches()
     }
@@ -75,6 +76,10 @@ class PatchManager {
 
     get language() {
         return this._language
+    }
+
+    get dirData() {
+        return this._dirData
     }
 
 }
