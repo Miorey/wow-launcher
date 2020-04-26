@@ -101,9 +101,8 @@ export default {
 </script>
 <style>
 #main {
-  background: #211510 url(/images/mv.jpg) no-repeat fixed;
   width: 100%;
-  height: 450px;
+  height: 400px;
   position: relative;
 }
 

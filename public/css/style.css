@@ -3,6 +3,18 @@
 /* Padding below the footer and lighter body text */
 
 /* 211510 */
+.theme--dark.v-application {
+  background: #272727 url(/images/mv.jpg) no-repeat fixed !important;
+  background-position: center center;
+  background-size: cover;
+}
+
+@media only screen and (min-width: 801px) {
+  .theme--dark.v-application {
+    background: #fff url(/images/mv2.jpg) no-repeat fixed !important;
+  }
+}
+
 .text_wow_style {
   background-clip: text;
   -webkit-background-clip: text;

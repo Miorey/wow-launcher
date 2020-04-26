@@ -7,6 +7,10 @@ module.exports = {
         enUS: `Update`,
         frFR: `Mettre à jour`
     },
+    download_launcher: {
+        enUS: `Launcher Update`,
+        frFR: `Mettre à jour le Launcher`
+    },
     main_title: {
         enUS: `Game Options`,
         frFR: `Options du jeu`
