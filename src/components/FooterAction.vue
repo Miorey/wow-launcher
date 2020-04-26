@@ -75,10 +75,18 @@ export default {
         },
 
         async play() {
-            if(process.platform === `darwin`) {
+            switch (process.platform) {
+            case `darwin`:
                 await open(`${this.getWowFolder()}Wow.app`)
-            } else {
+                break
+            case `win32`:
                 child(`${this.getWowFolder()}Wow.exe`)
+                break
+            case `linux`:
+                alert(`Play is not available, to start the game please execute "wine Wow.exe" in the game directory`)
+                break
+            default:
+                throw new Error(`No play function for ${process.platform}`)
             }
         },
 
@@ -136,7 +144,7 @@ export default {
             rimraf.sync(`${this.getWowFolder()}Cache`)
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
-            if(config.conf.end_sound) {
+            if(config.conf.end_sound && [`win32`, `darwin`].includes(process.platform)) {
                 player.play(`${this.getWowFolder()}${config.conf.end_sound}`)
             }
             patchManager.downloadInProgress = false
