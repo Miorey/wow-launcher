@@ -154,6 +154,7 @@ export default {
         },
 
         async checkFile(item) {
+            EventBus.$emit(`event_file_path`,  `Check ${item.targetPath}`)
             if (!fs.existsSync(this.getBaseFolder(item.targetPath))) {
                 return false
             }
@@ -169,7 +170,6 @@ export default {
          */
         async downloadFile(conn, item) {
             const targetPath = this.getBaseFolder(item.targetPath)
-            console.log(`downloadFile`, targetPath)
             const fileUrl = item.sourcePath
             EventBus.$emit(`event_file_path`,  `Download ${item.targetPath}`)
             const size = await conn.connSize(fileUrl)

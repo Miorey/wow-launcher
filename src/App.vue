@@ -13,7 +13,7 @@
           <footer-action v-if="patchManager.patchList" />
         </v-col>
         <v-col cols="12" class="py-2 text_wow_style text-center">
-          <span id="powered_by">Murloc Village</span>
+          <span id="powered_by">Murloc Village Launcher - v{{ version }}</span>
         </v-col>
       </v-row>
     </v-footer>
@@ -26,6 +26,7 @@ import FooterAction from "./components/FooterAction"
 import PageLoader from "./components/PageLoader"
 const { patchManager } = require(`./patchManager`)
 const { EventBus } = require(`./event-bus`)
+const  pjson = require(`../package.json`)
 
 export default {
     name: `App`,
@@ -37,7 +38,8 @@ export default {
     },
 
     data: () => ({
-        patchManager: patchManager
+        patchManager: patchManager,
+        version: pjson.version
     }),
   
     watch: {
