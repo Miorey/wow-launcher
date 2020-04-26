@@ -1,12 +1,12 @@
 <template>
     <div>
-        <v-btn class="pt-5 pb-8 mr-3" @click="downloadFtp(true)">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" @click="downloadFtp(true)">
             {{ `repair` | trans }}
         </v-btn>
-        <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
-        <v-btn v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp(false)">
             {{ `download` | trans }}
         </v-btn>
     </div>
@@ -24,6 +24,7 @@ const md5File = require(`md5-file`)
 const child = require(`child_process`).execFile
 const open = require(`open`)
 const player = require(`play-sound`)({})
+const rimraf = require(`rimraf`)
 
 export default {
     name: `FooterAction`,
@@ -98,7 +99,8 @@ export default {
             return ret
         },
 
-        async downloadFtp(repair = false) {
+        async downloadFtp(repair) {
+            patchManager.downloadInProgress = true
             const _this = this
             const connPromise = new ConnectionPromise(this.conn)
             const toDelete = patchManager.generateDeleteFiles()
@@ -107,9 +109,7 @@ export default {
             EventBus.$emit(`event_file_percent`,  0)
             const partPercent = 100 / Object.keys(toDelete).length
             let count = 1
-            console.log(JSON.stringify(toDelete))
             for(const key in toDelete) {
-                console.log(`FILE to delete: `, toDelete[key].targetPath, _this.getBaseFolder(toDelete[key].targetPath))
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
                     fs.unlinkSync(_this.getBaseFolder(toDelete[key].targetPath))
                 }
@@ -122,7 +122,7 @@ export default {
             let doneSize = 0
             EventBus.$emit(`event_total_percent`,  0)
             for(const key in toDownload) {
-                if(!repair && fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
+                if(!repair && fs.existsSync(_this.getBaseFolder(toDownload[key].targetPath))) {
                     continue
                 }
                 while (!await this.checkFile(toDownload[key])) {
@@ -132,11 +132,14 @@ export default {
                 EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
             this.canPlay = await this.isUpToDate()
+            EventBus.$emit(`event_file_path`,  `Delete Cache`)
+            rimraf.sync(`${this.getWowFolder()}Cache`)
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
             if(config.conf.end_sound) {
                 player.play(`${this.getWowFolder()}${config.conf.end_sound}`)
             }
+            patchManager.downloadInProgress = false
         },
 
         /**

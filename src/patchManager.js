@@ -7,6 +7,7 @@ class PatchManager {
         this._patchList = undefined
         this._currentFile = undefined
         this._selectedPatches = {}
+        this._downloadInProgress = false
         this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`
         this._language = fs
             .readdirSync(this.dirData)
@@ -80,6 +81,14 @@ class PatchManager {
 
     get dirData() {
         return this._dirData
+    }
+
+    get downloadInProgress() {
+        return this._downloadInProgress
+    }
+
+    set downloadInProgress(downloadInProgress) {
+        this._downloadInProgress = downloadInProgress
     }
 
 }
