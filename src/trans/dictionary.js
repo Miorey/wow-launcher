@@ -4,12 +4,20 @@
 
 module.exports = {
     download: {
-        enUS: `Download`,
-        frFR: `Télécharger`
+        enUS: `Update`,
+        frFR: `Mettre à jour`
+    },
+    main_title: {
+        enUS: `Game Options`,
+        frFR: `Options du jeu`
     },
     repair: {
         enUS: `Repair`,
         frFR: `Réparer`
+    },
+    play: {
+        enUS: `Play`,
+        frFR: `Jouer`
     },
     page_loading: {
         enUS: `Loading in progress`,
