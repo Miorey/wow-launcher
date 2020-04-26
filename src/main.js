@@ -7,18 +7,6 @@ try {
     const { patchManager } = require(`./patchManager`)
     const App = require(`./App.vue`).default
     console.log(`I TRY IT`)
-
-    Vue.config.errorHandler = function(err, vm, info) {
-
-        if(process.env.NODE_ENV !== `production`) {
-            // DEV
-            console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`)
-        } else {
-            // Production
-            alert(`BLA BLA BLA`)
-            console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`)
-        }
-    }
     Vue.config.productionTip = false
 
     const Translator = require(`./trans/translator`)
@@ -31,6 +19,17 @@ try {
      */
     Translator.qTranslate = function (value, params) {
         return this.translate(patchManager.language, value, params)
+    }
+
+    Vue.config.errorHandler = function(err, vm, info) {
+
+        if(process.env.NODE_ENV !== `production`) {
+            // DEV
+            console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`)
+        } else {
+            // Production
+            alert(Translator.qTranslate(`app_error`, {}))
+        }
     }
 
     // translate filter

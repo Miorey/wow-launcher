@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-btn class="pt-5 pb-8 mr-3" @click="shellOpenExternal(`https://wotlk.murlocvillage.com/fr/register`)">
+        <v-btn class="pt-5 pb-8 mr-3" @click="downloadFtp(true)">
             {{ `repair` | trans }}
         </v-btn>
         <v-btn class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
@@ -23,6 +23,7 @@ const { EventBus } = require(`../event-bus.js`)
 const md5File = require(`md5-file`)
 const child = require(`child_process`).execFile
 const open = require(`open`)
+const player = require(`play-sound`)({})
 
 export default {
     name: `FooterAction`,
@@ -30,7 +31,6 @@ export default {
         patchObject: {},
         patchManager: patchManager,
         canPlay: false,
-        downloads: false,
         conn: null
     }),
     watch:{
@@ -81,6 +81,9 @@ export default {
             }
         },
 
+        /**
+         * @param repair {boolean}: is repair mode
+         */
         async isUpToDate() {
             const toDownload = patchManager.generateDownloadFiles()
             const _this = this
@@ -95,8 +98,7 @@ export default {
             return ret
         },
 
-        async downloadFtp() {
-            this.downloads = true
+        async downloadFtp(repair = false) {
             const _this = this
             const connPromise = new ConnectionPromise(this.conn)
             const toDelete = patchManager.generateDeleteFiles()
@@ -105,7 +107,9 @@ export default {
             EventBus.$emit(`event_file_percent`,  0)
             const partPercent = 100 / Object.keys(toDelete).length
             let count = 1
+            console.log(JSON.stringify(toDelete))
             for(const key in toDelete) {
+                console.log(`FILE to delete: `, toDelete[key].targetPath, _this.getBaseFolder(toDelete[key].targetPath))
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
                     fs.unlinkSync(_this.getBaseFolder(toDelete[key].targetPath))
                 }
@@ -118,6 +122,9 @@ export default {
             let doneSize = 0
             EventBus.$emit(`event_total_percent`,  0)
             for(const key in toDownload) {
+                if(!repair && fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
+                    continue
+                }
                 while (!await this.checkFile(toDownload[key])) {
                     await this.downloadFile(connPromise, toDownload[key])
                 }
@@ -127,7 +134,9 @@ export default {
             this.canPlay = await this.isUpToDate()
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
             EventBus.$emit(`event_file_percent`,  100)
-            this.downloads = false
+            if(config.conf.end_sound) {
+                player.play(`${this.getWowFolder()}${config.conf.end_sound}`)
+            }
         },
 
         /**
@@ -159,8 +168,8 @@ export default {
          * @returns {Promise<boolean>}
          */
         async downloadFile(conn, item) {
-
             const targetPath = this.getBaseFolder(item.targetPath)
+            console.log(`downloadFile`, targetPath)
             const fileUrl = item.sourcePath
             EventBus.$emit(`event_file_path`,  `Download ${item.targetPath}`)
             const size = await conn.connSize(fileUrl)

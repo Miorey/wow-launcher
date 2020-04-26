@@ -7,6 +7,10 @@ module.exports = {
         enUS: `Download`,
         frFR: `Télécharger`
     },
+    repair: {
+        enUS: `Repair`,
+        frFR: `Réparer`
+    },
     page_loading: {
         enUS: `Loading in progress`,
         frFR: `Chargement en cours`
@@ -22,5 +26,9 @@ module.exports = {
     warn_ftp: {
         enUS: `Remote data`,
         frFR: `Données distantes`
+    },
+    app_error: {
+        enUS: `An unexpected error happens please contact a Game Master`,
+        frFR: `Une erreur inattendue c'est  produite merci de contacter un Maître du jeu.`,
     }
 }
