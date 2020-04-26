@@ -3,7 +3,12 @@
 /* Padding below the footer and lighter body text */
 
 /* 211510 */
+html, body {
+  overflow: hidden !important;
+}
+
 .theme--dark.v-application {
+  overflow: hidden;
   background: #272727 url(/images/mv.jpg) no-repeat fixed !important;
   background-position: center center;
   background-size: cover;
