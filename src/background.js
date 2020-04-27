@@ -20,7 +20,7 @@ function createWindow () {
         nodeIntegration: true,
         resizable: isDevelopment,
         autoHideMenuBar: true,
-        icon: __dirname + `/wow.ico`
+        icon: __dirname + `/../images/favicon.ico`
     } })
     if(!isDevelopment) {
         win.removeMenu()

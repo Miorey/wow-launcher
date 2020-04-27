@@ -4,15 +4,11 @@ module.exports = {
     ],
 
     pluginOptions: {
-        i18n: {
-            locale: `en`,
-            fallbackLocale: `en`,
-            localeDir: `locales`,
-            enableInSFC: true
-        },
         electronBuilder: {
             builderOptions: {
-                "productName": `MV-Launcher`
+                productName: `MV-Launcher`,
+                icon: `./public/wow.ico`
+
             },
         }
 

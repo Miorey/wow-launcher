@@ -1,12 +1,12 @@
 <template>
     <div>
-        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" @click="downloadFtp()">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" @click="downloadFtp">
             {{ `repair` | trans }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
-        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp()">
+        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
             {{ `download` | trans }}
         </v-btn>
     </div>
@@ -128,13 +128,13 @@ export default {
             const toDownload = patchManager.generateDownloadFiles()
             const totalSize = await this.totalSize(connPromise, toDownload)
             let doneSize = 0
-            EventBus.$emit(`event_total_percent`,  0)
+            await EventBus.$emit(`event_total_percent`,  0)
             for(const key in toDownload) {
                 while (!await this.checkFile(toDownload[key])) {
                     await this.downloadFile(connPromise, toDownload[key])
                 }
                 doneSize += await connPromise.connSize(toDownload[key].sourcePath)
-                EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
+                await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
             this.canPlay = await this.isUpToDate()
             EventBus.$emit(`event_file_path`,  `Delete Cache`)
