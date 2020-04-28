@@ -23,7 +23,7 @@
               color="blue accent-4"
               height="30"
               background-opacity="0.5"
-      >TOTAL</v-progress-linear>
+      >TOTAL: {{ percentTotal }}%</v-progress-linear>
     </div>
   </v-container>
 </template>
@@ -42,7 +42,7 @@ export default {
         selectedPatch: null,
         percent: undefined,
         filePath: undefined,
-        percentTotal: undefined,
+        percentTotal: 0,
         patchManager: patchManager,
         language: patchManager.language
     }),
@@ -58,10 +58,10 @@ export default {
     async  mounted() {
         const _this = this
         EventBus.$on(`event_file_percent`,  (percent) => {
-            _this.percent = percent
+            _this.percent = Math.round(percent * 100) / 100
         })
         EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            _this.percentTotal = percentTotal
+            _this.percentTotal = Math.round(percentTotal * 100) / 100
         })
         EventBus.$on(`event_file_path`,  (filePath) => {
             _this.filePath = filePath
