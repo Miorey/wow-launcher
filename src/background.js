@@ -5,7 +5,7 @@ import {
     createProtocol,
     /* installVueDevtools */
 } from 'vue-cli-plugin-electron-builder/lib'
-const isDevelopment = process.env.NODE_ENV !== `production`
+const isDevelopment = !app.isPackaged
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -18,8 +18,13 @@ function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({ width: 800, height: 639, webPreferences: {
         nodeIntegration: true,
-        resizable: process.env.NODE_ENV !== `production`
+        resizable: isDevelopment,
+        autoHideMenuBar: true,
+        icon: __dirname + `/../images/favicon.ico`
     } })
+    if(!isDevelopment) {
+        win.removeMenu()
+    }
     if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
         win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -70,6 +75,8 @@ app.on(`ready`, async () => {
     // }
 
     }
+
+    console.log(`__dirname`,__dirname)
     createWindow()
 })
 

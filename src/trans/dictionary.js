@@ -4,8 +4,24 @@
 
 module.exports = {
     download: {
-        enUS: `Download`,
-        frFR: `Télécharger`
+        enUS: `Update`,
+        frFR: `Mettre à jour`
+    },
+    download_launcher: {
+        enUS: `Launcher Update`,
+        frFR: `Mettre à jour le Launcher`
+    },
+    main_title: {
+        enUS: `Game Options`,
+        frFR: `Options du jeu`
+    },
+    repair: {
+        enUS: `Repair`,
+        frFR: `Réparer`
+    },
+    play: {
+        enUS: `Play`,
+        frFR: `Jouer`
     },
     page_loading: {
         enUS: `Loading in progress`,
@@ -22,5 +38,9 @@ module.exports = {
     warn_ftp: {
         enUS: `Remote data`,
         frFR: `Données distantes`
+    },
+    app_error: {
+        enUS: `An unexpected error happens please contact a Game Master`,
+        frFR: `Une erreur inattendue c'est  produite merci de contacter un Maître du jeu.`,
     }
 }

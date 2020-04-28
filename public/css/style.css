@@ -3,10 +3,41 @@
 /* Padding below the footer and lighter body text */
 
 /* 211510 */
+html, body {
+  overflow: hidden !important;
+}
+
+.theme--dark.v-application {
+  overflow: hidden;
+  background: #272727 url(/images/mv.jpg) no-repeat fixed !important;
+  background-position: center center;
+  background-size: cover;
+}
+
+@media only screen and (min-width: 801px) {
+  .theme--dark.v-application {
+    background: #fff url(/images/mv2.jpg) no-repeat fixed !important;
+  }
+}
+
 .text_wow_style {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   background-image: -webkit-linear-gradient(top,#efd100 0,#e2a233 38%,#f0c328 60%,#fff1a3 86%,#ffe13e 100%);
+}
+
+
+.swimming_murloc {
+  position: absolute !important;
+  animation: swim 10s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes swim {
+  from { transform: translateX(-400px); }
+  to   { transform: translateX(650px); }
 }
