@@ -33,14 +33,14 @@ module.exports = {
     },
     warn_storage: {
         enUS: `Local data`,
-        frFR: `Donnée locale`
+        frFR: `Données locales`
     },
     warn_ftp: {
         enUS: `Remote data`,
         frFR: `Données distantes`
     },
     app_error: {
-        enUS: `An unexpected error happens please contact a Game Master`,
-        frFR: `Une erreur inattendue c'est  produite merci de contacter un Maître du jeu.`,
+        enUS: `An unexpected error happened, please contact a Game Master.`,
+        frFR: `Une erreur inattendue s'est produite, merci de contacter un Maître du jeu.`,
     }
 }
