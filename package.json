@@ -13,7 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "electron-json-storage": "^4.1.8",
     "ftp": "^0.3.10",
