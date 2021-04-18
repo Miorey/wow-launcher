@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <page-loader></page-loader>
-    <v-content>
+    <v-main>
       <v-toolbar dense v-if="remoteVersion.version !== version">
         <v-spacer></v-spacer>
         <v-btn :disabled="patchManager.downloadInProgress" :href="remoteVersion.link">
@@ -9,7 +9,7 @@
         </v-btn>
       </v-toolbar>
       <main-content v-if="patchManager.patchList" />
-    </v-content>
+    </v-main>
     <v-footer
             dark
             padless
