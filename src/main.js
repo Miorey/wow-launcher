@@ -18,6 +18,7 @@ try {
      * @returns {*}
      */
     Translator.qTranslate = function (value, params) {
+        console.log(patchManager.language)
         return this.translate(patchManager.language, value, params)
     }
 
