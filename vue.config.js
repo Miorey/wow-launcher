@@ -7,7 +7,7 @@ module.exports = {
         electronBuilder: {
             builderOptions: {
                 productName: `MV-Launcher`,
-                icon: `./public/wow.ico`
+                icon: (process.platform === `darwin`)?`./public/wow.png`:`./public/wow.ico`
 
             },
         }
