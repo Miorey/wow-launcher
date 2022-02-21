@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import vuetify from './plugins/vuetify'
-console.log(process.env.NODE_ENV)
 try {
 
-    console.log(`__dirname`,__dirname)
     const { patchManager } = require(`./patchManager`)
     const App = require(`./App.vue`).default
-    console.log(`I TRY IT`)
     Vue.config.productionTip = false
 
     const Translator = require(`./trans/translator`)
