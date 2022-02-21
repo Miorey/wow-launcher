@@ -12,6 +12,5 @@ class Config {
         ) ? `${process.resourcesPath}/../../../` : `./`
     }
 }
-console.log(`YOLO`)
 
 export const config  = new Config()

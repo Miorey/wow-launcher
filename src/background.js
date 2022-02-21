@@ -76,7 +76,6 @@ app.on(`ready`, async () => {
 
     }
 
-    console.log(`__dirname`,__dirname)
     createWindow()
 })
 
