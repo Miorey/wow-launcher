@@ -6,6 +6,10 @@ run:
 dev_env:
 	mkdir -p Data/$(LANGUAGE)
 
+fixtures: clean
+	mkdir -p ./Data/enUS
+
+
 clean:
 	rm -rf ./Data/
 

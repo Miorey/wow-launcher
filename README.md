@@ -1,7 +1,15 @@
 # wow-launcher
+Wow launcher is a downloader for World of Warcraft files
 
-## Project setup
+## Setup as app
+
+### Files installer structure
+
+
+## Development
 Vue electron [documentation](https://medium.com/@bromix/electron-application-with-vue-js-and-vuetify-f2a1f9c749b8)
+
+To install the required packages
 ```
 npm ci
 ```
