@@ -1,8 +1,8 @@
 {
     "host": "ftp.murlocvillage.com",
-    "target_path": ",./Data",
     "available_language": ["frFR", "enUS"],
     "default_language": "enUS",
-    "patchlist_endpoint": "https://wotlk.murlocvillage.com/api/launcher",
-    "end_sound": "murloc.mp3"
+    "patchlist_endpoint": "http://127.0.0.1:9000",
+    "end_sound": "murloc.mp3",
+    "path_end": ".json"
 }

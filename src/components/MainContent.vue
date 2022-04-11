@@ -4,8 +4,15 @@
       <v-col v-if="selectedPatch !== null" cols="12">
         <span id="main_title" class="display-1 text_wow_style">{{ `main_title` | trans }}</span>
         <div v-for="item in getPatchList()" :key="item.id">
-          <input :disabled="patchManager.downloadInProgress" v-model="selectedPatch" type="checkbox" :id="item.id" :value="item.id" style="margin-right: 10px;">
-          <label class="wow_text" :for="item.id">{{ item.name[language] }}</label>
+          <input
+              :disabled="patchManager.downloadInProgress"
+              v-model="selectedPatch" type="checkbox"
+              :id="item.id" :value="item.id"
+              style="margin-right: 10px;"
+          >
+          <label class="wow_text" :for="item.id">
+            {{ item.name[language] }}
+          </label>
         </div>
       </v-col>
     </v-row>

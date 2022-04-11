@@ -33,8 +33,6 @@ import PageLoader from "./components/PageLoader"
 const { patchManager } = require(`./patchManager`)
 const { EventBus } = require(`./event-bus`)
 const  pjson = require(`../package.json`)
-const { config } = require(`./config`)
-const axios = require(`axios`)
 
 export default {
     name: `App`,
@@ -50,16 +48,6 @@ export default {
         version: pjson.version,
         remoteVersion: {version: pjson.version}
     }),
-
-    mounted() {
-        const _this = this
-        axios({
-            method: `get`,
-            url: `${config.conf.patchlist_endpoint}/version/`,
-        }).then(function (response) {
-            _this.remoteVersion = response.data
-        })
-    },
 
     watch: {
         'patchManager.patchList'(val) {
