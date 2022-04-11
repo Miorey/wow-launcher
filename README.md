@@ -33,6 +33,74 @@ on the root level of the project. Todo that you can copy it from `fixtures/clien
 the project root level.
 
 ### Files installer structure
+The patch-list files are divided in 3 section `delete`, `mandatory` and `optional`.
+- Delete will remove a list of files.
+- Mandatory will download files in a given path
+- Optional will download a list of files required for one option. (The optional section might be rework in the future)
+
+#### Delete structure
+Type: Object
+Ex:
+```json
+{
+  "delete": {
+    "Test.txt": {
+      "targetPath": "./Data/Test.txt"
+    }
+  },
+  ...
+}
+```
+This will delete `./Data/Test.txt` from the root path of the launcher executable.
+
+### Mandatory structure
+Type: Object
+Ex:
+```json
+{
+  ...
+  "mandatory": {
+    "Logo_800.avi": {
+      "md5": "ad7c1a061ef0bf8b93936f2386a72311",
+      "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/Logo_800.avi",
+      "targetPath": "./Data/enUS/Interface/Cinematics/Logo_800.avi"
+    }
+  },
+  ...
+}
+```
+This will download `sourcePath` on the `host` server in `targetPath`.
+Once downloaded a md5 checksum of the downloaded file will be compared with the value of the `md5` attribute.
+
+### Optional structure
+Type: List of Objects
+The optional files contains mainly graphical improvements. 
+Sometimes these improvements are dispatched in multiple files. 
+```json
+{
+  ...
+  "optional": [
+    {
+      "id": "characters",
+      "name": {
+        "enUS": "Win32 option 1 enUS",
+        "frFR": "Win32 option 1 frFR"
+      },
+      "files": {
+        "WOW_Intro_LK_800.avi": {
+          "md5": "9445487724a0c399f200c3887420d1f8",
+          "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_Intro_LK_800.avi",
+          "targetPath": "./Data/enUS/Interface/Cinematics/WOW_Intro_LK_800.avi"
+        }
+      }
+    }
+}
+```
+Each options need a unique `id` attribute, this will be used client side to save the list of optional 
+installed features. 
+The name attribute contains an Object with key the language and value the title in this language (this part may change).
+The `files` is as list of objects which has exactly the same structure as [Mandatory structure](#mandatory-structure)
+
 
 
 ## Development
