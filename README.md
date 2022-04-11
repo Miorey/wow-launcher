@@ -114,12 +114,12 @@ npm ci
 
 ### Compiles and hot-reloads for development
 ```
-npm run electron:build
+npm run electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run electron:build
 ```
 
 ### Lints and fixes files
