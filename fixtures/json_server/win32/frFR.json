@@ -20,8 +20,8 @@
     {
       "id": "characters",
       "name": {
-        "enUS": "NPC / Characters HD",
-        "frFR": "PNJ / Personnages HD"
+        "enUS": "Win32 option 1 enUS",
+        "frFR": "Win32 option 1 frFR"
       },
       "files": {
         "WOW_Intro_LK_800.avi": {
@@ -39,8 +39,8 @@
     {
       "id": "water",
       "name": {
-        "enUS": "Cataclysm water design",
-        "frFR": "Designe de l'eau Cataclysm"
+        "enUS": "Win32 option 2 enUS",
+        "frFR": "Win32 option 2 frFR"
       },
       "files": {
         "WOW_Wrathgate_800.avi": {

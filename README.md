@@ -25,7 +25,7 @@ In the directory `fixtures/json_server` you have an example of the server struct
 To test it locally you can do it with `http-server` node package.
 Install it `npm install http-server -g` and launch:
 ```sh
-http-server --cors=Authorization -p 9000 ./fixtures/json_server
+http-server -c-1 --cors=Authorization -p 9000 ./fixtures/json_server
 ```
 
 Now you will need your `Data` directory with the language directory ex `enUS` 

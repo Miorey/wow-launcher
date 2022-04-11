@@ -2,7 +2,7 @@
     "host": "ftp.murlocvillage.com",
     "available_language": ["frFR", "enUS"],
     "default_language": "enUS",
-    "patchlist_endpoint": "http://localhost:9000",
+    "patchlist_endpoint": "http://127.0.0.1:9000",
     "end_sound": "murloc.mp3",
     "path_end": ".json"
 }
