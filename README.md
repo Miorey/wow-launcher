@@ -94,6 +94,7 @@ Sometimes these improvements are dispatched in multiple files.
         }
       }
     }
+  ]
 }
 ```
 Each options need a unique `id` attribute, this will be used client side to save the list of optional 
