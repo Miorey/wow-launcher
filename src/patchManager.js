@@ -17,11 +17,18 @@ class PatchManager {
 
     loadPatches () {
         const _this = this
+        const patchListEndpoint = `${config.conf.patchlist_endpoint}/${process.platform}/${_this.language}${config.conf.path_end}`
+        console.info(`Get patch list from ${patchListEndpoint}`)
         axios({
             method: `get`,
-            url: `${config.conf.patchlist_endpoint}/${process.platform}/${_this.language}/`,
+            url: patchListEndpoint
         }).then(function (response) {
-            _this.patchList = response.data
+            if(response.data instanceof Object) {
+                _this.patchList = response.data
+            } else {
+                // eslint-disable-next-line no-debugger
+                _this.patchList = JSON.parse(response.data)
+            }
         })
     }
 
