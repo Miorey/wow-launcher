@@ -7,7 +7,7 @@ dev_env:
 	mkdir -p Data/$(LANGUAGE)
 
 fixtures: clean
-	mkdir -p ./Data/enUS
+	cp -r ./fixtures/client/* .
 
 
 clean:
