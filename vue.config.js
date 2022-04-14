@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require(`@vue/cli-service`)
 module.exports = defineConfig({
     transpileDependencies: [
         `vuetify`
@@ -14,5 +14,8 @@ module.exports = defineConfig({
         }
 
     },
+    configureWebpack: {
+        target: `electron-renderer`
+    }
     
 })
