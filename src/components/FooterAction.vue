@@ -25,6 +25,7 @@ const child = require(`child_process`).execFile
 const open = require(`open`)
 const player = require(`play-sound`)({})
 const rimraf = require(`rimraf`)
+const { createDirIfNotExists } = require(`../utils`)
 
 export default {
     name: `FooterAction`,
@@ -93,12 +94,12 @@ export default {
         /**
          * @param repair {boolean}: is repair mode
          */
-        async isUpToDate() {
+        isUpToDate() {
             const toDownload = patchManager.generateDownloadFiles()
             const _this = this
             let ret = true
             for(const key in toDownload) {
-                ret = ret && await fs.existsSync(_this.getBaseFolder(toDownload[key].targetPath))
+                ret = ret && fs.existsSync(_this.getBaseFolder(toDownload[key].targetPath))
             }
             const toDelete = patchManager.generateDeleteFiles()
             for(const key in toDelete) {
@@ -118,6 +119,7 @@ export default {
             const partPercent = 100 / Object.keys(toDelete).length
             let count = 1
             for(const key in toDelete) {
+                console.info(`Delete ${toDelete[key].targetPath}`)
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
                     fs.unlinkSync(_this.getBaseFolder(toDelete[key].targetPath))
                 }
@@ -136,7 +138,7 @@ export default {
                 doneSize += await connPromise.connSize(toDownload[key].sourcePath)
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100)
             }
-            this.canPlay = await this.isUpToDate()
+            this.canPlay = this.isUpToDate()
             EventBus.$emit(`event_file_path`,  `Delete Cache`)
             rimraf.sync(`${this.getWowFolder()}Cache`)
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`)
@@ -161,6 +163,11 @@ export default {
             return ret
         },
 
+        /**
+         *
+         * @param item {{targetPath: string, sourcePath: string, md5: string}}
+         * @returns {Promise<boolean>}
+         */
         async checkFile(item) {
             EventBus.$emit(`event_file_path`,  `Check ${item.targetPath}`)
             if (!fs.existsSync(this.getBaseFolder(item.targetPath))) {
@@ -171,19 +178,26 @@ export default {
         },
 
         /**
-         *
+         * Download and put file
          * @param {ConnectionPromise} conn
-         * @param item
+         * @param item {{targetPath: string, sourcePath: string, md5: string}}
          * @returns {Promise<boolean>}
          */
         async downloadFile(conn, item) {
             const targetPath = this.getBaseFolder(item.targetPath)
             const fileUrl = item.sourcePath
             EventBus.$emit(`event_file_path`,  `Download ${item.targetPath}`)
+
+            console.info(`Download file in ${targetPath}`)
             const size = await conn.connSize(fileUrl)
             const stream = await conn.connGet(fileUrl)
             const streamPromise  = new StreamPromise(stream)
             const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100) }, 100)
+            const dirPath = targetPath.substr(0, targetPath.lastIndexOf(`\\`)) || targetPath.substr(0, targetPath.lastIndexOf(`/`))
+            console.log(targetPath)
+            console.log(dirPath)
+            createDirIfNotExists(dirPath)
+            console.info(`Put file in ${targetPath}`)
             stream.pipe(fs.createWriteStream(targetPath))
             await streamPromise.once(`close`)
             clearInterval(nIntervId)
@@ -200,7 +214,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
