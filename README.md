@@ -94,6 +94,7 @@ Sometimes these improvements are dispatched in multiple files.
         }
       }
     }
+  ]
 }
 ```
 Each options need a unique `id` attribute, this will be used client side to save the list of optional 
@@ -106,6 +107,17 @@ The `files` is as list of objects which has exactly the same structure as [Manda
 ## Development
 Vue electron [documentation](https://medium.com/@bromix/electron-application-with-vue-js-and-vuetify-f2a1f9c749b8)
 
+```sh
+npm install -g @vue/cli
+```
+
+On Windows please execute:
+```ps
+Set-ExecutionPolicy -Scope CurrentUser
+```
+and set `RemoteSigned` as execution policy for all check the value by executing `Get-ExecutionPolicy`
+
+
 To install the required packages
 ```
 npm ci
@@ -113,12 +125,12 @@ npm ci
 
 ### Compiles and hot-reloads for development
 ```
-npm run electron:build
+npm run electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run electron:build
 ```
 
 ### Lints and fixes files

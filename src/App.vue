@@ -60,17 +60,12 @@ export default {
 }
 </script>
 <style>
-  @font-face {
-    font-family: "LifeCraft";
-    src: url(/images/LifeCraft_Font.ttf) format("truetype");
-
-  }
   #app {
     height: 100%;
     width: 100%;
   }
   #powered_by {
-    font-family: "LifeCraft";
+    font-family: "LifeCraft",serif;
     font-size: large;
   }
 </style>

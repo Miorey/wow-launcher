@@ -19,6 +19,7 @@ function createWindow () {
     win = new BrowserWindow({ width: 800, height: 639, webPreferences: {
         enableRemoteModule: true,
         nodeIntegration: true,
+        contextIsolation: false,
         resizable: isDevelopment,
         autoHideMenuBar: true,
         icon: __dirname + `/../images/favicon.ico`
