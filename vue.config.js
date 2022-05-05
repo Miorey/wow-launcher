@@ -12,7 +12,8 @@ module.exports = defineConfig({
                 files: [
                     `dist/**/*`,
                     `node_modules/**/*`,
-                    `package.json`
+                    `package.json`,
+                    `background.js`
                 ]
             },
         }
