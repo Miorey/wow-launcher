@@ -60,16 +60,6 @@
     "last 2 versions",
     "not dead"
   ],
-  "build": {
-    "directories": {
-      "output": "dist_electron"
-    },
-    "files": [
-      "dist/**/*",
-      "node_modules/**/*",
-      "package.json"
-    ]
-  },
   "electronWebpack": {
     "renderer": {
       "sourceDirectory": "src",
