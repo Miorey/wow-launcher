@@ -194,8 +194,6 @@ export default {
             const streamPromise  = new StreamPromise(stream)
             const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100) }, 100)
             const dirPath = targetPath.substr(0, targetPath.lastIndexOf(`\\`)) || targetPath.substr(0, targetPath.lastIndexOf(`/`))
-            console.log(targetPath)
-            console.log(dirPath)
             createDirIfNotExists(dirPath)
             console.info(`Put file in ${targetPath}`)
             stream.pipe(fs.createWriteStream(targetPath))
