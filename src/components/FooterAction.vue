@@ -1,12 +1,12 @@
 <template>
     <div>
-        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp">
             {{ `repair` | trans }}
         </v-btn>
-        <v-btn :disabled="patchManager.downloadInProgress" class="pt-5 pb-8 mr-3" v-if="canPlay" @click="play">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
-        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-5 pb-8 mr-5" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-6 pb-6 mr-5" @click="downloadFtp">
             {{ `download` | trans }}
         </v-btn>
     </div>
