@@ -43,15 +43,22 @@ class PatchManager {
     }
 
 
+    /**
+     * Returns the list of files to delete
+     * @returns {[]}
+     */
     generateDeleteFiles() {
-        const allFiles = this.patchList.optional
+        //Get all files mandatory + optionals + delete
+        const deleteFiles = this.patchList.optional
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory });
 
         const keysToRemove = Object.keys(this.generateDownloadFiles());
         for(const key of keysToRemove) {
-            delete allFiles[key];
+            // delete files will contain (mandatory + optionals + delete) - (files to download)
+            // this way if a file is not in (files to download) it will be removed
+            delete deleteFiles[key];
         }
-        return allFiles;
+        return deleteFiles;
     }
 
     allPatches() {
