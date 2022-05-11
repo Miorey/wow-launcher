@@ -41,7 +41,6 @@ export default {
     }),
   
     async  mounted() {
-        console.log(`Main content`);
         const _this = this;
         EventBus.$on(`event_file_percent`,  (percent) => {
             _this.percent = Math.round(percent * 100) / 100;

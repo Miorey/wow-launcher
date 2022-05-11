@@ -24,7 +24,6 @@ export default {
     name: `c`,
 
     async  mounted() {
-        console.log(`GameOptions`);
         this.selectedPatch = await this.findSelectedPatches();
         patchManager.selectedPatches = this.selectedPatch;
     },
@@ -55,7 +54,6 @@ export default {
          * @returns {Promise<unknown>}
          */
         findSelectedPatches() {
-            console.error(`findSelectedPatches`);
             return new Promise((resolve, reject) => {
                 storage.get(`selectedPatch${this.language}`, (error, data) => {
                     if (error) {

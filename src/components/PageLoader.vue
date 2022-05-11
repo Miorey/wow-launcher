@@ -41,7 +41,6 @@ export default {
             _this.countOverlay++;
         });
         EventBus.$on(`event_loader_stop`,  (val) => {
-            console.log(val);
             if(val) { _this.loaded[val] = true; }
             else _this.countOverlay--;
         });
