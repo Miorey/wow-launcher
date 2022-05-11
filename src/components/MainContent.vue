@@ -2,8 +2,23 @@
   <v-container id="main">
     <v-row class="text-left">
       <v-col cols="12">
-        <span id="main_title" class="display-1 text_wow_style">{{ `main_title` | trans }}</span>
-        <game-options></game-options>
+        <v-tabs
+            v-model="tab"
+            right
+            background-color="transparent"
+        >
+          <v-tab>Game options</v-tab>
+          <v-tab>Addons</v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab" id="download_options">
+          <v-tab-item key="Game options">
+
+            <game-options></game-options>
+          </v-tab-item>
+          <v-tab-item key="Addons">
+            <addon-options></addon-options>
+          </v-tab-item>
+        </v-tabs-items>
       </v-col>
     </v-row>
     <div id="progress">
@@ -30,11 +45,13 @@
 
 
 import GameOptions from "@/components/GameOptions";
+import AddonOptions from "@/components/AddonOptions";
 const { EventBus } = require(`../event-bus`);
 export default {
     name: `MainContent`,
-    components: {GameOptions},
+    components: {AddonOptions, GameOptions},
     data: () => ({
+        tab: null,
         percent: undefined,
         filePath: undefined,
         percentTotal: 0,
@@ -69,10 +86,9 @@ export default {
   margin: auto;
 }
 
-#main_title {
-  font-family: "LifeCraft", serif !important;
+#download_options {
+  background-color: transparent;
 }
-
 .progress {
   border: 1px solid #d3b359;
   margin-bottom: 10px;
