@@ -1,36 +1,36 @@
 /**
  * Created by clem on 25/02/17.
  */
-'use strict'
+'use strict';
 
 const translator = {
 
     readProp: function (obj, prop) {
-        return Object.prototype.hasOwnProperty.call(obj, prop) ? obj[prop] : false
+        return Object.prototype.hasOwnProperty.call(obj, prop) ? obj[prop] : false;
     },
 
     translate: function (lang, label, params) {
         if (!lang || !label) {
-            throw new Error(`Translator input error`)
+            throw new Error(`Translator input error`);
         }
 
         if (!this.dictionary) {
-            throw new Error(`Translator dictionary is missing`)
+            throw new Error(`Translator dictionary is missing`);
         }
 
-        const element = this.readProp(this.dictionary, label)
+        const element = this.readProp(this.dictionary, label);
 
         if (!element) {
-            return label
+            return label;
         }
 
-        const translation = this.readProp(element, lang)
+        const translation = this.readProp(element, lang);
 
         if (!translation) {
-            return label
+            return label;
         }
 
-        return this.replaceParams(translation, params)
+        return this.replaceParams(translation, params);
     },
 
     /**
@@ -40,19 +40,19 @@ const translator = {
      * @returns {string}
      */
     replaceParams (translated, params) {
-        let retStr = translated
+        let retStr = translated;
 
         for (const key in params) {
             if (!Object.prototype.hasOwnProperty.call(params, key)) {
-                continue
+                continue;
             }
 
-            retStr = retStr.replace(key, params[key])
+            retStr = retStr.replace(key, params[key]);
         }
-        return retStr
+        return retStr;
     }
-}
+};
 
-translator.dictionary = require(`./dictionary`)
+translator.dictionary = require(`./dictionary`);
 
-module.exports = translator
+module.exports = translator;

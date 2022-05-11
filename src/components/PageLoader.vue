@@ -24,7 +24,7 @@
 </template>
 
 <script>
-const { EventBus } = require(`../event-bus`)
+const { EventBus } = require(`../event-bus`);
 export default {
     name: `PageLoader`,
     data: () => ({
@@ -36,17 +36,18 @@ export default {
         }
     }),
     async  mounted() {
-        const _this = this
+        const _this = this;
         EventBus.$on(`event_loader_start`,  () => {
-            _this.countOverlay++
-        })
+            _this.countOverlay++;
+        });
         EventBus.$on(`event_loader_stop`,  (val) => {
-            if(val) { _this.loaded[val] = true }
-            else _this.countOverlay--
-        })
+            console.log(val);
+            if(val) { _this.loaded[val] = true; }
+            else _this.countOverlay--;
+        });
     }
 
-}
+};
 </script>
 
 <style>

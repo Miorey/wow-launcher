@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import vuetify from './plugins/vuetify'
+import Vue from 'vue';
+import vuetify from './plugins/vuetify';
 try {
 
-    const { patchManager } = require(`./patchManager`)
-    const App = require(`./App.vue`).default
-    Vue.config.productionTip = false
+    const { patchManager } = require(`./patchManager`);
+    const App = require(`./App.vue`).default;
+    Vue.config.productionTip = false;
 
-    const Translator = require(`./trans/translator`)
+    const Translator = require(`./trans/translator`);
 
     /**
      *
@@ -15,30 +15,30 @@ try {
      * @returns {*}
      */
     Translator.qTranslate = function (value, params) {
-        return this.translate(patchManager.language, value, params)
-    }
+        return this.translate(patchManager.language, value, params);
+    };
 
     Vue.config.errorHandler = function(err, vm, info) {
-        console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`)
-        alert(Translator.qTranslate(`app_error`, {}))
-    }
+        console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`);
+        alert(Translator.qTranslate(`app_error`, {}));
+    };
 
     // translate filter
     Vue.filter(`trans`, function (value, params) {
-        return Translator.qTranslate(value, params)
-    })
+        return Translator.qTranslate(value, params);
+    });
 
     new Vue({
         vuetify,
         render: h => h(App)
-    }).$mount(`#app`)
+    }).$mount(`#app`);
 } catch (e) {
     if(process.env.NODE_ENV !== `production`) {
         // DEV
-        throw (e)
+        throw (e);
     } else {
         // Production
-        alert(e)
-        require(`electron`).remote.getCurrentWindow().close()
+        alert(e);
+        require(`electron`).remote.getCurrentWindow().close();
     }
 }

@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 /* jslint node: true */
-"use strict"
+"use strict";
 
 module.exports = {
     download: {
@@ -43,4 +43,4 @@ module.exports = {
         enUS: `An unexpected error happened, please contact a Game Master.`,
         frFR: `Une erreur inattendue s'est produite, merci de contacter un Maître du jeu.`,
     }
-}
+};
