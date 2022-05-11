@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span class="display-1 text_wow_style section_title">{{ `main_title` | trans }}</span>
     <div v-for="item in getPatchList()" :key="item.id">
       <input
           :disabled="patchManager.downloadInProgress"
@@ -73,7 +74,8 @@ export default {
     }
 };
 </script>
-
 <style scoped>
-
+.section_title {
+  font-family: "LifeCraft", serif !important;
+}
 </style>
