@@ -1,19 +1,9 @@
 <template>
   <v-container id="main">
     <v-row class="text-left">
-      <v-col v-if="selectedPatch !== null" cols="12">
+      <v-col cols="12">
         <span id="main_title" class="display-1 text_wow_style">{{ `main_title` | trans }}</span>
-        <div v-for="item in getPatchList()" :key="item.id">
-          <input
-              :disabled="patchManager.downloadInProgress"
-              v-model="selectedPatch" type="checkbox"
-              :id="item.id" :value="item.id"
-              style="margin-right: 10px;"
-          >
-          <label class="wow_text" :for="item.id">
-            {{ item.name[language] }}
-          </label>
-        </div>
+        <game-options></game-options>
       </v-col>
     </v-row>
     <div id="progress">
@@ -38,73 +28,33 @@
 <script>
 
 
-// eslint-disable-next-line no-unused-vars
-const { config } = require(`../config`)
-const { patchManager } = require(`../patchManager`)
-const { EventBus } = require(`../event-bus`)
-const storage = require(`electron-json-storage`)
+
+import GameOptions from "@/components/GameOptions";
+const { EventBus } = require(`../event-bus`);
 export default {
     name: `MainContent`,
+    components: {GameOptions},
     data: () => ({
-        selectedPatch: null,
         percent: undefined,
         filePath: undefined,
         percentTotal: 0,
-        patchManager: patchManager,
-        language: patchManager.language
     }),
-    watch: {
-        'selectedPatch'(val) {
-            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
-                if (error) throw error
-            })
-            patchManager.selectedPatches =  (val) ? val : []
-        }
-    },
   
     async  mounted() {
-        const _this = this
+        console.log(`Main content`);
+        const _this = this;
         EventBus.$on(`event_file_percent`,  (percent) => {
-            _this.percent = Math.round(percent * 100) / 100
-        })
+            _this.percent = Math.round(percent * 100) / 100;
+        });
         EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            _this.percentTotal = Math.round(percentTotal * 100) / 100
-        })
+            _this.percentTotal = Math.round(percentTotal * 100) / 100;
+        });
         EventBus.$on(`event_file_path`,  (filePath) => {
-            _this.filePath = filePath
-        })
-        this.selectedPatch = await this.findSelectedPatches()
-        patchManager.selectedPatches = this.selectedPatch
+            _this.filePath = filePath;
+        });
     },
 
-    methods: {
-        getPatchList() {
-            return patchManager.patchList[`optional`]
-        },
-
-        /**
-         *
-         * @returns {Promise<unknown>}
-         */
-        findSelectedPatches() {
-            return new Promise((resolve, reject) => {
-                storage.get(`selectedPatch${this.language}`, (error, data) => {
-                    if (error) {
-                        reject(error)
-                    } else {
-                        EventBus.$emit(`event_loader_stop`,  `storage`)
-                    }
-                    if(!data.updated) {
-
-                        resolve([])
-                    } else {
-                        resolve(data.patches)
-                    }
-                })
-            })
-        },
-    }
-}
+};
 </script>
 <style>
 #main {
@@ -121,7 +71,7 @@ export default {
 }
 
 #main_title {
-  font-family: "LifeCraft" !important;
+  font-family: "LifeCraft", serif !important;
 }
 
 .progress {
