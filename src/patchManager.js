@@ -1,35 +1,35 @@
-const fs = require(`fs`)
-const { config } = require(`./config`)
-const axios = require(`axios`)
+const fs = require(`fs`);
+const { config } = require(`./config`);
+const axios = require(`axios`);
 
 class PatchManager {
     constructor () {
-        this._patchList = undefined
-        this._currentFile = undefined
-        this._selectedPatches = {}
-        this._downloadInProgress = false
-        this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`
+        this._patchList = undefined;
+        this._currentFile = undefined;
+        this._selectedPatches = {};
+        this._downloadInProgress = false;
+        this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`;
         this._language = fs
             .readdirSync(this.dirData)
-            .find(e => config.conf.available_language.includes(e))
-        this.loadPatches()
+            .find(e => config.conf.available_language.includes(e));
+        this.loadPatches();
     }
 
     loadPatches () {
-        const _this = this
-        const patchListEndpoint = `${config.conf.patchlist_endpoint}/${process.platform}/${_this.language}${config.conf.path_end}`
-        console.info(`Get patch list from ${patchListEndpoint}`)
+        const _this = this;
+        const patchListEndpoint = `${config.conf.patchlist_endpoint}/${process.platform}/${_this.language}${config.conf.path_end}`;
+        console.info(`Get patch list from ${patchListEndpoint}`);
         axios({
             method: `get`,
             url: patchListEndpoint
         }).then(function (response) {
             if(response.data instanceof Object) {
-                _this.patchList = response.data
+                _this.patchList = response.data;
             } else {
                 // eslint-disable-next-line no-debugger
-                _this.patchList = JSON.parse(response.data)
+                _this.patchList = JSON.parse(response.data);
             }
-        })
+        });
     }
 
     /**
@@ -39,65 +39,65 @@ class PatchManager {
     generateDownloadFiles() {
         return this.patchList.optional
             .filter(e => this.selectedPatches.includes(e.id) )
-            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory})
+            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory});
     }
 
 
     generateDeleteFiles() {
         const allFiles = this.patchList.optional
-            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory })
+            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory });
 
-        const keysToRemove = Object.keys(this.generateDownloadFiles())
+        const keysToRemove = Object.keys(this.generateDownloadFiles());
         for(const key of keysToRemove) {
-            delete allFiles[key]
+            delete allFiles[key];
         }
-        return allFiles
+        return allFiles;
     }
 
     allPatches() {
-        return this.patchList.optional.map(e => e.name)
+        return this.patchList.optional.map(e => e.name);
     }
 
     get patchList () {
-        return this._patchList
+        return this._patchList;
     }
 
     set patchList(patchList) {
-        this._patchList = patchList
+        this._patchList = patchList;
     }
 
     get selectedPatches () {
-        return this._selectedPatches
+        return this._selectedPatches;
     }
 
     set selectedPatches(selectedPatches) {
-        this._selectedPatches = selectedPatches
+        this._selectedPatches = selectedPatches;
     }
 
     get currentFile () {
-        return this._currentFile
+        return this._currentFile;
     }
 
     set currentFile(currentFile) {
-        this._currentFile = currentFile
+        this._currentFile = currentFile;
     }
 
     get language() {
-        return this._language
+        return this._language;
     }
 
     get dirData() {
-        return this._dirData
+        return this._dirData;
     }
 
     get downloadInProgress() {
-        return this._downloadInProgress
+        return this._downloadInProgress;
     }
 
     set downloadInProgress(downloadInProgress) {
-        this._downloadInProgress = downloadInProgress
+        this._downloadInProgress = downloadInProgress;
     }
 
 }
 
-export const patchManager  = new PatchManager()
+export const patchManager  = new PatchManager();

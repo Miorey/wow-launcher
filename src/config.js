@@ -1,16 +1,16 @@
-const fs = require(`fs`)
+const fs = require(`fs`);
 
 
 class Config {
     constructor () {
-        const rawdata = fs.readFileSync(`${this.rootDir}config.json`)
-        this.conf = JSON.parse(rawdata)
+        const rawdata = fs.readFileSync(`${this.rootDir}config.json`);
+        this.conf = JSON.parse(rawdata);
     }
     get rootDir() {
         return (
             process.platform === `darwin` && process.env.NODE_ENV === `production`
-        ) ? `${process.resourcesPath}/../../../` : `./`
+        ) ? `${process.resourcesPath}/../../../` : `./`;
     }
 }
 
-export const config  = new Config()
+export const config  = new Config();

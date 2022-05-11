@@ -20,17 +20,20 @@ module.exports = {
     "plugins": [
         `vue`
     ],
-    "rules": {
+    rules: {
         "indent": [
             `error`,
             4
         ],
-        "linebreak-style": 0,
+        "linebreak-style": [
+            `error`,
+            `unix`
+        ],
+        "semi": [2, `always`],
         "quotes": [
             `error`,
             `backtick`
         ],
         "no-console": `off`,
-        "semi": [`error`, `never`]
-    }
-}
+    },
+};

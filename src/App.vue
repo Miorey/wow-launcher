@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import MainContent from './components/MainContent'
-import FooterAction from "./components/FooterAction"
-import PageLoader from "./components/PageLoader"
-const { patchManager } = require(`./patchManager`)
-const { EventBus } = require(`./event-bus`)
-const  pjson = require(`../package.json`)
+import MainContent from './components/MainContent';
+import FooterAction from "./components/FooterAction";
+import PageLoader from "./components/PageLoader";
+const { patchManager } = require(`./patchManager`);
+const { EventBus } = require(`./event-bus`);
+const  pjson = require(`../package.json`);
 
 export default {
     name: `App`,
@@ -52,12 +52,11 @@ export default {
     watch: {
         'patchManager.patchList'(val) {
             if(val) {
-
-                EventBus.$emit(`event_loader_stop`,  `patches`)
+                EventBus.$emit(`event_loader_stop`,  `patches`);
             }
         }
     }
-}
+};
 </script>
 <style>
   #app {
