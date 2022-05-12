@@ -11,9 +11,13 @@ module.exports = {
         enUS: `Launcher Update`,
         frFR: `Mettre à jour le Launcher`
     },
-    main_title: {
+    lbl_game_options: {
         enUS: `Game Options`,
         frFR: `Options du jeu`
+    },
+    lbl_addons: {
+        enUS: `Addons`,
+        frFR: `Addons`
     },
     repair: {
         enUS: `Repair`,

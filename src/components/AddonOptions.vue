@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="section_title display-1 text_wow_style">{{ `main_title` | trans }}</span>
+    <span class="section_title display-1 text_wow_style">{{ `lbl_addons` | trans }}</span>
   </div>
 </template>
 
