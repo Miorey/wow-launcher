@@ -91,9 +91,6 @@ export default {
             }
         },
 
-        /**
-         * @param repair {boolean}: is repair mode
-         */
         isUpToDate() {
             const toDownload = patchManager.generateDownloadFiles();
             const _this = this;

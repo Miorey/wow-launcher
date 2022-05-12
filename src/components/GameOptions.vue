@@ -22,7 +22,7 @@ const { EventBus } = require(`../event-bus`);
 // eslint-disable-next-line no-unused-vars
 const { config } = require(`../config`);
 export default {
-    name: `c`,
+    name: `GameOptions`,
 
     async  mounted() {
         this.selectedPatch = await this.findSelectedPatches();
@@ -47,7 +47,7 @@ export default {
 
     methods: {
         getPatchList() {
-            return patchManager.patchList[`optional`];
+            return patchManager.patchList.optional;
         },
 
         /**

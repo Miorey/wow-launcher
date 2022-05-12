@@ -55,6 +55,7 @@
     {
       "id": "myaddon",
       "description": "bla bla",
+      "name": "MyAddon",
       "myaddon.zip": {
         "md5": "9818fcde3357e0bdafe38936be35f3b7",
         "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_Wrathgate_800.avi",
