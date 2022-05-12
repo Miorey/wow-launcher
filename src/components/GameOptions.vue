@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="display-1 text_wow_style section_title">{{ `main_title` | trans }}</span>
+    <span class="display-1 text_wow_style section_title">{{ `lbl_game_options` | trans }}</span>
     <div v-for="item in getPatchList()" :key="item.id">
       <input
           :disabled="patchManager.downloadInProgress"
