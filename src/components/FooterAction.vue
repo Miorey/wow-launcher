@@ -98,15 +98,16 @@ export default {
         isUpToDate() {
             const patchToDownload = patchManager.generateDownloadFiles();
             const _this = this;
-            let ret = true;
             for(const key in patchToDownload) {
-                ret = ret && fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
+                if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
+                    return false;
             }
             const toDelete = patchManager.generateDeleteFiles();
             for(const key in toDelete) {
-                ret = ret &&  !fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath));
+                if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath)))
+                    return false;
             }
-            return ret;
+            return true;
         },
 
         async downloadFtp() {
