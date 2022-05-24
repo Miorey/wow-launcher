@@ -91,12 +91,16 @@ export default {
             }
         },
 
+        /**
+         * Returns true if the game is updated else false.
+         * @returns {boolean}
+         */
         isUpToDate() {
-            const toDownload = patchManager.generateDownloadFiles();
+            const patchToDownload = patchManager.generateDownloadFiles();
             const _this = this;
             let ret = true;
-            for(const key in toDownload) {
-                ret = ret && fs.existsSync(_this.getBaseFolder(toDownload[key].targetPath));
+            for(const key in patchToDownload) {
+                ret = ret && fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
             }
             const toDelete = patchManager.generateDeleteFiles();
             for(const key in toDelete) {
@@ -124,15 +128,15 @@ export default {
                 count++;
             }
 
-            const toDownload = patchManager.generateDownloadFiles();
-            const totalSize = await this.totalSize(connPromise, toDownload);
+            const patchToDownload = patchManager.generateDownloadFiles();
+            const totalSize = await this.totalSize(connPromise, patchToDownload);
             let doneSize = 0;
             await EventBus.$emit(`event_total_percent`,  0);
-            for(const key in toDownload) {
-                while (!await this.checkFile(toDownload[key])) {
-                    await this.downloadFile(connPromise, toDownload[key]);
+            for(const key in patchToDownload) {
+                while (!await this.checkFile(patchToDownload[key])) {
+                    await this.downloadFile(connPromise, patchToDownload[key]);
                 }
-                doneSize += await connPromise.connSize(toDownload[key].sourcePath);
+                doneSize += await connPromise.connSize(patchToDownload[key].sourcePath);
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
             }
             this.canPlay = this.isUpToDate();
