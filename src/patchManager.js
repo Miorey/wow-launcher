@@ -7,6 +7,7 @@ class PatchManager {
         this._patchList = undefined;
         this._currentFile = undefined;
         this._selectedPatches = {};
+        this._selectedAddons = {};
         this._downloadInProgress = false;
         this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`;
         this._language = fs
@@ -38,6 +39,17 @@ class PatchManager {
      */
     generateDownloadFiles() {
         return this.patchList.optional
+            .filter(e => this.selectedPatches.includes(e.id) )
+            .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory});
+    }
+
+
+    /**
+     * Return an object containing the list of files to be download
+     * @returns {*}
+     */
+    generateDownloadAddons() {
+        return this.patchList.addons
             .filter(e => this.selectedPatches.includes(e.id) )
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), {...this.patchList.mandatory});
     }
@@ -79,6 +91,14 @@ class PatchManager {
 
     set selectedPatches(selectedPatches) {
         this._selectedPatches = selectedPatches;
+    }
+
+    get selectedAddons () {
+        return this._selectedAddons;
+    }
+
+    set selectedAddons(selectedPatches) {
+        this._selectedAddons = selectedPatches;
     }
 
     get currentFile () {
