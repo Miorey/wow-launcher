@@ -38,7 +38,7 @@ export default {
     }),
     watch: {
         'selectedPatch'(val) {
-            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
+            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, (error) => {
                 if (error) throw error;
             });
             patchManager.selectedPatches =  (val) ? val : [];
