@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="section_title display-1 text_wow_style">{{ `lbl_addons` | trans }}</span>
+    <span class="display-1 text_wow_style section_title">{{ `lbl_addons` | trans }}</span>
     <div v-for="item in getAddons()" :key="item.id">
       <input
           :disabled="patchManager.downloadInProgress"
@@ -18,12 +18,13 @@
 <script>
 const { patchManager } = require(`../patchManager`);
 const storage = require(`electron-json-storage`);
+
 export default {
     name: `AddonOptions`,
     data: () => ({
+        selected: null,
         patchManager: patchManager,
-        language: patchManager.language,
-        selected: null
+        language: patchManager.language
     }),
     mounted() {
         this.selected = patchManager.selectedAddons;

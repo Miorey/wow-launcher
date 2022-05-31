@@ -149,6 +149,7 @@ class PatchManager {
     }
 
     set selectedPatches(selectedPatches) {
+        console.log(`set selectedPatches`, selectedPatches);
         this._selectedPatches = selectedPatches;
     }
 
