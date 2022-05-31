@@ -18,16 +18,12 @@
 <script>
 const { patchManager } = require(`../patchManager`);
 const storage = require(`electron-json-storage`);
-// eslint-disable-next-line no-unused-vars
-const { config } = require(`../config`);
+
 export default {
     name: `GameOptions`,
 
     data: () => ({
         selected: null,
-        percent: undefined,
-        filePath: undefined,
-        percentTotal: 0,
         patchManager: patchManager,
         language: patchManager.language
     }),
