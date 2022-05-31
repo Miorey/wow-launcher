@@ -96,12 +96,18 @@ export default {
          * @returns {boolean}
          */
         isUpToDate() {
-            const patchToDownload = patchManager.generateDownloadFiles();
             const _this = this;
+            const patchToDownload = patchManager.generateDownloadFiles();
             for(const key in patchToDownload) {
                 if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
                     return false;
             }
+            console.log(`YOLO0`);
+            const addonToDownload = patchManager.generateDownloadAddons();
+            // eslint-disable-next-line no-debugger
+            console.log(addonToDownload);
+
+            console.log(`YOLO1`);
             const toDelete = patchManager.generateDeleteFiles();
             for(const key in toDelete) {
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath)))
