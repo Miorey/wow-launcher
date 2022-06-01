@@ -102,12 +102,7 @@ export default {
                 if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
                     return false;
             }
-            console.log(`YOLO0`);
-            const addonToDownload = patchManager.generateDownloadAddons();
-            // eslint-disable-next-line no-debugger
-            console.log(addonToDownload);
-
-            console.log(`YOLO1`);
+            
             const toDelete = patchManager.generateDeleteFiles();
             for(const key in toDelete) {
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath)))
@@ -115,26 +110,28 @@ export default {
             }
             return true;
         },
-
-        async downloadFtp() {
-            patchManager.downloadInProgress = true;
-            const _this = this;
-            const connPromise = new ConnectionPromise(this.conn);
+      
+        deleteFiles() {
             const toDelete = patchManager.generateDeleteFiles();
-
-            EventBus.$emit(`event_file_path`,  `Delete old files`);
-            EventBus.$emit(`event_file_percent`,  0);
             const partPercent = 100 / Object.keys(toDelete).length;
             let count = 1;
             for(const key in toDelete) {
                 console.info(`Delete ${toDelete[key].targetPath}`);
-                if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
-                    fs.unlinkSync(_this.getBaseFolder(toDelete[key].targetPath));
+                if(fs.existsSync(this.getBaseFolder(toDelete[key].targetPath))) {
+                    fs.unlinkSync(this.getBaseFolder(toDelete[key].targetPath));
                 }
                 EventBus.$emit(`event_file_percent`,  count*partPercent);
                 count++;
             }
+        },
 
+
+        /**
+         *
+         * @param {ConnectionPromise} connPromise
+         * @returns {Promise<void>}
+         */
+        async downloadPatches(connPromise) {
             const patchToDownload = patchManager.generateDownloadFiles();
             const totalSize = await this.totalSize(connPromise, patchToDownload);
             let doneSize = 0;
@@ -146,6 +143,18 @@ export default {
                 doneSize += await connPromise.connSize(patchToDownload[key].sourcePath);
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
             }
+        },
+
+        async downloadFtp() {
+            patchManager.downloadInProgress = true;
+
+            EventBus.$emit(`event_file_path`,  `Delete old files`);
+            EventBus.$emit(`event_file_percent`,  0);
+
+            this.deleteFiles();
+            const connPromise = new ConnectionPromise(this.conn);
+            await this.downloadPatches(connPromise);
+
             this.canPlay = this.isUpToDate();
             EventBus.$emit(`event_file_path`,  `Delete Cache`);
             rimraf.sync(`${this.getWowFolder()}Cache`);
