@@ -53,14 +53,12 @@
   ],
   "addons": [
     {
-      "id": "myaddon",
+      "id": "GMGenie.zip",
       "description": "bla bla",
-      "name": "MyAddon",
-      "myaddon.zip": {
-        "md5": "9818fcde3357e0bdafe38936be35f3b7",
-        "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_Wrathgate_800.avi",
-        "targetPath": "./Data/enUS/Interface/Cinematics/WOW_Wrathgate_800.avi"
-      }
+      "name": "GMGenie",
+      "md5": "ff90bf659cff5799b0fac40dd240f903",
+      "sourcePath": "/addons/GMGenie.zip",
+      "targetPath": "./Data/test/GMGenie.zip"
     }
   ]
 }
