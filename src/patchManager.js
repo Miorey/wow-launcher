@@ -10,8 +10,8 @@ class PatchManager {
         this._patchList = undefined;
         this._currentFile = undefined;
         // TODO _selectedPatches / _selectedAddons should be get from storage file
-        this._selectedPatches = [];
-        this._selectedAddons = [];
+        this._selectedPatches = undefined;
+        this._selectedAddons = undefined;
         this._downloadInProgress = false;
         this._dirData = (process.platform === `darwin` && process.env.NODE_ENV === `production`) ? `${process.resourcesPath}/../../../Data` : `./Data`;
         this._language = fs
@@ -119,7 +119,7 @@ class PatchManager {
      */
     findSelectedPatches() {
         return new Promise((resolve, reject) => {
-            console.log(storage.getDefaultDataPath());
+            console.info(`getDefaultDataPath`, storage.getDefaultDataPath());
             storage.get(`selectedPatch${this.language}`, (error, data) => {
                 if (error) {
                     reject(error);
@@ -145,15 +145,20 @@ class PatchManager {
     }
 
     get selectedPatches () {
+        if(typeof this._selectedPatches === `undefined`) {
+            return this.findSelectedPatches();
+        }
         return this._selectedPatches;
     }
 
     set selectedPatches(selectedPatches) {
-        console.log(`set selectedPatches`, selectedPatches);
         this._selectedPatches = selectedPatches;
     }
 
     get selectedAddons () {
+        if(typeof this._selectedAddons === `undefined`) {
+            return this.findSelectedAddons();
+        }
         return this._selectedAddons;
     }
 
