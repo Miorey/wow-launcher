@@ -26,8 +26,8 @@ export default {
         patchManager: patchManager,
         language: patchManager.language
     }),
-    mounted() {
-        this.selected = patchManager.selectedAddons;
+    async mounted() {
+        this.selected = await patchManager.selectedAddons;
     },
     watch: {
         'selected'(val) {
