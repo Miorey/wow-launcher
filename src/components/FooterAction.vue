@@ -37,13 +37,19 @@ export default {
     }),
     watch:{
         async 'patchManager.selectedPatches' () {
-            this.canPlay = await this.isUpToDate();
+            console.log(`watch`, `patchManager.selectedPatches`);
+            this.canPlay = this.isUpToDate();
+            console.log(this.canPlay);
+        },
+        async 'patchManager.selectedAddons' () {
+            console.log(`watch`, `patchManager.selectedAddons`);
+            this.canPlay = this.isUpToDate();
         }
     },
     async mounted() {
         const _this = this;
         if(Array.isArray(patchManager.selectedPatches)) {
-            this.canPlay = await this.isUpToDate();
+            this.canPlay = this.isUpToDate();
         }
 
         this.conn = new Client();
@@ -98,8 +104,18 @@ export default {
         isUpToDate() {
             const _this = this;
             const patchToDownload = patchManager.generateDownloadFiles();
+            console.log(`patchToDownload`, patchToDownload);
             for(const key in patchToDownload) {
+                console.log(`test`, _this.getBaseFolder(patchToDownload[key].targetPath));
+                const exists = fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
+                console.log(`exists`, exists);
                 if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
+                    return false;
+            }
+            const addonsToDownload = patchManager.generateDownloadAddons();
+            console.log(`addonsToDownload`, addonsToDownload);
+            for(const key in addonsToDownload) {
+                if(!fs.existsSync(_this.getBaseFolder(addonsToDownload[key].installPath)))
                     return false;
             }
             
@@ -127,10 +143,10 @@ export default {
 
 
         /**
-         *
-         * @param {ConnectionPromise} connPromise
-         * @returns {Promise<void>}
-         */
+       *
+       * @param {ConnectionPromise} connPromise
+       * @returns {Promise<void>}
+       */
         async downloadPatches(connPromise) {
             const patchToDownload = patchManager.generateDownloadFiles();
             const totalSize = await this.totalSize(connPromise, patchToDownload);
@@ -145,6 +161,25 @@ export default {
             }
         },
 
+        /**
+       *
+       * @param {ConnectionPromise} connPromise
+       * @returns {Promise<void>}
+       */
+        async downloadAddons(connPromise) {
+            const addonsToDownload = patchManager.generateDownloadAddons();
+            const totalSize = await this.totalSize(connPromise, addonsToDownload);
+            let doneSize = 0;
+            await EventBus.$emit(`event_total_percent`,  0);
+            for(const key in addonsToDownload) {
+                while (!await this.checkFile(addonsToDownload[key])) {
+                    await this.downloadFile(connPromise, addonsToDownload[key]);
+                }
+                doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
+                await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
+            }
+        },
+
         async downloadFtp() {
             patchManager.downloadInProgress = true;
 
@@ -154,6 +189,7 @@ export default {
             this.deleteFiles();
             const connPromise = new ConnectionPromise(this.conn);
             await this.downloadPatches(connPromise);
+            await this.downloadAddons(connPromise);
 
             this.canPlay = this.isUpToDate();
             EventBus.$emit(`event_file_path`,  `Delete Cache`);

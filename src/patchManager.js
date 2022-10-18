@@ -58,7 +58,7 @@ class PatchManager {
 
 
     /**
-     * Return an object containing the list of files to be download
+     * Return an object containing the list of files to be downloaded
      * @returns {*}
      */
     generateDownloadAddons() {
@@ -68,7 +68,7 @@ class PatchManager {
             (e) => {
                 console.log(e.id);
                 console.log(this.selectedAddons);
-                _this.selectedAddons.includes(e.id);
+                return _this.selectedAddons.includes(e.id);
             }
         );
     }
@@ -144,6 +144,10 @@ class PatchManager {
         this._patchList = patchList;
     }
 
+    /**
+     *
+     * @returns {*|Promise<Array>}
+     */
     get selectedPatches () {
         if(typeof this._selectedPatches === `undefined`) {
             return this.findSelectedPatches();
@@ -155,6 +159,10 @@ class PatchManager {
         this._selectedPatches = selectedPatches;
     }
 
+    /**
+     *
+     * @returns {*|Promise<Array>}
+     */
     get selectedAddons () {
         if(typeof this._selectedAddons === `undefined`) {
             return this.findSelectedAddons();

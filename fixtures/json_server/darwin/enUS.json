@@ -58,7 +58,8 @@
       "name": "GMGenie",
       "md5": "ff90bf659cff5799b0fac40dd240f903",
       "sourcePath": "/addons/GMGenie.zip",
-      "targetPath": "./Data/test/GMGenie.zip"
+      "targetPath": "./Interface/AddOns/GMGenie.zip",
+      "installPath": "./Interface/AddOns/GMGenie"
     }
   ]
 }
