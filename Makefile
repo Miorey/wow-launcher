@@ -19,3 +19,7 @@ build:
 dev:
 	http-server -c-1 --cors=Authorization -p 9000 ./fixtures/json_server
 
+clean:
+	rm -rf Data
+	rm -rf Interface
+	rm -rf murloc.mp3
