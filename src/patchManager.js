@@ -19,10 +19,10 @@ class PatchManager {
             .find(e => config.conf.available_language.includes(e));
         const _this = this;
 
-        this.findSelectedAddons().then(r => _this.selectedAddons = r);
-        this.findSelectedPatches().then(r => _this.selectedPatches = r);
 
         this.loadPatches().then(() => true);
+        this.findSelectedPatches().then(r => _this.selectedPatches = r);
+        this.findSelectedAddons().then(r => _this.selectedAddons = r);
     }
 
     /**
@@ -62,15 +62,35 @@ class PatchManager {
      * @returns {*}
      */
     generateDownloadAddons() {
-        console.log(`YOLO`, this.selectedAddons);
-        const _this = this;
-        return this.patchList.addons.filter(
-            (e) => {
-                console.log(e.id);
-                console.log(this.selectedAddons);
-                return _this.selectedAddons.includes(e.id);
+        const ret = [];
+        for(const addon in this.selectedAddonsJson()) {
+            ret.push(this.patchList.addons[addon]);
+        }
+        return ret;
+    }
+
+    selectedAddonsJson() {
+        const ret = {};
+        for(const addon in this.patchList.addons) {
+            if(this.selectedAddons.includes(addon)) {
+                ret[addon] = this.patchList.addons[addon];
             }
-        );
+        }
+        return ret;
+    }
+
+    /**
+     * Returns unselected addons
+     * @returns {{}}
+     */
+    generateDeleteAddons() {
+        const ret = {};
+        for(const addon in this.patchList.addons) {
+            if(!this.selectedAddons.includes(addon)) {
+                ret[addon] = this.patchList.addons[addon];
+            }
+        }
+        return ret;
     }
 
 
@@ -83,7 +103,10 @@ class PatchManager {
         const deleteFiles = this.patchList.optional
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory });
 
+        console.log(`deleteFiles`, deleteFiles);
+        // eslint-disable-next-line no-debugger
         const keysToRemove = Object.keys(this.generateDownloadFiles());
+        console.log(keysToRemove);
         for(const key of keysToRemove) {
             // delete files will contain (mandatory + optionals + delete) - (files to download)
             // this way if a file is not in (files to download) it will be removed
