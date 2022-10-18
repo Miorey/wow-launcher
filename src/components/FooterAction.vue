@@ -136,12 +136,27 @@ export default {
       
         deleteFiles() {
             const toDelete = patchManager.generateDeleteFiles();
-            const partPercent = 100 / Object.keys(toDelete).length;
+            const toDeleteAddons = patchManager.generateDeleteAddons();
+            const partPercent = 100 / (
+                Object.keys(toDelete).length + toDeleteAddons.length
+            );
             let count = 1;
             for(const key in toDelete) {
                 console.info(`Delete ${toDelete[key].targetPath}`);
                 if(fs.existsSync(this.getBaseFolder(toDelete[key].targetPath))) {
                     fs.unlinkSync(this.getBaseFolder(toDelete[key].targetPath));
+                }
+                EventBus.$emit(`event_file_percent`,  count*partPercent);
+                count++;
+            }
+            for(const addon of toDeleteAddons) {
+                console.info(`Delete ${addon.installPath}`);
+                if(fs.existsSync(this.getBaseFolder(addon.installPath))) {
+                    fs.rmSync(addon.installPath, { recursive: true, force: true });
+                    fs.unlinkSync(this.getBaseFolder(addon.targetPath));
+                }
+                if(fs.existsSync(this.getBaseFolder(addon.targetPath))) {
+                    fs.unlinkSync(this.getBaseFolder(addon.targetPath));
                 }
                 EventBus.$emit(`event_file_percent`,  count*partPercent);
                 count++;
