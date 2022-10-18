@@ -9,10 +9,6 @@ dev_env:
 fixtures: clean
 	cp -r ./fixtures/client/* .
 
-
-clean:
-	rm -rf ./Data/
-
 build:
 	 npm run electron:build
 
@@ -20,6 +16,9 @@ dev:
 	http-server -c-1 --cors=Authorization -p 9000 ./fixtures/json_server
 
 clean:
-	rm -rf Data
-	rm -rf Interface
-	rm -rf murloc.mp3
+	rm -rf ./Data
+	rm -rf ./Interface
+	rm -rf ./murloc.mp3
+	rm -rf ~/Library/Application Support/wow-launcher/storage
+
+rebuild: clean dev_env

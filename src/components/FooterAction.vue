@@ -125,6 +125,12 @@ export default {
                 if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath)))
                     return false;
             }
+            const toDeleteAddons = patchManager.generateDeleteAddons();
+            for(const key in toDeleteAddons) {
+                console.log(key);
+                if(fs.existsSync(_this.getBaseFolder(toDeleteAddons[key].installPath)))
+                    return false;
+            }
             return true;
         },
       
