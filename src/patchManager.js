@@ -59,24 +59,17 @@ class PatchManager {
 
     /**
      * Return an object containing the list of files to be downloaded
-     * @returns {*}
+     * @returns {[]}
      */
     generateDownloadAddons() {
-        const ret = [];
-        for(const addon in this.selectedAddonsJson()) {
-            ret.push(this.patchList.addons[addon]);
-        }
-        return ret;
-    }
-
-    selectedAddonsJson() {
-        const ret = {};
-        for(const addon in this.patchList.addons) {
-            if(this.selectedAddons.includes(addon)) {
-                ret[addon] = this.patchList.addons[addon];
-            }
-        }
-        return ret;
+        console.log(`YOLO`, this.selectedAddons);
+        const _this = this;
+        return this.patchList.addons.filter(
+            (e) => {
+                console.log(e.id);
+                console.log(this.selectedAddons);
+                return _this.selectedAddons.includes(e.id);
+            });
     }
 
     /**
@@ -84,13 +77,13 @@ class PatchManager {
      * @returns {{}}
      */
     generateDeleteAddons() {
-        const ret = {};
-        for(const addon in this.patchList.addons) {
-            if(!this.selectedAddons.includes(addon)) {
-                ret[addon] = this.patchList.addons[addon];
-            }
-        }
-        return ret;
+        const _this = this;
+        return this.patchList.addons.filter(
+            (e) => {
+                console.log(e.id);
+                console.log(this.selectedAddons);
+                return !_this.selectedAddons.includes(e.id);
+            });
     }
 
 

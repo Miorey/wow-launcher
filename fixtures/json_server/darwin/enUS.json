@@ -51,8 +51,8 @@
       }
     }
   ],
-  "addons": {
-    "GMGenie.zip": {
+  "addons": [
+    {
       "id": "GMGenie.zip",
       "description": "bla bla",
       "name": "GMGenie",
@@ -62,5 +62,5 @@
       "installPath": "./Interface/AddOns/GMGenie",
       "unzipPath": "./Interface/AddOns"
     }
-  }
+  ]
 }
