@@ -6,7 +6,7 @@
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
-        <v-btn :disabled="patchManager.downloadInProgress" v-else  class="pt-6 pb-6 mr-5" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp">
             {{ `download` | trans }}
         </v-btn>
     </div>
@@ -25,6 +25,7 @@ const child = require(`child_process`).execFile;
 const open = require(`open`);
 const player = require(`play-sound`)({});
 const rimraf = require(`rimraf`);
+const unzipper = require(`unzipper`);
 const { createDirIfNotExists } = require(`../utils`);
 
 export default {
@@ -175,6 +176,8 @@ export default {
                 while (!await this.checkFile(addonsToDownload[key])) {
                     await this.downloadFile(connPromise, addonsToDownload[key]);
                 }
+                fs.createReadStream(addonsToDownload[key].targetPath)
+                    .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }));
                 doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
             }
