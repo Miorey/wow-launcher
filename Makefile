@@ -12,13 +12,13 @@ fixtures: clean
 build:
 	 npm run electron:build
 
-dev:
+http-server:
 	http-server -c-1 --cors=Authorization -p 9000 ./fixtures/json_server
 
 clean:
 	rm -rf ./Data
 	rm -rf ./Interface
 	rm -rf ./murloc.mp3
-	rm -rf ~/Library/Application Support/wow-launcher/storage
+	rm -rf ~/Library/Application\ Support/wow-launcher/storage
 
 rebuild: clean dev_env
