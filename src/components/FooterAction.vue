@@ -38,12 +38,9 @@ export default {
     }),
     watch:{
         async 'patchManager.selectedPatches' () {
-            console.log(`watch`, `patchManager.selectedPatches`);
             this.canPlay = this.isUpToDate();
-            console.log(this.canPlay);
         },
         async 'patchManager.selectedAddons' () {
-            console.log(`watch`, `patchManager.selectedAddons`);
             this.canPlay = this.isUpToDate();
         }
     },
@@ -105,16 +102,12 @@ export default {
         isUpToDate() {
             const _this = this;
             const patchToDownload = patchManager.generateDownloadFiles();
-            console.log(`patchToDownload`, patchToDownload);
             for(const key in patchToDownload) {
-                console.log(`test`, _this.getBaseFolder(patchToDownload[key].targetPath));
-                const exists = fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
-                console.log(`exists`, exists);
+                fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
                 if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
                     return false;
             }
             const addonsToDownload = patchManager.generateDownloadAddons();
-            console.log(`addonsToDownload`, addonsToDownload);
             for(const key in addonsToDownload) {
                 if(!fs.existsSync(_this.getBaseFolder(addonsToDownload[key].installPath)))
                     return false;
@@ -127,7 +120,6 @@ export default {
             }
             const toDeleteAddons = patchManager.generateDeleteAddons();
             for(const key in toDeleteAddons) {
-                console.log(key);
                 if(fs.existsSync(_this.getBaseFolder(toDeleteAddons[key].installPath)))
                     return false;
             }

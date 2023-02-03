@@ -17,12 +17,6 @@ class PatchManager {
         this._language = fs
             .readdirSync(this.dirData)
             .find(e => config.conf.available_language.includes(e));
-        const _this = this;
-
-
-        this.loadPatches().then(() => true);
-        this.findSelectedPatches().then(r => _this.selectedPatches = r);
-        this.findSelectedAddons().then(r => _this.selectedAddons = r);
     }
 
     /**
@@ -62,7 +56,6 @@ class PatchManager {
      * @returns {[]}
      */
     generateDownloadAddons() {
-        console.log(`YOLO`, this.selectedAddons);
         const _this = this;
         return this.patchList.addons.filter(
             (e) => {
@@ -80,8 +73,6 @@ class PatchManager {
         const _this = this;
         return this.patchList.addons.filter(
             (e) => {
-                console.log(e.id);
-                console.log(this.selectedAddons);
                 return !_this.selectedAddons.includes(e.id);
             });
     }
@@ -95,11 +86,8 @@ class PatchManager {
         //Get all files mandatory + optionals + delete
         const deleteFiles = this.patchList.optional
             .reduce((acc, currentVal) => Object.assign(acc, currentVal.files), { ...this.patchList.delete , ...this.patchList.mandatory });
-
-        console.log(`deleteFiles`, deleteFiles);
         // eslint-disable-next-line no-debugger
         const keysToRemove = Object.keys(this.generateDownloadFiles());
-        console.log(keysToRemove);
         for(const key of keysToRemove) {
             // delete files will contain (mandatory + optionals + delete) - (files to download)
             // this way if a file is not in (files to download) it will be removed
@@ -119,7 +107,6 @@ class PatchManager {
                 if (error) {
                     reject(error);
                 }
-                console.log(`findSelectedAddons`, data);
                 EventBus.$emit(`event_loader_stop`,  `storage`);
                 const resolveVal = (!data.updated) ? [] : data.addons;
                 resolve(resolveVal);
@@ -140,7 +127,6 @@ class PatchManager {
                 if (error) {
                     reject(error);
                 }
-                console.log(`findSelectedPatches`, data);
                 EventBus.$emit(`event_loader_stop`,  `storage`);
                 const resolveVal = (!data.updated) ? [] : data.patches;
                 resolve(resolveVal);
@@ -187,7 +173,6 @@ class PatchManager {
     }
 
     set selectedAddons(selectedAddons) {
-        console.log(`set selectedAddons`, selectedAddons);
         this._selectedAddons = selectedAddons;
     }
 
