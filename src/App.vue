@@ -48,6 +48,11 @@ export default {
         version: pjson.version,
         remoteVersion: {version: pjson.version}
     }),
+    async beforeCreate() {
+        await patchManager.findSelectedPatches().then(r => patchManager.selectedPatches = r);
+        await patchManager.findSelectedAddons().then(r => patchManager.selectedAddons = r);
+        await patchManager.loadPatches().then(() => true);
+    },
 
     watch: {
         'patchManager.patchList'(val) {
