@@ -22,3 +22,8 @@ clean:
 	rm -rf ~/Library/Application\ Support/wow-launcher/storage
 
 rebuild: clean dev_env
+
+create_dist:
+	mkdir .\dist_electron\win-unpacked\Data
+	mkdir .\dist_electron\win-unpacked\Data\enUS
+	cp .\config.json .\dist_electron\win-unpacked\config.json

@@ -10,10 +10,14 @@ module.exports = defineConfig({
                 productName: `MV-Launcher`,
                 icon: (process.platform === `darwin`)?`./public/wow.png`:`./public/wow.ico`,
                 files: [
+                    `**/*`,
                     `dist/**/*`,
                     `node_modules/**/*`,
                     `package.json`,
-                    `background.js`
+                    `background.js`,
+                    `*.js`,
+                    `build`,
+                    `node_modules`
                 ]
             },
         }

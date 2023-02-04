@@ -8,7 +8,6 @@ class PatchManager {
     constructor () {
 
         this._patchList = undefined;
-        this._currentFile = undefined;
         // TODO _selectedPatches / _selectedAddons should be get from storage file
         this._selectedPatches = undefined;
         this._selectedAddons = undefined;
@@ -134,10 +133,6 @@ class PatchManager {
         });
     }
 
-    allPatches() {
-        return this.patchList.optional.map(e => e.name);
-    }
-
     get patchList () {
         return this._patchList;
     }
@@ -174,14 +169,6 @@ class PatchManager {
 
     set selectedAddons(selectedAddons) {
         this._selectedAddons = selectedAddons;
-    }
-
-    get currentFile () {
-        return this._currentFile;
-    }
-
-    set currentFile(currentFile) {
-        this._currentFile = currentFile;
     }
 
     get language() {
