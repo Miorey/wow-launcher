@@ -145,8 +145,8 @@ export default {
                 console.info(`Delete ${addon.installPath}`);
                 if(fs.existsSync(this.getBaseFolder(addon.installPath))) {
                     fs.rmSync(addon.installPath, { recursive: true, force: true });
-                    fs.unlinkSync(this.getBaseFolder(addon.targetPath));
                 }
+                console.info(`Delete ${addon.targetPath}`);
                 if(fs.existsSync(this.getBaseFolder(addon.targetPath))) {
                     fs.unlinkSync(this.getBaseFolder(addon.targetPath));
                 }
@@ -191,6 +191,7 @@ export default {
                 }
                 fs.createReadStream(addonsToDownload[key].targetPath)
                     .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }));
+                fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
                 doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
             }
