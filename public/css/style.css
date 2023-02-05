@@ -9,14 +9,14 @@ html, body {
 
 .theme--dark.v-application {
   overflow: hidden;
-  background: #272727 url(/images/mv.jpg) no-repeat fixed !important;
+  background: #272727 url(../images/mv.jpg) no-repeat fixed !important;
   background-position: center center;
   background-size: cover;
 }
 
 @media only screen and (min-width: 801px) {
   .theme--dark.v-application {
-    background: #fff url(/images/mv2.jpg) no-repeat fixed !important;
+    background: #fff url(../images/mv2.jpg) no-repeat fixed !important;
   }
 }
 
@@ -34,6 +34,12 @@ html, body {
   animation: swim 10s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
+
+
+  background-image: url('../images/murloc_swim.gif') !important;
+  background-size: cover;
+  height: 256px;
+  width: 256px;
 }
 
 
@@ -45,6 +51,6 @@ html, body {
 
 @font-face {
   font-family: "LifeCraft";
-  src: url(/images/LifeCraft_Font.ttf) format("truetype");
+  src: url(../images/LifeCraft_Font.ttf) format("truetype");
 
 }

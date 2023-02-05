@@ -9,8 +9,11 @@
           style="margin-right: 10px;"
       >
       <label class="wow_text" :for="item.id">
-        {{ item.name }}
+        {{ item.name }}:
       </label>
+      <span>
+        {{ item.description }}
+      </span>
     </div>
   </div>
 </template>

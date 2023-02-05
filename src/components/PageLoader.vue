@@ -19,7 +19,7 @@
                 </ul>
             </v-card-text>
         </v-card>
-        <img class="swimming_murloc" src="/images/murloc_swim.gif" alt="swimming murloc">
+        <div class="swimming_murloc"></div>
     </v-overlay>
 </template>
 
