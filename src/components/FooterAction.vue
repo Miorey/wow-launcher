@@ -23,7 +23,7 @@ const { EventBus } = require(`../event-bus.js`);
 const md5File = require(`md5-file`);
 const child = require(`child_process`).execFile;
 const open = require(`open`);
-const player = require(`play-sound`)({});
+const player = require(`sound-play`);
 const rimraf = require(`rimraf`);
 const unzipper = require(`unzipper`);
 const { createDirIfNotExists } = require(`../utils`);
@@ -214,7 +214,8 @@ export default {
             EventBus.$emit(`event_file_path`,  `World of Warcraft is up to date`);
             EventBus.$emit(`event_file_percent`,  100);
             if(config.conf.end_sound && [`win32`, `darwin`].includes(process.platform)) {
-                player.play(`${this.getWowFolder()}${config.conf.end_sound}`);
+                console.log(`Play ${this.getWowFolder()}${config.conf.end_sound}`);
+                player.play(`${this.getWowFolder()}${config.conf.end_sound}`, 1);
             }
             patchManager.downloadInProgress = false;
         },
