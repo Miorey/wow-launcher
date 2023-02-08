@@ -1,19 +1,22 @@
 <template>
   <div>
     <span class="display-1 text_wow_style section_title">{{ `lbl_addons` | trans }}</span>
-    <div v-for="item in getAddons()" :key="item.id">
-      <input
-          :disabled="patchManager.downloadInProgress"
-          v-model="selected" type="checkbox"
-          :id="item.id" :value="item.id"
-          style="margin-right: 10px;"
-      >
-      <label class="wow_text" :for="item.id">
-        {{ item.name }}:
-      </label>
-      <span>
+    <div class="addons_list">
+
+      <div v-for="item in getAddons()" :key="item.id">
+        <input
+            :disabled="patchManager.downloadInProgress"
+            v-model="selected" type="checkbox"
+            :id="item.id" :value="item.id"
+            style="margin-right: 10px;"
+        >
+        <label class="wow_text" :for="item.id">
+          {{ item.name }}:
+        </label>
+        <span class="addon_text">
         {{ item.description }}
       </span>
+      </div>
     </div>
   </div>
 </template>

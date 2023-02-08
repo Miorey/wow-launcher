@@ -54,7 +54,7 @@
   "addons": [
     {
       "id": "GMGenie.zip",
-      "description": "bla bla",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       "name": "GMGenie",
       "md5": "ff90bf659cff5799b0fac40dd240f903",
       "sourcePath": "/addons/GMGenie.zip",
@@ -64,7 +64,7 @@
     },
     {
       "id": "Atlas.zip",
-      "description": "bla bla",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       "name": "Atlas",
       "md5": "f005c6465df9ee2f72c4744d0f306150",
       "sourcePath": "/addons/Atlas.zip",
