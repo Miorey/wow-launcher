@@ -109,8 +109,11 @@ export default {
             }
             const addonsToDownload = patchManager.generateDownloadAddons();
             for(const key in addonsToDownload) {
-                if(!fs.existsSync(_this.getBaseFolder(addonsToDownload[key].installPath)))
-                    return false;
+                for(const dir of addonsToDownload[key].directories) {
+                    const addonPath = addonsToDownload[key].unzipPath + dir;
+                    if(!fs.existsSync(_this.getBaseFolder(addonPath)))
+                        return false;
+                }
             }
             
             const toDelete = patchManager.generateDeleteFiles();
@@ -120,8 +123,11 @@ export default {
             }
             const toDeleteAddons = patchManager.generateDeleteAddons();
             for(const key in toDeleteAddons) {
-                if(fs.existsSync(_this.getBaseFolder(toDeleteAddons[key].installPath)))
-                    return false;
+                for(const dir of toDeleteAddons[key].directories) {
+                    const addonPath = toDeleteAddons[key].unzipPath + dir;
+                    if (fs.existsSync(_this.getBaseFolder(addonPath)))
+                        return false;
+                }
             }
             return true;
         },
@@ -142,15 +148,18 @@ export default {
                 count++;
             }
             for(const addon of toDeleteAddons) {
-                console.info(`Delete ${addon.installPath}`);
-                if(fs.existsSync(this.getBaseFolder(addon.installPath))) {
-                    fs.rmSync(addon.installPath, { recursive: true, force: true });
+                for (const dir of addon.directories) {
+                    const addonPath = addon.unzipPath + dir;
+                    if (fs.existsSync(this.getBaseFolder(addonPath))) {
+                        console.info(`Delete ${addonPath}`);
+                        fs.rmSync(addonPath, {recursive: true, force: true});
+                    }
                 }
                 console.info(`Delete ${addon.targetPath}`);
-                if(fs.existsSync(this.getBaseFolder(addon.targetPath))) {
+                if (fs.existsSync(this.getBaseFolder(addon.targetPath))) {
                     fs.unlinkSync(this.getBaseFolder(addon.targetPath));
                 }
-                EventBus.$emit(`event_file_percent`,  count*partPercent);
+                EventBus.$emit(`event_file_percent`, count * partPercent);
                 count++;
             }
         },

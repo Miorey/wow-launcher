@@ -58,6 +58,7 @@ class PatchManager {
         const _this = this;
         return this.patchList.addons.filter(
             (e) => {
+
                 console.log(e.id);
                 console.log(this.selectedAddons);
                 return _this.selectedAddons.includes(e.id);
