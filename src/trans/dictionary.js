@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 /* jslint node: true */
-"use strict"
+"use strict";
 
 module.exports = {
     download: {
@@ -11,9 +11,13 @@ module.exports = {
         enUS: `Launcher Update`,
         frFR: `Mettre à jour le Launcher`
     },
-    main_title: {
+    lbl_game_options: {
         enUS: `Game Options`,
         frFR: `Options du jeu`
+    },
+    lbl_addons: {
+        enUS: `Addons`,
+        frFR: `Addons`
     },
     repair: {
         enUS: `Repair`,
@@ -43,4 +47,4 @@ module.exports = {
         enUS: `An unexpected error happened, please contact a Game Master.`,
         frFR: `Une erreur inattendue s'est produite, merci de contacter un Maître du jeu.`,
     }
-}
+};

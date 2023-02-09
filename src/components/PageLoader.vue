@@ -19,12 +19,12 @@
                 </ul>
             </v-card-text>
         </v-card>
-        <img class="swimming_murloc" src="/images/murloc_swim.gif" alt="swimming murloc">
+        <div class="swimming_murloc"></div>
     </v-overlay>
 </template>
 
 <script>
-const { EventBus } = require(`../event-bus`)
+const { EventBus } = require(`../event-bus`);
 export default {
     name: `PageLoader`,
     data: () => ({
@@ -36,17 +36,17 @@ export default {
         }
     }),
     async  mounted() {
-        const _this = this
+        const _this = this;
         EventBus.$on(`event_loader_start`,  () => {
-            _this.countOverlay++
-        })
+            _this.countOverlay++;
+        });
         EventBus.$on(`event_loader_stop`,  (val) => {
-            if(val) { _this.loaded[val] = true }
-            else _this.countOverlay--
-        })
+            if(val) { _this.loaded[val] = true; }
+            else _this.countOverlay--;
+        });
     }
 
-}
+};
 </script>
 
 <style>

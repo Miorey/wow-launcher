@@ -1,19 +1,19 @@
 {
   "delete": {
     "Test.txt": {
-      "targetPath": "./Data/Test.txt"
+      "targetPath": ".\\Data\\Test.txt"
     }
   },
   "mandatory": {
     "Logo_800.avi": {
       "md5": "ad7c1a061ef0bf8b93936f2386a72311",
       "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/Logo_800.avi",
-      "targetPath": "./Data/enUS/Interface/Cinematics/Logo_800.avi"
+      "targetPath": ".\\Data\\enUS\\Interface\\Cinematics\\Logo_800.avi"
     },
     "murloc.mp3": {
       "md5": "bcf93eb4807a736d600503d74992e114",
       "sourcePath": "/mandatory/murloc.mp3",
-      "targetPath": "./murloc.mp3"
+      "targetPath": ".\\murloc.mp3"
     }
   },
   "optional": [
@@ -27,12 +27,12 @@
         "WOW_Intro_LK_800.avi": {
           "md5": "9445487724a0c399f200c3887420d1f8",
           "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_Intro_LK_800.avi",
-          "targetPath": "./Data/enUS/Interface/Cinematics/WOW_Intro_LK_800.avi"
+          "targetPath": ".\\Data\\enUS\\Interface\\Cinematics\\WOW_Intro_LK_800.avi"
         },
         "WOW_FotLK_800.avi": {
           "md5": "9de551d4748b568828e0656414e66742",
           "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_FotLK_800.avi",
-          "targetPath": "./Data/enUS/Interface/Cinematics/WOW_FotLK_800.avi"
+          "targetPath": ".\\Data\\enUS\\Interface\\Cinematics\\WOW_FotLK_800.avi"
         }
       }
     },
@@ -46,9 +46,21 @@
         "WOW_Wrathgate_800.avi": {
           "md5": "9818fcde3357e0bdafe38936be35f3b7",
           "sourcePath": "/mandatory/enUS/Data/enUS/Interface/Cinematics/WOW_Wrathgate_800.avi",
-          "targetPath": "./Data/enUS/Interface/Cinematics/WOW_Wrathgate_800.avi"
+          "targetPath": ".\\Data\\enUS\\Interface\\Cinematics\\WOW_Wrathgate_800.avi"
         }
       }
+    }
+  ],
+  "addons": [
+    {
+      "id": "GMGenie.zip",
+      "description": "bla bla",
+      "name": "GMGenie",
+      "md5": "ff90bf659cff5799b0fac40dd240f903",
+      "sourcePath": "/addons/GMGenie.zip",
+      "targetPath": ".\\Interface\\AddOns\\GMGenie.zip",
+      "directories": ["GMGenie"],
+      "unzipPath": ".\\Interface\\AddOns\\"
     }
   ]
 }

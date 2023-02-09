@@ -1,19 +1,24 @@
 <template>
   <v-container id="main">
     <v-row class="text-left">
-      <v-col v-if="selectedPatch !== null" cols="12">
-        <span id="main_title" class="display-1 text_wow_style">{{ `main_title` | trans }}</span>
-        <div v-for="item in getPatchList()" :key="item.id">
-          <input
-              :disabled="patchManager.downloadInProgress"
-              v-model="selectedPatch" type="checkbox"
-              :id="item.id" :value="item.id"
-              style="margin-right: 10px;"
-          >
-          <label class="wow_text" :for="item.id">
-            {{ item.name[language] }}
-          </label>
-        </div>
+      <v-col cols="12">
+        <v-tabs
+            v-model="tab"
+            right
+            background-color="transparent"
+        >
+          <v-tab>{{ `lbl_game_options` | trans  }}</v-tab>
+          <v-tab>{{ `lbl_addons` | trans  }}</v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab" id="download_options">
+          <v-tab-item key="{{ `lbl_game_options` | trans  }}">
+
+            <game-options></game-options>
+          </v-tab-item>
+          <v-tab-item key="{{ `lbl_addons` | trans  }}">
+            <addon-options></addon-options>
+          </v-tab-item>
+        </v-tabs-items>
       </v-col>
     </v-row>
     <div id="progress">
@@ -38,78 +43,39 @@
 <script>
 
 
-// eslint-disable-next-line no-unused-vars
-const { config } = require(`../config`)
-const { patchManager } = require(`../patchManager`)
-const { EventBus } = require(`../event-bus`)
-const storage = require(`electron-json-storage`)
+
+import GameOptions from "@/components/GameOptions";
+import AddonOptions from "@/components/AddonOptions";
+const { EventBus } = require(`../event-bus`);
 export default {
     name: `MainContent`,
+    components: {AddonOptions, GameOptions},
     data: () => ({
-        selectedPatch: null,
+        tab: null,
         percent: undefined,
         filePath: undefined,
         percentTotal: 0,
-        patchManager: patchManager,
-        language: patchManager.language
     }),
-    watch: {
-        'selectedPatch'(val) {
-            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, function(error) {
-                if (error) throw error
-            })
-            patchManager.selectedPatches =  (val) ? val : []
-        }
-    },
   
     async  mounted() {
-        const _this = this
+        const _this = this;
         EventBus.$on(`event_file_percent`,  (percent) => {
-            _this.percent = Math.round(percent * 100) / 100
-        })
+            _this.percent = Math.round(percent * 100) / 100;
+        });
         EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            _this.percentTotal = Math.round(percentTotal * 100) / 100
-        })
+            _this.percentTotal = Math.round(percentTotal * 100) / 100;
+        });
         EventBus.$on(`event_file_path`,  (filePath) => {
-            _this.filePath = filePath
-        })
-        this.selectedPatch = await this.findSelectedPatches()
-        patchManager.selectedPatches = this.selectedPatch
+            _this.filePath = filePath;
+        });
     },
 
-    methods: {
-        getPatchList() {
-            return patchManager.patchList[`optional`]
-        },
-
-        /**
-         *
-         * @returns {Promise<unknown>}
-         */
-        findSelectedPatches() {
-            return new Promise((resolve, reject) => {
-                storage.get(`selectedPatch${this.language}`, (error, data) => {
-                    if (error) {
-                        reject(error)
-                    } else {
-                        EventBus.$emit(`event_loader_stop`,  `storage`)
-                    }
-                    if(!data.updated) {
-
-                        resolve([])
-                    } else {
-                        resolve(data.patches)
-                    }
-                })
-            })
-        },
-    }
-}
+};
 </script>
 <style>
 #main {
   width: 100%;
-  height: 400px;
+  height: 600px;
   position: relative;
 }
 
@@ -120,10 +86,9 @@ export default {
   margin: auto;
 }
 
-#main_title {
-  font-family: "LifeCraft" !important;
+#download_options {
+  background-color: transparent;
 }
-
 .progress {
   border: 1px solid #d3b359;
   margin-bottom: 10px;

@@ -12,7 +12,6 @@
     </v-main>
     <v-footer
             dark
-            padless
     >
       <v-row>
         <v-col cols="12" class="text-right">
@@ -27,12 +26,12 @@
 </template>
 
 <script>
-import MainContent from './components/MainContent'
-import FooterAction from "./components/FooterAction"
-import PageLoader from "./components/PageLoader"
-const { patchManager } = require(`./patchManager`)
-const { EventBus } = require(`./event-bus`)
-const  pjson = require(`../package.json`)
+import MainContent from './components/MainContent';
+import FooterAction from "./components/FooterAction";
+import PageLoader from "./components/PageLoader";
+const { patchManager } = require(`./patchManager`);
+const { EventBus } = require(`./event-bus`);
+const  pjson = require(`../package.json`);
 
 export default {
     name: `App`,
@@ -48,16 +47,20 @@ export default {
         version: pjson.version,
         remoteVersion: {version: pjson.version}
     }),
+    async beforeCreate() {
+        await patchManager.findSelectedPatches().then(r => patchManager.selectedPatches = r);
+        await patchManager.findSelectedAddons().then(r => patchManager.selectedAddons = r);
+        await patchManager.loadPatches().then(() => true);
+    },
 
     watch: {
         'patchManager.patchList'(val) {
             if(val) {
-
-                EventBus.$emit(`event_loader_stop`,  `patches`)
+                EventBus.$emit(`event_loader_stop`,  `patches`);
             }
         }
     }
-}
+};
 </script>
 <style>
   #app {
