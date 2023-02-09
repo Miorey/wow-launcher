@@ -13,7 +13,6 @@
 </template>
 
 <script>
-const { shell } = require(`electron`);
 const fs = require(`fs`);
 const Client = require(`ftp`);
 const { config } = require(`../config`);
@@ -68,10 +67,6 @@ export default {
         this.conn.destroy();
     },
     methods: {
-        shellOpenExternal(url) {
-            shell.openExternal(url);
-        },
-
         connStart() {
             const connSettings = {
                 host: config.conf.host

@@ -19,7 +19,7 @@ class PatchManager {
     }
 
     /**
-     *
+     * Load all the patch dependencies by language and system.
      * @returns {Promise<void>}
      */
     async loadPatches () {
@@ -37,6 +37,8 @@ class PatchManager {
             // eslint-disable-next-line no-debugger
             _this.patchList = JSON.parse(response.data);
         }
+        config.conf = {..._this.patchList.conf, ...config.conf};
+        console.info(config.conf);
     }
 
     /**
