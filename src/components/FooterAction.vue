@@ -1,19 +1,18 @@
 <template>
     <div>
-        <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp(true)">
             {{ `repair` | trans }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
             {{ `play` | trans }}
         </v-btn>
-        <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp">
+        <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp(false)">
             {{ `download` | trans }}
         </v-btn>
     </div>
 </template>
 
 <script>
-const { shell } = require(`electron`);
 const fs = require(`fs`);
 const Client = require(`ftp`);
 const { config } = require(`../config`);
@@ -68,10 +67,6 @@ export default {
         this.conn.destroy();
     },
     methods: {
-        shellOpenExternal(url) {
-            shell.openExternal(url);
-        },
-
         connStart() {
             const connSettings = {
                 host: config.conf.host
@@ -109,8 +104,11 @@ export default {
             }
             const addonsToDownload = patchManager.generateDownloadAddons();
             for(const key in addonsToDownload) {
-                if(!fs.existsSync(_this.getBaseFolder(addonsToDownload[key].installPath)))
-                    return false;
+                for(const dir of addonsToDownload[key].directories) {
+                    const addonPath = addonsToDownload[key].unzipPath + dir;
+                    if(!fs.existsSync(_this.getBaseFolder(addonPath)))
+                        return false;
+                }
             }
             
             const toDelete = patchManager.generateDeleteFiles();
@@ -120,8 +118,11 @@ export default {
             }
             const toDeleteAddons = patchManager.generateDeleteAddons();
             for(const key in toDeleteAddons) {
-                if(fs.existsSync(_this.getBaseFolder(toDeleteAddons[key].installPath)))
-                    return false;
+                for(const dir of toDeleteAddons[key].directories) {
+                    const addonPath = toDeleteAddons[key].unzipPath + dir;
+                    if (fs.existsSync(_this.getBaseFolder(addonPath)))
+                        return false;
+                }
             }
             return true;
         },
@@ -142,19 +143,21 @@ export default {
                 count++;
             }
             for(const addon of toDeleteAddons) {
-                console.info(`Delete ${addon.installPath}`);
-                if(fs.existsSync(this.getBaseFolder(addon.installPath))) {
-                    fs.rmSync(addon.installPath, { recursive: true, force: true });
+                for (const dir of addon.directories) {
+                    const addonPath = addon.unzipPath + dir;
+                    if (fs.existsSync(this.getBaseFolder(addonPath))) {
+                        console.info(`Delete ${addonPath}`);
+                        fs.rmSync(addonPath, {recursive: true, force: true});
+                    }
                 }
                 console.info(`Delete ${addon.targetPath}`);
-                if(fs.existsSync(this.getBaseFolder(addon.targetPath))) {
+                if (fs.existsSync(this.getBaseFolder(addon.targetPath))) {
                     fs.unlinkSync(this.getBaseFolder(addon.targetPath));
                 }
-                EventBus.$emit(`event_file_percent`,  count*partPercent);
+                EventBus.$emit(`event_file_percent`, count * partPercent);
                 count++;
             }
         },
-
 
         /**
        *
@@ -176,28 +179,36 @@ export default {
         },
 
         /**
-       *
-       * @param {ConnectionPromise} connPromise
-       * @returns {Promise<void>}
-       */
-        async downloadAddons(connPromise) {
+         *
+         * @param {ConnectionPromise} connPromise
+         * @param  {boolean} repair
+         * @returns {Promise<void>}
+         */
+        async downloadAddons(connPromise, repair) {
             const addonsToDownload = patchManager.generateDownloadAddons();
             const totalSize = await this.totalSize(connPromise, addonsToDownload);
             let doneSize = 0;
             await EventBus.$emit(`event_total_percent`,  0);
             for(const key in addonsToDownload) {
-                while (!await this.checkFile(addonsToDownload[key])) {
-                    await this.downloadFile(connPromise, addonsToDownload[key]);
+                let skip = !repair;
+                for (const dir of addonsToDownload[key].directories) {
+                    const addonPath = addonsToDownload[key].unzipPath + dir;
+                    skip = skip  && fs.existsSync(this.getBaseFolder(addonPath));
                 }
-                fs.createReadStream(addonsToDownload[key].targetPath)
-                    .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }));
-                fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
+                if (!skip) {
+                    while (!await this.checkFile(addonsToDownload[key])) {
+                        await this.downloadFile(connPromise, addonsToDownload[key]);
+                    }
+                    fs.createReadStream(addonsToDownload[key].targetPath)
+                        .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }));
+                    fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
+                }
                 doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
                 await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
             }
         },
 
-        async downloadFtp() {
+        async downloadFtp(repair) {
             patchManager.downloadInProgress = true;
 
             EventBus.$emit(`event_file_path`,  `Delete old files`);
@@ -206,7 +217,7 @@ export default {
             this.deleteFiles();
             const connPromise = new ConnectionPromise(this.conn);
             await this.downloadPatches(connPromise);
-            await this.downloadAddons(connPromise);
+            await this.downloadAddons(connPromise, repair);
 
             this.canPlay = this.isUpToDate();
             EventBus.$emit(`event_file_path`,  `Delete Cache`);

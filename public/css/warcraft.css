@@ -57,9 +57,16 @@
 .theme--dark.v-label {
     color: #d3b359 !important;
     text-shadow: -2px 0 #000, 0 2px #000, 1px 0 #000, 0 -2px #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+.addon_text {
+    color: #c3c3c3 !important;
+    text-shadow: -2px 0 #000, 0 2px #000, 1px 0 #000, 0 -2px #000;
     font-weight: normal;
     text-decoration: none;
 }
+
 
 .theme--dark.v-input input, .theme--dark.v-input textarea {
     color: #d3b359 !important;

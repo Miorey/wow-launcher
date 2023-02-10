@@ -12,7 +12,6 @@
     </v-main>
     <v-footer
             dark
-            padless
     >
       <v-row>
         <v-col cols="12" class="text-right">

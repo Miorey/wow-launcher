@@ -102,7 +102,18 @@ installed features.
 The name attribute contains an Object with key the language and value the title in this language (this part may change).
 The `files` is as list of objects which has exactly the same structure as [Mandatory structure](#mandatory-structure)
 
-
+### Remote configuration structure
+Some part of the configuration can be store remotely.
+Today only `host` and `end_sound` can be stored remotely.
+```json
+  ...
+  "conf": {
+    "host": "ftp.murlocvillage.com",
+    "end_sound": "murloc.mp3",
+  },
+```
+Note that if the same setup is stored locally and remotely.
+The local one will always be prioritized.
 
 ## Development
 Vue electron [documentation](https://medium.com/@bromix/electron-application-with-vue-js-and-vuetify-f2a1f9c749b8)
