@@ -1,4 +1,8 @@
 {
+  "conf": {
+    "host": "ftp.murlocvillage.com",
+    "end_sound": "murloc.mp3"
+  },
   "delete": {
     "Test.txt": {
       "targetPath": "./Data/Test.txt"
