@@ -75,7 +75,7 @@ export default {
 <style>
 #main {
   width: 100%;
-  height: 600px;
+  height: 550px;
   position: relative;
 }
 
