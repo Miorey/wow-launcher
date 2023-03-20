@@ -55,7 +55,7 @@ html, body {
 }
 
 .addons_list {
-  max-height: 350px;
+  max-height: 20em;
   overflow-y: scroll;
 }
 
