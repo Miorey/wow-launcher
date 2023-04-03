@@ -9,7 +9,7 @@ module.exports = defineConfig({
     electronBuilder: {
       builderOptions: {
         productName: `MV-Launcher`,
-        icon: (process.platform === `darwin`)?`./public/wow.png`:`./public/wow2.ico`,
+        icon: (process.platform === `darwin`)?`./public/wow.png`:`./public/murloc_village.ico`,
         files: [
           `**/*`,
           `dist/**/*`,
