@@ -1,27 +1,27 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "amd": true,
-        "node": true
+    env: {
+        browser: true,
+        es6: true,
+        amd: true,
+        node: true
     },
-    "extends": [
+    extends: [
         `eslint:recommended`,
         `plugin:vue/essential`
     ],
-    "globals": {
-        "Atomics": `readonly`,
-        "SharedArrayBuffer": `readonly`
+    globals: {
+        Atomics: `readonly`,
+        SharedArrayBuffer: `readonly`
     },
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": `module`
+    parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: `module`
     },
-    "plugins": [
+    plugins: [
         `vue`
     ],
     rules: {
-        "indent": [
+        indent: [
             `error`,
             4
         ],
@@ -29,8 +29,9 @@ module.exports = {
             `error`,
             `windows`
         ],
-        "semi": [2, `always`],
-        "quotes": [
+        semi: [2, `always`],
+        "quote-props": [`error`, `as-needed`],
+        quotes: [
             `error`,
             `backtick`
         ],

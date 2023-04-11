@@ -159,7 +159,6 @@ export default {
             }
         },
 
-
         /**
        *
        * @param {ConnectionPromise} connPromise
@@ -210,7 +209,6 @@ export default {
         },
 
         async downloadFtp(repair) {
-
             patchManager.downloadInProgress = true;
 
             EventBus.$emit(`event_file_path`,  `Delete old files`);

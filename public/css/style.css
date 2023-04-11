@@ -52,11 +52,10 @@ html, body {
 @font-face {
   font-family: "LifeCraft";
   src: url(../images/LifeCraft_Font.ttf) format("truetype");
-
 }
 
 .addons_list {
-  max-height: 350px;
+  max-height: 20em;
   overflow-y: scroll;
 }
 
