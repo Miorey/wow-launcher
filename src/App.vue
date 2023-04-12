@@ -2,17 +2,9 @@
   <v-app id="app">
     <page-loader></page-loader>
     <v-main>
-      <v-toolbar dense v-if="remoteVersion.version !== version">
-        <v-spacer></v-spacer>
-        <v-btn :disabled="patchManager.downloadInProgress" :href="remoteVersion.link">
-          {{ `download_launcher` | trans }}
-        </v-btn>
-      </v-toolbar>
       <main-content v-if="patchManager.patchList" />
     </v-main>
-    <v-footer
-            dark
-    >
+    <v-footer dark>
       <v-row>
         <v-col cols="12" class="text-right">
           <footer-action v-if="patchManager.patchList" />
@@ -45,7 +37,6 @@ export default {
     data: () => ({
         patchManager: patchManager,
         version: pjson.version,
-        remoteVersion: {version: pjson.version}
     }),
     async beforeCreate() {
         await patchManager.findSelectedPatches().then(r => patchManager.selectedPatches = r);
