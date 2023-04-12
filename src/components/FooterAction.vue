@@ -20,7 +20,7 @@ const { patchManager } = require(`../patchManager`);
 const { ConnectionPromise, StreamPromise } = require(`../DownloadPromise`);
 const { EventBus } = require(`../event-bus.js`);
 const md5File = require(`md5-file`);
-const child = require(`child_process`).execFile;
+const { spawn } = require(`child_process`);
 const open = require(`open`);
 const player = require(`sound-play`);
 const rimraf = require(`rimraf`);
@@ -80,7 +80,12 @@ export default {
                 await open(`${this.getWowFolder()}Wow.app`);
                 break;
             case `win32`:
-                child(`${this.getWowFolder()}Wow.exe`);
+                // eslint-disable-next-line no-case-declarations
+                const child = spawn(`${this.getWowFolder()}Wow.exe`, [], {
+                    detached: true,
+                    stdio: `ignore`
+                });
+                child.unref();
                 break;
             case `linux`:
                 alert(`Play is not available, to start the game please execute "wine Wow.exe" in the game directory`);
@@ -98,30 +103,42 @@ export default {
             const _this = this;
             const patchToDownload = patchManager.generateDownloadFiles();
             for(const key in patchToDownload) {
+                // Check if all mandatory / selected patch exists
                 fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath));
-                if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath)))
+                if(!fs.existsSync(_this.getBaseFolder(patchToDownload[key].targetPath))) {
+                    console.log(`patchToDownload is missing`, _this.getBaseFolder(patchToDownload[key].targetPath));
                     return false;
+                }
             }
             const addonsToDownload = patchManager.generateDownloadAddons();
             for(const key in addonsToDownload) {
+                // Check if all selected addons exists
                 for(const dir of addonsToDownload[key].directories) {
                     const addonPath = addonsToDownload[key].unzipPath + dir;
-                    if(!fs.existsSync(_this.getBaseFolder(addonPath)))
+                    if(!fs.existsSync(_this.getBaseFolder(addonPath))) {
+                        console.log(`addonsToDownload is missing`, _this.getBaseFolder(addonPath));
                         return false;
+                    }
                 }
             }
             
             const toDelete = patchManager.generateDeleteFiles();
             for(const key in toDelete) {
-                if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath)))
+                // Check if all the files to delete are not there
+                if(fs.existsSync(_this.getBaseFolder(toDelete[key].targetPath))) {
+                    console.log(`toDelete is there`, _this.getBaseFolder(toDelete[key].targetPath));
                     return false;
+                }
             }
             const toDeleteAddons = patchManager.generateDeleteAddons();
             for(const key in toDeleteAddons) {
+                // Check that all addons to delete are not there
                 for(const dir of toDeleteAddons[key].directories) {
                     const addonPath = toDeleteAddons[key].unzipPath + dir;
-                    if (fs.existsSync(_this.getBaseFolder(addonPath)))
+                    if (fs.existsSync(_this.getBaseFolder(addonPath))) {
+                        console.log(`toDeleteAddons is there`, _this.getBaseFolder(addonPath));
                         return false;
+                    }
                 }
             }
             return true;
@@ -185,6 +202,7 @@ export default {
          * @returns {Promise<void>}
          */
         async downloadAddons(connPromise, repair) {
+            const _this = this;
             const addonsToDownload = patchManager.generateDownloadAddons();
             const totalSize = await this.totalSize(connPromise, addonsToDownload);
             let doneSize = 0;
@@ -200,7 +218,15 @@ export default {
                         await this.downloadFile(connPromise, addonsToDownload[key]);
                     }
                     fs.createReadStream(addonsToDownload[key].targetPath)
-                        .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }));
+                        .pipe(unzipper.Extract({ path: addonsToDownload[key].unzipPath }))
+                        .on(`close`, () => {
+                            console.log(`Extraction complete`);
+                            _this.canPlay = _this.isUpToDate();
+                        })
+                        .on(`error`, (err) => {
+                            console.error(`Error during extraction`, err);
+                            _this.canPlay = _this.isUpToDate();
+                        });
                     fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
                 }
                 doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
