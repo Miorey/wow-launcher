@@ -24,27 +24,27 @@
 </template>
 
 <script>
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { EventBus } = require(`../event-bus`);
 export default {
-    name: `PageLoader`,
-    data: () => ({
-        countOverlay: 0,
-        loaded: {
-            patches: false,
-            storage: false,
-            ftp_cli: false
-        }
-    }),
-    async  mounted() {
-        const _this = this;
-        EventBus.$on(`event_loader_start`,  () => {
-            _this.countOverlay++;
-        });
-        EventBus.$on(`event_loader_stop`,  (val) => {
-            if(val) { _this.loaded[val] = true; }
-            else _this.countOverlay--;
-        });
+  name: `PageLoader`,
+  data: () => ({
+    countOverlay: 0,
+    loaded: {
+      patches: false,
+      storage: false,
+      ftp_cli: false
     }
+  }),
+  async  mounted() {
+    EventBus.$on(`event_loader_start`,  () => {
+      this.countOverlay++;
+    });
+    EventBus.$on(`event_loader_stop`,  (val) => {
+      if(val) { this.loaded[val] = true; }
+      else this.countOverlay--;
+    });
+  }
 
 };
 </script>

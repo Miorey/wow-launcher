@@ -22,32 +22,34 @@
 </template>
 
 <script>
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`../patchManager`);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const storage = require(`electron-json-storage`);
 
 export default {
-    name: `AddonOptions`,
-    data: () => ({
-        selected: null,
-        patchManager: patchManager,
-        language: patchManager.language
-    }),
-    async mounted() {
-        this.selected = await patchManager.selectedAddons;
-    },
-    watch: {
-        'selected'(val) {
-            storage.set(`selectedAddon${this.language}`, { updated: (new Date()), addons: val }, (error) => {
-                if (error) throw error;
-            });
-            patchManager.selectedAddons = val ? val : [];
-        }
-    },
-    methods: {
-        getAddons() {
-            return patchManager.patchList.addons;
-        }
+  name: `AddonOptions`,
+  data: () => ({
+    selected: null,
+    patchManager: patchManager,
+    language: patchManager.language
+  }),
+  async mounted() {
+    this.selected = await patchManager.selectedAddons;
+  },
+  watch: {
+    'selected'(val) {
+      storage.set(`selectedAddon${this.language}`, { updated: (new Date()), addons: val }, (error) => {
+        if (error) throw error;
+      });
+      patchManager.selectedAddons = val ? val : [];
     }
+  },
+  methods: {
+    getAddons() {
+      return patchManager.patchList.addons;
+    }
+  }
 };
 </script>
 <style scoped>

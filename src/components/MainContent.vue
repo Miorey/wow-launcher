@@ -46,29 +46,29 @@
 
 import GameOptions from "@/components/GameOptions";
 import AddonOptions from "@/components/AddonOptions";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { EventBus } = require(`../event-bus`);
 export default {
-    name: `MainContent`,
-    components: {AddonOptions, GameOptions},
-    data: () => ({
-        tab: null,
-        percent: undefined,
-        filePath: undefined,
-        percentTotal: 0,
-    }),
+  name: `MainContent`,
+  components: {AddonOptions, GameOptions},
+  data: () => ({
+    tab: null,
+    percent: undefined,
+    filePath: undefined,
+    percentTotal: 0,
+  }),
   
-    async  mounted() {
-        const _this = this;
-        EventBus.$on(`event_file_percent`,  (percent) => {
-            _this.percent = Math.round(percent * 100) / 100;
-        });
-        EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            _this.percentTotal = Math.round(percentTotal * 100) / 100;
-        });
-        EventBus.$on(`event_file_path`,  (filePath) => {
-            _this.filePath = filePath;
-        });
-    },
+  async  mounted() {
+    EventBus.$on(`event_file_percent`,  (percent) => {
+      this.percent = Math.round(percent * 100) / 100;
+    });
+    EventBus.$on(`event_total_percent`,  (percentTotal) => {
+      this.percentTotal = Math.round(percentTotal * 100) / 100;
+    });
+    EventBus.$on(`event_file_path`,  (filePath) => {
+      this.filePath = filePath;
+    });
+  },
 
 };
 </script>
