@@ -31,7 +31,7 @@ module.exports = {
     ],
     'linebreak-style': [
       `error`,
-      `unix` // Changed to Unix style linebreaks, change as needed
+      `windows`
     ],
     semi: [`error`, `always`],
     'quote-props': [`error`, `as-needed`],
