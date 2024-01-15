@@ -1,13 +1,13 @@
 <template>
     <div>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp(true)">
-            {{ `repair` | trans }}
+            {{ `repair` }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
-            {{ `play` | trans }}
+            {{ `play`  }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp(false)">
-            {{ `download` | trans }}
+            {{ `download`  }}
         </v-btn>
     </div>
 </template>

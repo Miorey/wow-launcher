@@ -2,19 +2,19 @@
     <v-overlay :value="countOverlay !== 0 || !loaded.storage || !loaded.ftp_cli || !loaded.patches">
         <v-card v-if="!loaded.storage || !loaded.ftp_cli || !loaded.patches">
             <v-card-title>
-                {{ `page_loading` | trans }}
+                {{ `page_loading` }}
             </v-card-title>
             <v-card-text>
-                {{`warning_message` | trans}}
+                {{`warning_message`}}
                 <ul>
                     <li>
-                        {{ `warn_storage` | trans }} {{ (loaded.storage)?`ok`:`...` }}
+                        {{ `warn_storage` }} {{ (loaded.storage)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `warn_ftp` | trans }} {{ (loaded.ftp_cli)?`ok`:`...` }}
+                        {{ `warn_ftp` }} {{ (loaded.ftp_cli)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `patches` | trans }} {{ (loaded.patches)?`ok`:`...` }}
+                        {{ `patches` }} {{ (loaded.patches)?`ok`:`...` }}
                     </li>
                 </ul>
             </v-card-text>

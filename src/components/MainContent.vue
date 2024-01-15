@@ -7,15 +7,15 @@
             right
             background-color="transparent"
         >
-          <v-tab>{{ `lbl_game_options` | trans  }}</v-tab>
-          <v-tab>{{ `lbl_addons` | trans  }}</v-tab>
+          <v-tab>{{ `lbl_game_options`  }}</v-tab>
+          <v-tab>{{ `lbl_addons`  }}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab" id="download_options">
-          <v-tab-item key="{{ `lbl_game_options` | trans  }}">
+          <v-tab-item key="{{ `lbl_game_options`  }}">
 
             <game-options></game-options>
           </v-tab-item>
-          <v-tab-item key="{{ `lbl_addons` | trans  }}">
+          <v-tab-item key="{{ `lbl_addons`  }}">
             <addon-options></addon-options>
           </v-tab-item>
         </v-tabs-items>
