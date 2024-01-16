@@ -7,6 +7,11 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ElectronStore = require(`electron-store`);
+ElectronStore.initRenderer();
+
 const isDevelopment = !app.isPackaged;
 
 // Keep a global reference of the window object, if you don't, the window will
