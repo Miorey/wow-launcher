@@ -24,8 +24,9 @@
 <script>
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`../patchManager`);
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const storage = require(`electron-json-storage`);
+const Store = require(`electron-store`);
 
 export default {
   name: `AddonOptions`,
@@ -39,9 +40,12 @@ export default {
   },
   watch: {
     'selected'(val) {
-      storage.set(`selectedAddon${this.language}`, { updated: (new Date()), addons: val }, (error) => {
-        if (error) throw error;
+      const store = new Store({
+        cwd: `storage`,
+        name: `selectedAddon${this.language}`
       });
+      store.set(`updated`, new Date());
+      store.set(`addons`, val);
       patchManager.selectedAddons = val ? val : [];
     }
   },

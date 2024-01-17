@@ -18,8 +18,10 @@
 <script>
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`../patchManager`);
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const storage = require(`electron-json-storage`);
+const Store = require(`electron-store`);
+
 
 export default {
   name: `GameOptions`,
@@ -30,13 +32,17 @@ export default {
     language: patchManager.language
   }),
   async mounted() {
-    this.selected = await patchManager.selectedPatches;
+    this.selected = patchManager.selectedPatches;
   },
   watch: {
     'selected'(val) {
-      storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, (error) => {
-        if (error) throw error;
+
+      const store = new Store({
+        cwd: `storage`,
+        name: `selectedPatch${this.language}`
       });
+      store.set(`updated`, new Date());
+      store.set(`patches`, val);
       patchManager.selectedPatches =  (val) ? val : [];
     }
   },

@@ -5,7 +5,8 @@ const { config } = require(`./config`);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const axios = require(`axios`);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const storage = require(`electron-json-storage`);
+const Store = require(`electron-store`);
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { EventBus } = require(`./event-bus`);
 
@@ -24,10 +25,11 @@ class PatchManager {
   }
 
   /**
-     * Load all the patch dependencies by language and system.
-     * @returns {Promise<void>}
-     */
+   * Load all the patch dependencies by language and system.
+   * @returns {Promise<void>}
+   */
   async loadPatches () {
+    console.log(`loadPatches`);
     const patchListEndpoint = `${config.conf.patchlist_endpoint}/${process.platform}/${this.language}${config.conf.path_end}`;
     console.info(`Get patch list from ${patchListEndpoint}`);
     const response = await axios({
@@ -38,7 +40,6 @@ class PatchManager {
     if(response.data instanceof Object) {
       this.patchList = response.data;
     } else {
-      // eslint-disable-next-line no-debugger
       this.patchList = JSON.parse(response.data);
     }
     config.conf = {...this.patchList.conf, ...config.conf};
@@ -46,9 +47,9 @@ class PatchManager {
   }
 
   /**
-     * Return an object containing the list of files to be download
-     * @returns {*}
-     */
+   * Return an object containing the list of files to be download
+   * @returns {*}
+   */
   generateDownloadFiles() {
     return this.patchList.optional
       .filter(e => this.selectedPatches.includes(e.id) )
@@ -57,17 +58,17 @@ class PatchManager {
 
 
   /**
-     * Return an object containing the list of files to be downloaded
-     * @returns {[]}
-     */
+   * Return an object containing the list of files to be downloaded
+   * @returns {[]}
+   */
   generateDownloadAddons() {
     return this.patchList.addons.filter(e => this.selectedAddons.includes(e.id));
   }
 
   /**
-     * Returns unselected addons
-     * @returns {{}}
-     */
+   * Returns unselected addons
+   * @returns {{}}
+   */
   generateDeleteAddons() {
     return this.patchList.addons.filter(
       (e) => {
@@ -77,9 +78,9 @@ class PatchManager {
 
 
   /**
-     * Returns the list of files to delete
-     * @returns {[]}
-     */
+   * Returns the list of files to delete
+   * @returns {[]}
+   */
   generateDeleteFiles() {
     //Get all files mandatory + optionals + delete
     const deleteFiles = this.patchList.optional
@@ -96,40 +97,38 @@ class PatchManager {
 
 
   /**
-     *
-     * @returns {Promise<unknown>}
-     */
-  async findSelectedAddons() {
-    return new Promise((resolve, reject) => {
-      storage.get(`selectedAddon${this.language}`, (error, data) => {
-        if (error) {
-          reject(error);
-        }
-        EventBus.$emit(`event_loader_stop`,  `storage`);
-        const resolveVal = (!data?.updated) ? [] : data.addons;
-        resolve(resolveVal);
-      });
+   *
+   * @returns {Promise<unknown>}
+   */
+  findSelectedAddons() {
+
+    const store = new Store({
+      cwd: `storage`,
+      name: `selectedAddon${this.language}`
     });
+    // eslint-disable-next-line no-debugger
+    EventBus.$emit(`event_loader_stop`,  `storage`);
+    console.log(`before resolveVal`);
+    const resolveVal = (!store.get(`updated`)) ?  [] : store.get(`addons`);
+    console.log(`resolveVal`, resolveVal);
+    return resolveVal;
   }
 
 
 
   /**
-     *
-     * @returns {Promise<unknown>}
-     */
+   *
+   * @returns {Array<string>}
+   */
   findSelectedPatches() {
-    return new Promise((resolve, reject) => {
-      console.info(`getDefaultDataPath`, storage.getDefaultDataPath());
-      storage.get(`selectedPatch${this.language}`, (error, data) => {
-        if (error) {
-          reject(error);
-        }
-        EventBus.$emit(`event_loader_stop`,  `storage`);
-        const resolveVal = (!data?.updated) ? [] : data.patches;
-        resolve(resolveVal);
-      });
+    const store = new Store({
+      cwd: `storage`,
+      name: `selectedPatch${this.language}`
     });
+    console.info(`store.path:`, store.path);
+    const resolveVal = (!store.get(`updated`))?  [] : store.get(`patches`);
+    console.log(`resolveVal`, resolveVal);
+    return resolveVal;
   }
 
   get patchList () {
@@ -141,9 +140,9 @@ class PatchManager {
   }
 
   /**
-     *
-     * @returns {*|Promise<Array>}
-     */
+   *
+   * @returns {Array<string>}
+   */
   get selectedPatches () {
     if(typeof this._selectedPatches === `undefined`) {
       return this.findSelectedPatches();
@@ -156,9 +155,9 @@ class PatchManager {
   }
 
   /**
-     *
-     * @returns {*|Promise<Array>}
-     */
+   *
+   * @returns {*|Promise<Array>}
+   */
   get selectedAddons () {
     if(typeof this._selectedAddons === `undefined`) {
       return this.findSelectedAddons();

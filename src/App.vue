@@ -42,8 +42,9 @@ export default {
     version: pjson.version,
   }),
   async beforeCreate() {
-    await patchManager.findSelectedPatches().then(r => patchManager.selectedPatches = r);
-    await patchManager.findSelectedAddons().then(r => patchManager.selectedAddons = r);
+    patchManager.selectedPatches = patchManager.findSelectedPatches();
+    console.log(`patchManager.selectedPatches`, JSON.parse(JSON.stringify(patchManager.selectedPatches)));
+    patchManager.selectedAddons = patchManager.findSelectedAddons();
     await patchManager.loadPatches().then(() => true);
   },
 
