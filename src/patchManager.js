@@ -125,8 +125,8 @@ class PatchManager {
       cwd: `storage`,
       name: `selectedPatch${this.language}`
     });
-    console.info(`store.path:`, store.path);
-    const resolveVal = (!store.get(`updated`))?  [] : store.get(`patches`);
+    EventBus.$emit(`event_loader_stop`,  `storage`);
+    const resolveVal = (!store.get(`updated`)) ?  [] : store.get(`patches`);
     console.log(`resolveVal`, resolveVal);
     return resolveVal;
   }

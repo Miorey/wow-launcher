@@ -18,9 +18,9 @@
 </template>
 
 <script>
+import PageLoader from "./components/PageLoader";
 import MainContent from './components/MainContent';
 import FooterAction from "./components/FooterAction";
-import PageLoader from "./components/PageLoader";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`./patchManager`);
 // eslint-disable-next-line @typescript-eslint/no-var-requires

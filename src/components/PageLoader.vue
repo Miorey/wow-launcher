@@ -1,6 +1,6 @@
 <template>
-    <v-overlay :value="countOverlay !== 0 || !loaded.storage || !loaded.ftp_cli || !loaded.patches">
-        <v-card v-if="!loaded.storage || !loaded.ftp_cli || !loaded.patches">
+    <v-overlay :value="isLoaded">
+        <v-card v-if="isLoaded">
             <v-card-title>
                 {{ `page_loading` }}
             </v-card-title>
@@ -25,26 +25,18 @@
 
 <script>
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { EventBus } = require(`../event-bus`);
+const { loaded } = require(`../event-bus`);
 export default {
   name: `PageLoader`,
   data: () => ({
-    countOverlay: 0,
-    loaded: {
-      patches: false,
-      storage: false,
-      ftp_cli: false
-    }
+    loaded: loaded
   }),
-  async  mounted() {
-    EventBus.$on(`event_loader_start`,  () => {
-      this.countOverlay++;
-    });
-    EventBus.$on(`event_loader_stop`,  (val) => {
-      if(val) { this.loaded[val] = true; }
-      else this.countOverlay--;
-    });
-  }
+
+  computed: {
+    isLoaded: function () {
+      return !this.loaded.storage || !this.loaded.ftp_cli || !this.loaded.patches;
+    }
+  },
 
 };
 </script>
