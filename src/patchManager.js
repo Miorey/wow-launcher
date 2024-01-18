@@ -47,7 +47,7 @@ class PatchManager {
   }
 
   /**
-   * Return an object containing the list of files to be download
+   * Return an object containing the list of files to be downloaded
    * @returns {*}
    */
   generateDownloadFiles() {
