@@ -2,19 +2,19 @@
     <v-overlay :value="isLoaded">
         <v-card v-if="isLoaded">
             <v-card-title>
-                {{ `page_loading` }}
+              {{ $t(`page_loading`) }}
             </v-card-title>
             <v-card-text>
-                {{`warning_message`}}
+              {{ $t(`warning_message`) }}
                 <ul>
                     <li>
-                        {{ `warn_storage` }} {{ (loaded.storage)?`ok`:`...` }}
+                      {{ $t(`warn_storage`) }} {{ (loaded.storage)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `warn_ftp` }} {{ (loaded.ftp_cli)?`ok`:`...` }}
+                      {{ $t(`warn_ftp`) }} {{ (loaded.ftp_cli)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `patches` }} {{ (loaded.patches)?`ok`:`...` }}
+                      {{ $t(`patches`) }} {{ (loaded.patches)?`ok`:`...` }}
                     </li>
                 </ul>
             </v-card-text>

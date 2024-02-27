@@ -1,13 +1,13 @@
 <template>
     <div>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp(true)">
-            {{ `repair` }}
+          {{ $t(`repair`) }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
-            {{ `play`  }}
+          {{ $t(`play`)  }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp(false)">
-            {{ `download`  }}
+          {{ $t(`download`)  }}
         </v-btn>
     </div>
 </template>
@@ -57,6 +57,7 @@ export default {
     }
   },
   async mounted() {
+    this.$i18n.locale = config.conf?.default_language;
     if(Array.isArray(patchManager.selectedPatches)) {
       this.canPlay = this.isUpToDate();
     }
@@ -228,12 +229,12 @@ export default {
             .on(`close`, () => {
               console.log(`Extraction complete`);
               this.canPlay = this.isUpToDate();
+              fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
             })
             .on(`error`, (err) => {
               console.error(`Error during extraction`, err);
               this.canPlay = this.isUpToDate();
             });
-          fs.unlinkSync(this.getBaseFolder(addonsToDownload[key].targetPath));
         }
         doneSize += await connPromise.connSize(addonsToDownload[key].sourcePath);
         await EventBus.$emit(`event_total_percent`,  doneSize/totalSize*100);
@@ -309,7 +310,7 @@ export default {
       const nIntervId = setInterval(() => { EventBus.$emit(`event_file_percent`,  stream.bytesRead/size*100); }, 100);
       const dirPath = targetPath.substr(0, targetPath.lastIndexOf(`\\`)) || targetPath.substr(0, targetPath.lastIndexOf(`/`));
       createDirIfNotExists(dirPath);
-      console.info(`Put file in ${targetPath}`);
+      console.info(`Put file in 1 ${targetPath}`);
       stream.pipe(fs.createWriteStream(targetPath));
       await streamPromise.once(`close`);
       clearInterval(nIntervId);
