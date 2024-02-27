@@ -25,5 +25,4 @@ export const dictionary = {
     warn_ftp: `Données distantes`,
     app_error: `Une erreur inattendue s'est produite, merci de contacter un Maître du jeu.`
   }
-}
-;
+};
