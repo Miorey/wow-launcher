@@ -1,13 +1,13 @@
 <template>
     <div>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" @click="downloadFtp(true)">
-            {{ `repair` }}
+          {{ $t(`repair`) }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" class="pt-6 pb-6 mr-3" v-if="canPlay" @click="play">
-            {{ `play`  }}
+          {{ $t(`play`)  }}
         </v-btn>
         <v-btn :disabled="patchManager.downloadInProgress" v-else class="pt-6 pb-6 mr-5" @click="downloadFtp(false)">
-            {{ `download`  }}
+          {{ $t(`download`)  }}
         </v-btn>
     </div>
 </template>
@@ -57,6 +57,7 @@ export default {
     }
   },
   async mounted() {
+    this.$i18n.locale = config.conf?.default_language;
     if(Array.isArray(patchManager.selectedPatches)) {
       this.canPlay = this.isUpToDate();
     }

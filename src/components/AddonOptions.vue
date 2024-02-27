@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="display-1 text_wow_style section_title">{{ `lbl_addons` }}</span>
+    <span class="display-1 text_wow_style section_title">{{ $t(`lbl_addons`) }}</span>
     <div class="addons_list">
 
       <div v-for="item in getAddons()" :key="item.id">
