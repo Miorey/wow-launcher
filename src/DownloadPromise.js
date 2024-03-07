@@ -1,49 +1,46 @@
 export class ConnectionPromise {
-    constructor (conn) {
-        this._conn = conn;
-    }
+  constructor (conn) {
+    this._conn = conn;
+  }
 
-    connSize (fileUrl) {
-        const _this =  this;
-        return new Promise(function(resolve, reject) {
-            _this.conn.size(fileUrl, (err, bytes) => {
-                if(!err) resolve(bytes);
-                else reject(err);
-            });
-        });
-    }
-    connGet (fileUrl) {
-        const _this =  this;
-        return new Promise(function(resolve, reject) {
-            _this.conn.get(fileUrl, (err, stream) => {
-                if(!err) resolve(stream);
-                else reject(err);
-            });
-        });
-    }
+  connSize (fileUrl) {
+    return new Promise((resolve, reject) => {
+      this.conn.size(fileUrl, (err, bytes) => {
+        if(!err) resolve(bytes);
+        else reject(err);
+      });
+    });
+  }
+  connGet (fileUrl) {
+    return new Promise((resolve, reject) => {
+      this.conn.get(fileUrl, (err, stream) => {
+        if(!err) resolve(stream);
+        else reject(err);
+      });
+    });
+  }
 
 
-    get conn() {
-        return this._conn;
-    }
+  get conn() {
+    return this._conn;
+  }
 
 }
 
 export class StreamPromise {
-    constructor(stream) {
-        this._stream = stream;
-    }
+  constructor(stream) {
+    this._stream = stream;
+  }
 
-    once(type) {
-        const _this =  this;
-        return new Promise(function(resolve) {
-            _this.stream.once(type, () => {
-                resolve();
-            });
-        });
-    }
+  once(type) {
+    return new Promise((resolve) => {
+      this.stream.once(type, () => {
+        resolve();
+      });
+    });
+  }
 
-    get stream() {
-        return this._stream;
-    }
+  get stream() {
+    return this._stream;
+  }
 }

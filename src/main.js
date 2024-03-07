@@ -1,44 +1,36 @@
 import Vue from 'vue';
 import vuetify from './plugins/vuetify';
+import VueI18n from 'vue-i18n';
+import {dictionary} from './dictionary';
+
 try {
 
-    const { patchManager } = require(`./patchManager`);
-    const App = require(`./App.vue`).default;
-    Vue.config.productionTip = false;
+  Vue.use(VueI18n);
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const App = require(`./App.vue`).default;
+  Vue.config.productionTip = false;
+  const i18n = new VueI18n({
+    locale: `enUS`,
+    messages: dictionary
+  });
+  Vue.config.errorHandler = function(err, vm, info) {
+    console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`);
+    alert(`APP ERROR`);
+  };
 
-    const Translator = require(`./trans/translator`);
-
-    /**
-     *
-     * @param value
-     * @param {{}} params
-     * @returns {*}
-     */
-    Translator.qTranslate = function (value, params) {
-        return this.translate(patchManager.language, value, params);
-    };
-
-    Vue.config.errorHandler = function(err, vm, info) {
-        console.error(`Vue Launcher Error: ${err.toString()}\nInfo: ${info}`);
-        alert(Translator.qTranslate(`app_error`, {}));
-    };
-
-    // translate filter
-    Vue.filter(`trans`, function (value, params) {
-        return Translator.qTranslate(value, params);
-    });
-
-    new Vue({
-        vuetify,
-        render: h => h(App)
-    }).$mount(`#app`);
+  new Vue({
+    i18n,
+    vuetify,
+    render: h => h(App)
+  }).$mount(`#app`);
 } catch (e) {
-    if(process.env.NODE_ENV !== `production`) {
-        // DEV
-        throw (e);
-    } else {
-        // Production
-        alert(e);
-        require(`electron`).remote.getCurrentWindow().close();
-    }
+  if(process.env.NODE_ENV !== `production`) {
+    // DEV
+    throw (e);
+  } else {
+    // Production
+    alert(e);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require(`electron`).remote.getCurrentWindow().close();
+  }
 }

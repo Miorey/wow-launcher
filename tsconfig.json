@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020", // Updated to use ES2020 features
+    "module": "esnext",
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": [
+      "es2020", // Updated to include ES2020 library features
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
+    "forceConsistentCasingInFileNames": true // Ensure that casing is correct in imports
+  }
+}

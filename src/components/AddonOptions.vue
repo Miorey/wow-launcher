@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="display-1 text_wow_style section_title">{{ `lbl_addons` | trans }}</span>
+    <span class="display-1 text_wow_style section_title">{{ $t(`lbl_addons`) }}</span>
     <div class="addons_list">
 
       <div v-for="item in getAddons()" :key="item.id">
@@ -22,32 +22,38 @@
 </template>
 
 <script>
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`../patchManager`);
-const storage = require(`electron-json-storage`);
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Store = require(`electron-store`);
 
 export default {
-    name: `AddonOptions`,
-    data: () => ({
-        selected: null,
-        patchManager: patchManager,
-        language: patchManager.language
-    }),
-    async mounted() {
-        this.selected = await patchManager.selectedAddons;
-    },
-    watch: {
-        'selected'(val) {
-            storage.set(`selectedAddon${this.language}`, { updated: (new Date()), addons: val }, (error) => {
-                if (error) throw error;
-            });
-            patchManager.selectedAddons = val ? val : [];
-        }
-    },
-    methods: {
-        getAddons() {
-            return patchManager.patchList.addons;
-        }
+  name: `AddonOptions`,
+  data: () => ({
+    selected: null,
+    patchManager: patchManager,
+    language: patchManager.language
+  }),
+  async mounted() {
+    this.selected = await patchManager.selectedAddons;
+  },
+  watch: {
+    'selected'(val) {
+      const store = new Store({
+        cwd: `storage`,
+        name: `selectedAddon${this.language}`
+      });
+      store.set(`updated`, new Date());
+      store.set(`addons`, val);
+      patchManager.selectedAddons = val ? val : [];
     }
+  },
+  methods: {
+    getAddons() {
+      return patchManager.patchList.addons;
+    }
+  }
 };
 </script>
 <style scoped>

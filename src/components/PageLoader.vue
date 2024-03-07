@@ -1,20 +1,20 @@
 <template>
-    <v-overlay :value="countOverlay !== 0 || !loaded.storage || !loaded.ftp_cli || !loaded.patches">
-        <v-card v-if="!loaded.storage || !loaded.ftp_cli || !loaded.patches">
+    <v-overlay :value="isLoaded">
+        <v-card v-if="isLoaded">
             <v-card-title>
-                {{ `page_loading` | trans }}
+              {{ $t(`page_loading`) }}
             </v-card-title>
             <v-card-text>
-                {{`warning_message` | trans}}
+              {{ $t(`warning_message`) }}
                 <ul>
                     <li>
-                        {{ `warn_storage` | trans }} {{ (loaded.storage)?`ok`:`...` }}
+                      {{ $t(`warn_storage`) }} {{ (loaded.storage)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `warn_ftp` | trans }} {{ (loaded.ftp_cli)?`ok`:`...` }}
+                      {{ $t(`warn_ftp`) }} {{ (loaded.ftp_cli)?`ok`:`...` }}
                     </li>
                     <li>
-                        {{ `patches` | trans }} {{ (loaded.patches)?`ok`:`...` }}
+                      {{ $t(`patches`) }} {{ (loaded.patches)?`ok`:`...` }}
                     </li>
                 </ul>
             </v-card-text>
@@ -24,27 +24,19 @@
 </template>
 
 <script>
-const { EventBus } = require(`../event-bus`);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { loaded } = require(`../event-bus`);
 export default {
-    name: `PageLoader`,
-    data: () => ({
-        countOverlay: 0,
-        loaded: {
-            patches: false,
-            storage: false,
-            ftp_cli: false
-        }
-    }),
-    async  mounted() {
-        const _this = this;
-        EventBus.$on(`event_loader_start`,  () => {
-            _this.countOverlay++;
-        });
-        EventBus.$on(`event_loader_stop`,  (val) => {
-            if(val) { _this.loaded[val] = true; }
-            else _this.countOverlay--;
-        });
+  name: `PageLoader`,
+  data: () => ({
+    loaded: loaded
+  }),
+
+  computed: {
+    isLoaded: function () {
+      return !this.loaded.storage || !this.loaded.ftp_cli || !this.loaded.patches;
     }
+  },
 
 };
 </script>

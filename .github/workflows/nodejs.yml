@@ -11,13 +11,10 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     strategy:
       matrix:
-        node-version: [14.x]
-
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -28,3 +25,4 @@ jobs:
     - run: npm run electron:buildci
       env:
         CI: true
+        NODE_OPTIONS: --openssl-legacy-provider

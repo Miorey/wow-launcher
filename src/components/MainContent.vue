@@ -7,15 +7,15 @@
             right
             background-color="transparent"
         >
-          <v-tab>{{ `lbl_game_options` | trans  }}</v-tab>
-          <v-tab>{{ `lbl_addons` | trans  }}</v-tab>
+          <v-tab>{{ $t(`lbl_game_options`)  }}</v-tab>
+          <v-tab>{{ $t(`lbl_addons`)  }}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab" id="download_options">
-          <v-tab-item key="{{ `lbl_game_options` | trans  }}">
+          <v-tab-item key="{{ $t(`lbl_game_options`)  }}">
 
             <game-options></game-options>
           </v-tab-item>
-          <v-tab-item key="{{ `lbl_addons` | trans  }}">
+          <v-tab-item key="{{ $t(`lbl_addons`)  }}">
             <addon-options></addon-options>
           </v-tab-item>
         </v-tabs-items>
@@ -46,29 +46,29 @@
 
 import GameOptions from "@/components/GameOptions";
 import AddonOptions from "@/components/AddonOptions";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { EventBus } = require(`../event-bus`);
 export default {
-    name: `MainContent`,
-    components: {AddonOptions, GameOptions},
-    data: () => ({
-        tab: null,
-        percent: undefined,
-        filePath: undefined,
-        percentTotal: 0,
-    }),
+  name: `MainContent`,
+  components: {AddonOptions, GameOptions},
+  data: () => ({
+    tab: null,
+    percent: undefined,
+    filePath: undefined,
+    percentTotal: 0,
+  }),
   
-    async  mounted() {
-        const _this = this;
-        EventBus.$on(`event_file_percent`,  (percent) => {
-            _this.percent = Math.round(percent * 100) / 100;
-        });
-        EventBus.$on(`event_total_percent`,  (percentTotal) => {
-            _this.percentTotal = Math.round(percentTotal * 100) / 100;
-        });
-        EventBus.$on(`event_file_path`,  (filePath) => {
-            _this.filePath = filePath;
-        });
-    },
+  async  mounted() {
+    EventBus.$on(`event_file_percent`,  (percent) => {
+      this.percent = Math.round(percent * 100) / 100;
+    });
+    EventBus.$on(`event_total_percent`,  (percentTotal) => {
+      this.percentTotal = Math.round(percentTotal * 100) / 100;
+    });
+    EventBus.$on(`event_file_path`,  (filePath) => {
+      this.filePath = filePath;
+    });
+  },
 
 };
 </script>

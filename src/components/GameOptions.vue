@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="display-1 text_wow_style section_title">{{ `lbl_game_options` | trans }}</span>
+    <span class="display-1 text_wow_style section_title">{{ $t(`lbl_game_options`) }}</span>
     <div v-for="item in getPatchList()" :key="item.id">
       <input
           :disabled="patchManager.downloadInProgress"
@@ -16,34 +16,42 @@
 </template>
 
 <script>
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`../patchManager`);
-const storage = require(`electron-json-storage`);
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Store = require(`electron-store`);
+
 
 export default {
-    name: `GameOptions`,
+  name: `GameOptions`,
 
-    data: () => ({
-        selected: null,
-        patchManager: patchManager,
-        language: patchManager.language
-    }),
-    async mounted() {
-        this.selected = await patchManager.selectedPatches;
-    },
-    watch: {
-        'selected'(val) {
-            storage.set(`selectedPatch${this.language}`, { updated: (new Date()), patches: val }, (error) => {
-                if (error) throw error;
-            });
-            patchManager.selectedPatches =  (val) ? val : [];
-        }
-    },
+  data: () => ({
+    selected: null,
+    patchManager: patchManager,
+    language: patchManager.language
+  }),
+  async mounted() {
+    this.selected = patchManager.selectedPatches;
+  },
+  watch: {
+    'selected'(val) {
 
-    methods: {
-        getPatchList() {
-            return patchManager.patchList.optional;
-        }
+      const store = new Store({
+        cwd: `storage`,
+        name: `selectedPatch${this.language}`
+      });
+      store.set(`updated`, new Date());
+      store.set(`patches`, val);
+      patchManager.selectedPatches =  (val) ? val : [];
     }
+  },
+
+  methods: {
+    getPatchList() {
+      return patchManager.patchList.optional;
+    }
+  }
 };
 </script>
 <style scoped>

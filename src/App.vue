@@ -18,39 +18,43 @@
 </template>
 
 <script>
+import PageLoader from "./components/PageLoader";
 import MainContent from './components/MainContent';
 import FooterAction from "./components/FooterAction";
-import PageLoader from "./components/PageLoader";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { patchManager } = require(`./patchManager`);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { EventBus } = require(`./event-bus`);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const  pjson = require(`../package.json`);
 
 export default {
-    name: `App`,
+  name: `App`,
 
-    components: {
-        PageLoader,
-        MainContent,
-        FooterAction,
-    },
+  components: {
+    PageLoader,
+    MainContent,
+    FooterAction,
+  },
 
-    data: () => ({
-        patchManager: patchManager,
-        version: pjson.version,
-    }),
-    async beforeCreate() {
-        await patchManager.findSelectedPatches().then(r => patchManager.selectedPatches = r);
-        await patchManager.findSelectedAddons().then(r => patchManager.selectedAddons = r);
-        await patchManager.loadPatches().then(() => true);
-    },
+  data: () => ({
+    patchManager: patchManager,
+    version: pjson.version,
+  }),
+  async beforeCreate() {
+    patchManager.selectedPatches = patchManager.findSelectedPatches();
+    console.log(`patchManager.selectedPatches`, JSON.parse(JSON.stringify(patchManager.selectedPatches)));
+    patchManager.selectedAddons = patchManager.findSelectedAddons();
+    await patchManager.loadPatches().then(() => true);
+  },
 
-    watch: {
-        'patchManager.patchList'(val) {
-            if(val) {
-                EventBus.$emit(`event_loader_stop`,  `patches`);
-            }
-        }
+  watch: {
+    'patchManager.patchList'(val) {
+      if(val) {
+        EventBus.$emit(`event_loader_stop`,  `patches`);
+      }
     }
+  }
 };
 </script>
 <style>
